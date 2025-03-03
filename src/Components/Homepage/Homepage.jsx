@@ -24,7 +24,7 @@ export default function Homepage() {
           <div className="flex justify-center items-center">
             <button>
               {/* <img src={welcome} /> */}
-              <div className="flex items-center justify-center gap-6 border-2 border-black rounded-3xl w-[310px] font-bold text-lg text-gray-800 py-2 font-inter">
+              <div className="flex items-center justify-center gap-6 border-2 border-black rounded-3xl w-[310px] font-bold text-lg text-gray-800 py-2">
                 <RiRobot3Line className="text-xl" /> Welcome to Wishchat
               </div>
             </button>
@@ -35,7 +35,7 @@ export default function Homepage() {
             </button>
           </div> */}
 
-          <div className="flex justify-center items-center text-center text-7xl font-medium font-inter">
+          <div className="flex justify-center items-center text-center text-7xl font-medium">
             Elevate Conversations with
             <br /> smart AI
           </div>
@@ -45,7 +45,7 @@ export default function Homepage() {
               <img src={text2} />
             </button>
           </div> */}
-          <div className="flex justify-center items-center font-normal text-center text-2xl font-inter">
+          <div className="flex justify-center items-center font-normal text-center text-2xl">
             The power of AI -powered Chatbots t the click of your <br />
             mouse.
           </div>
@@ -56,7 +56,7 @@ export default function Homepage() {
               onClick={() => navigate("/dashboard")}
               className="flex items-center justify-evenly bg-blue-500 text-white font-medium py-3 px-6 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-300 w-58 text-xl"
             >
-              <span className="font-inter">Get Started</span>
+              <span>Get Started</span>
               <div className="ml-2 bg-white rounded-full w-6 h-6 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ export default function Homepage() {
       </div>
 
       {/* Additional Info Section */}
-      <div className="flex justify-center font-semibold font- text-5xl text-center ">
+      <div className="flex justify-center font-semibold text-5xl text-center ">
         Smart chatbot solution <br />
         for interactions.
       </div>

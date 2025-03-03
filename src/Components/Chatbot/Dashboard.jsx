@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import bg from "../../assets/dashboard.png";
 import logo from "../../assets/wishchat-logo.png";
@@ -7,7 +7,7 @@ import logo from "../../assets/wishchat-logo.png";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
-const ChatbotCard = ({ id, name, orgName, apiKey }) => {
+const ChatbotCard = ({ name }) => {
   return (
     <div className="flex flex-col items-center mb-8">
       <div
@@ -25,9 +25,6 @@ const ChatbotCard = ({ id, name, orgName, apiKey }) => {
         />
       </div>
       <h2 className="font-bold text-xl mt-3">{name}</h2>
-      <p className="text-gray-600 text-sm">ID: {id}</p>
-      <p className="text-gray-600 text-sm">Org: {orgName}</p>
-      <p className="text-gray-600 text-sm">API Key: {apiKey}</p>
     </div>
   );
 };
@@ -104,6 +101,7 @@ export default function Dashboard() {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const isActive = (path) => location.pathname.includes(path);
 
   // Function to get token from localStorage
   const getToken = () => localStorage.getItem("token");
@@ -130,6 +128,7 @@ export default function Dashboard() {
 
         const data = await response.json();
         if (response.ok) {
+          console.log(data);
           setChatbots(data.chatbots);
         } else {
           console.error("Error fetching chatbots:", data);
@@ -169,43 +168,44 @@ export default function Dashboard() {
       console.error("Error creating chatbot:", error);
     }
   };
-
+  // if (isActive("/teammates")) {
+  //   return <Outlet />;
+  // } else
   return (
     <div className="h-screen flex flex-col bg-gradient-to-br from-white to-indigo-300">
       <Navbar />
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="font-bold text-3xl">My Chatbots</h1>
-          <button
-            className="bg-blue-500 text-white py-2 px-6 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-300 font-medium"
-            onClick={() => setShowForm(true)}
-          >
-            New Chatbot
-          </button>
-        </div>
 
-        {loading ? (
-          <p className="text-center text-gray-500">Loading chatbots...</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {chatbots.map(({ id, organization, name, api_key }) => (
-              <ChatbotCard
-                key={id}
-                id={id}
-                name={name}
-                orgName={organization.name}
-                apiKey={api_key}
-              />
-            ))}
+      {isActive("/teammates") ? (
+        <Outlet />
+      ) : (
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="font-bold text-3xl">My Chatbots</h1>
+            <button
+              className="bg-blue-500 text-white py-2 px-6 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-300 font-medium"
+              onClick={() => setShowForm(true)}
+            >
+              New Chatbot
+            </button>
           </div>
-        )}
-      </div>
 
-      {showForm && (
-        <NewChatbotForm
-          onSubmit={handleCreateChatbot}
-          onCancel={() => setShowForm(false)}
-        />
+          {loading ? (
+            <p className="text-center text-gray-500">Loading chatbots...</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {chatbots.map(({ id, name }) => (
+                <ChatbotCard key={id} name={name} />
+              ))}
+            </div>
+          )}
+
+          {showForm && (
+            <NewChatbotForm
+              onSubmit={handleCreateChatbot}
+              onCancel={() => setShowForm(false)}
+            />
+          )}
+        </div>
       )}
     </div>
   );

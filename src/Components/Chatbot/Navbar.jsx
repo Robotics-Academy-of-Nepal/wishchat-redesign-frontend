@@ -18,7 +18,7 @@ const Navbar = () => {
         <Link to="/dashboard">
           <button className="hover:opacity-35">Dashboard</button>
         </Link>
-        <Link to="/teammates">
+        <Link to="/dashboard/teammates">
           {/* left to be made */}
           <button className="hover:opacity-35">Teammates</button>
         </Link>
