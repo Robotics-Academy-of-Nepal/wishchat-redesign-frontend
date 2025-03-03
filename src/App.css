@@ -1,1 +1,9 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Inter";
+  font-display: swap;
+  src: url("/src/assets/font/Inter-Regular.otf") format("opentype");
+}
+@theme{
+  --font-sans:Inter;
+}
