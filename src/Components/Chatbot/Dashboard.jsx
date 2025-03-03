@@ -108,6 +108,8 @@ export default function Dashboard() {
 
   // Fetch chatbots from API on page load
   useEffect(() => {
+    if (isActive("/teammates")) return;
+
     const fetchChatbots = async () => {
       const token = getToken();
 

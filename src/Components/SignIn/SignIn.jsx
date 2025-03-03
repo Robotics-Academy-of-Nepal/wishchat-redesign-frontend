@@ -88,6 +88,12 @@ const Login = () => {
       localStorage.setItem("FirstName", response.data.user.first_name);
       localStorage.setItem("LastName", response.data.user.last_name);
       localStorage.setItem("Picture", response.data.google_data.picture);
+      localStorage.setItem("Picture", response.data.google_data.picture);
+      localStorage.setItem("ID", response.data.user.id);
+      localStorage.setItem("username", response.data.user.username);
+      localStorage.setItem("org_id", response.data.organization.id);
+      localStorage.setItem("org_name", response.data.organization.name);
+      localStorage.setItem("is_owner", response.data.organization.is_owner);
 
       // Check for organization instead of company_name
       if (response.data.has_organization && response.data.organization) {
