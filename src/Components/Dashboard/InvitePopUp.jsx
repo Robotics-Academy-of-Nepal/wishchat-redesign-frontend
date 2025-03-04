@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const InvitePopUp = ({ setInvitePopUp }) => {
   const [emails, setEmails] = useState([""]); // Start with one email field
   const getToken = () => localStorage.getItem("token");
@@ -52,12 +53,12 @@ const InvitePopUp = ({ setInvitePopUp }) => {
     remove();
   };
   return (
-    <div className="fixed top-0 h-screen w-full z-30 flex items-center justify-center bg-black/50">
-      <div className="w-[600px] p-6 rounded-xl border bg-white text-black shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Invite Members</h2>
+    <div className="fixed top-0 left-0 h-screen w-full z-30 flex items-center justify-center bg-black/50">
+      <div className="w-[600px] p-6 rounded-xl bg-white text-black shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-black">Invite Members</h2>
 
         {emails.map((email, index) => (
-          <div key={index} className="flex items-center gap-2 mb-2">
+          <div key={index} className="flex items-center gap-2 mb-4">
             <input
               type="email"
               value={email}
@@ -66,19 +67,19 @@ const InvitePopUp = ({ setInvitePopUp }) => {
                 newEmails[index] = e.target.value;
                 setEmails(newEmails);
               }}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md focus:ring-2"
               placeholder="Enter email"
             />
             <button
               onClick={addField}
-              className="px-3 p-1 bg-green-700 text-white rounded-md"
+              className="px-3 p-1 bg-gray-500 text-white hover:bg-gray-600 rounded-md "
             >
               +
             </button>
             {emails.length > 1 && (
               <button
                 onClick={() => removeField(index)}
-                className="px-3 py-1 bg-red-600 text-white rounded-md"
+                className="px-3 py-1 bg-gray-500 text-white hover:bg-gray-600 rounded-md"
               >
                 -
               </button>
@@ -86,17 +87,15 @@ const InvitePopUp = ({ setInvitePopUp }) => {
           </div>
         ))}
 
-        <div className="flex justify-end gap-2 mt-4">
+        <div className="flex justify-end gap-2 mt-6">
           <button
-            className="px-4 py-2 bg-green-700 text-white rounded-md"
-            onClick={() => {
-              sendInvitation();
-            }}
+            className="px-6 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md transition-colors duration-700"
+            onClick={() => sendInvitation()}
           >
             Invite
           </button>
           <button
-            className="px-4 py-2 bg-gray-500 text-white rounded-md"
+            className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
             onClick={() => setInvitePopUp(false)}
           >
             Cancel

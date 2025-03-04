@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTrashAlt } from "react-icons/fa";
+import { IoTrashOutline } from "react-icons/io5";
+import { AnimatePresence, motion } from "framer-motion";
 import InvitePopUp from "./InvitePopUp";
+import Loading from "../Loading";
 
 const Teammates = () => {
   const [loading, setLoading] = useState(true);
@@ -36,11 +38,6 @@ const Teammates = () => {
         let data = await response.json();
         if (response.ok) {
           console.log(data);
-          // setMembers((prevMembers) => {
-          //   prevMembers.filter((member) => member.id !== id);
-          //   console.log(prevMembers);
-          //   return prevMembers;
-          // });
           setMembers((prevMembers) => {
             const updatedMembers = prevMembers.filter(
               (member) => member.id !== id
@@ -155,42 +152,68 @@ const Teammates = () => {
   }, [navigate]);
 
   return (
-    <div className="">
-      <h1 className="font-bold text-3xl">Teammates</h1>
-      <p className="text-xl font-semibold">Members</p>
+    <div className="flex flex-col p-10">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="font-semibold text-3xl">Teammates</h1>
+        <button
+          type="button"
+          onClick={() => setInvitePopUp((prev) => !prev)}
+          className="bg-blue-500 text-white py-3 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700"
+        >
+          Invite
+        </button>
+      </div>
 
       {loading ? (
-        <p className="text-center text-black">Loading chatbots...</p>
+        <Loading />
       ) : (
-        <table className="border-collapse">
-          <tbody>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="space-y-4"
+        >
+          {/* <p className="text-xl font-semibold">Members:</p> */}
+
+          {/* Render Members as List (Cards) */}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {members.map((member) => (
-              <tr key={member.id}>
-                <td className="px-1 py-2">
+              <div
+                key={member.id}
+                className="p-6 bg-white shadow-md rounded-xl flex flex-col items-start space-y-3"
+              >
+                <div className="text-lg font-semibold text-gray-800">
                   {`${member.first_name} ${member.last_name}`}
-                </td>
+                </div>
+                <div className="text-sm text-gray-600">{member.email}</div>
+                <div className="text-sm text-gray-600">{member.username}</div>
 
                 {is_owner && (
-                  <td>
-                    <button onClick={() => removeUser(member.id)}>
-                      <FaTrashAlt />
-                    </button>
-                  </td>
+                  <button
+                    onClick={() => removeUser(member.id)}
+                    className="mt-4 text-red-600 hover:text-red-800 flex items-center gap-1"
+                  >
+                    <IoTrashOutline className="h-5 w-5" />
+                    Remove
+                  </button>
                 )}
-              </tr>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </motion.div>
       )}
 
-      {invitePopUp && <InvitePopUp setInvitePopUp={setInvitePopUp} />}
-      <button
-        type="button"
-        onClick={() => setInvitePopUp((prev) => !prev)}
-        className="border bg-green-700 text-white p-2 rounded-lg"
-      >
-        Invite
-      </button>
+      {invitePopUp && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <InvitePopUp setInvitePopUp={setInvitePopUp} />
+          </motion.div>
+        </AnimatePresence>
+      )}
     </div>
   );
 };

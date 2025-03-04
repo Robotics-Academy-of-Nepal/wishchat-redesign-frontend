@@ -11,7 +11,7 @@ const Navbar = () => {
         <img src={logo} className="h-28 w-28" />
       </div>
 
-      <div className="flex items-center justify-center gap-12 py-3 font-sans text-2xl">
+      <div className="flex items-center justify-center gap-12 py-3 text-2xl">
         <button className="hover:text-blue-400">Home</button>
         <button className="hover:text-blue-400">Tutorials</button>
         <button className="hover:text-blue-400">Features</button>

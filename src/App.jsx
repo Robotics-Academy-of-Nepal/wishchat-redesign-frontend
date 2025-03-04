@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
+
 import Pricing from "./Components/Pricing/Pricing";
-import Dashboard from "./Components/Chatbot/Dashboard";
-import Playground from "./Components/Chatbot/Playground";
 import Login from "./Components/SignIn/SignIn";
-import Teammates from "./Components/Chatbot/Teammates";
+
+import Dashboard from "./Components/Dashboard/Dashboard";
+import Playground from "./Components/Dashboard/Playground";
+import Teammates from "./Components/Dashboard/Teammates";
 import "./App.css";
 
 function App() {

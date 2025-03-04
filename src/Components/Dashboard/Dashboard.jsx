@@ -3,15 +3,17 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import bg from "../../assets/dashboard.png";
 import logo from "../../assets/wishchat-logo.png";
-
+import NewChatbotForm from "./NewChatbotForm";
+import { motion } from "framer-motion";
+import Loading from "../Loading";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
 const ChatbotCard = ({ name }) => {
   return (
-    <div className="flex flex-col items-center mb-8">
+    <div className="flex flex-col items-center hover:scale-105 transiition duration-75 overflow-hidden h-80">
       <div
-        className="h-[200px] w-[300px] flex justify-center items-center rounded-xl shadow-lg overflow-hidden relative hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+        className="h-[270px] w-full flex justify-center items-center overflow-hidden rounded-3xl relative transition-shadow duration-300 cursor-pointer"
         style={{
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
@@ -24,73 +26,10 @@ const ChatbotCard = ({ name }) => {
           alt="Chatbot Logo"
         />
       </div>
-      <h2 className="font-bold text-xl mt-3">{name}</h2>
-    </div>
-  );
-};
+      {/* <div>
 
-// NewChatbotForm component
-const NewChatbotForm = ({ onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({ name: "", description: "" });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await onSubmit(formData);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="font-bold text-2xl mb-4">Create New Chatbot</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Chatbot Name
-            </label>
-            <input
-              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500"
-              name="name"
-              type="text"
-              placeholder="Enter chatbot name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Description
-            </label>
-            <textarea
-              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500"
-              name="description"
-              placeholder="Enter chatbot description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="3"
-            />
-          </div>
-          <div className="flex justify-end space-x-3">
-            <button
-              type="button"
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full"
-              onClick={onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-            >
-              Create
-            </button>
-          </div>
-        </form>
-      </div>
+      </div> */}
+      <h2 className="font-semibold text-lg mt-2">{name}</h2>
     </div>
   );
 };
@@ -174,17 +113,17 @@ export default function Dashboard() {
   //   return <Outlet />;
   // } else
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-white to-indigo-300">
+    <div className="fixed inset-0 overflow-scroll flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
       <Navbar />
 
       {isActive("/teammates") ? (
         <Outlet />
       ) : (
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto p-10">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="font-bold text-3xl">My Chatbots</h1>
+            <h1 className="font-semibold text-3xl">My Chatbots</h1>
             <button
-              className="bg-blue-500 text-white py-2 px-6 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-300 font-medium"
+              className="bg-blue-500 text-white py-3 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-300"
               onClick={() => setShowForm(true)}
             >
               New Chatbot
@@ -192,13 +131,18 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <p className="text-center text-gray-500">Loading chatbots...</p>
+            <Loading />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            >
               {chatbots.map(({ id, name }) => (
                 <ChatbotCard key={id} name={name} />
               ))}
-            </div>
+            </motion.div>
           )}
 
           {showForm && (
