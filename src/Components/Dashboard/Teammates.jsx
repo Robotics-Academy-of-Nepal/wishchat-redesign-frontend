@@ -158,7 +158,7 @@ const Teammates = () => {
         <button
           type="button"
           onClick={() => setInvitePopUp((prev) => !prev)}
-          className="bg-blue-500 text-white py-3 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700"
         >
           Invite
         </button>
