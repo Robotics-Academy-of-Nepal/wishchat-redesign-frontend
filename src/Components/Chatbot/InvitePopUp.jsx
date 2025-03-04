@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const InvitePopUp = ({ setInvitePopUp }) => {
   const [emails, setEmails] = useState([""]); // Start with one email field

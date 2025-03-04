@@ -1,13 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import bg from "../../assets/Rectangle 8.png";
-import logo from "../../assets/wishchat-logo.png";
-import welcome from "../../assets/Group 17.png";
-import text from "../../assets/text.png";
-import text2 from "../../assets/text2.png";
-import Footer from "../Footer";
+import Footer from "./Footer";
 import { RiRobot3Line } from "react-icons/ri";
-import smart from "../../assets/smart.png";
-import Navbar from "../Navbar";
+import { LuArrowRight } from "react-icons/lu";
+import Navbar from "./Navbar";
 export default function Homepage() {
   const navigate = useNavigate();
 
@@ -20,33 +15,22 @@ export default function Homepage() {
         <Navbar />
 
         {/* Welcome and Text Images */}
-        <div className="flex flex-col gap-8">
-          <div className="flex justify-center items-center">
+        <div className="flex flex-col gap-8 ">
+          <div className="flex justify-center items-center mt-12">
             <button>
-              {/* <img src={welcome} /> */}
-              <div className="flex items-center justify-center gap-6 border-2 border-black rounded-3xl w-[310px] font-bold text-lg text-gray-800 py-2">
+              <div className="flex items-center justify-center gap-6 border-2 border-black rounded-4xl w-[310px] font-semibold text-lg text-gray-800 py-2.5">
                 <RiRobot3Line className="text-xl" /> Welcome to Wishchat
               </div>
             </button>
           </div>
-          {/* <div className="flex justify-center items-center text-center text-7xl">
-            <button>
-              <img src={text} />
-            </button>
-          </div> */}
 
           <div className="flex justify-center items-center text-center text-7xl font-medium">
             Elevate Conversations with
             <br /> smart AI
           </div>
 
-          {/* <div className="flex justify-center items-center">
-            <button>
-              <img src={text2} />
-            </button>
-          </div> */}
           <div className="flex justify-center items-center font-normal text-center text-2xl">
-            The power of AI -powered Chatbots t the click of your <br />
+            The power of AI -powered Chatbot the click of your <br />
             mouse.
           </div>
 
@@ -54,22 +38,13 @@ export default function Homepage() {
           <div className="flex justify-center items-center py-[30px]">
             <button
               onClick={() => navigate("/dashboard")}
-              className="flex items-center justify-evenly bg-blue-500 text-white font-medium py-3 px-6 rounded-full shadow-md hover:bg-blue-600 transition-colors duration-300 w-58 text-xl"
+              className="flex items-center justify-evenly bg-blue-500 text-white shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700  w-[238.02px] h-[78.09px]  top-[556px] left-[574px] rounded-[48.16px] p-[20.94px] gap-[20.94px] group"
             >
-              <span>Get Started</span>
-              <div className="ml-2 bg-white rounded-full w-6 h-6 flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-blue-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+              <span className="text-[25.13px] leading-[25.13px]">
+                Get Started
+              </span>
+              <div className="bg-white rounded-full w-10 text-blue-500 group-hover:bg-blue-500 transition-colors duration-700 group-hover:text-white h-10 flex items-center justify-center">
+                <LuArrowRight className="h-8 w-8" />
               </div>
             </button>
           </div>
@@ -77,18 +52,15 @@ export default function Homepage() {
       </div>
 
       {/* Additional Info Section */}
-      <div className="flex justify-center font-semibold text-5xl text-center ">
+      <div className="flex justify-center font-medium text-5xl text-center my-10">
         Smart chatbot solution <br />
         for interactions.
       </div>
-      {/* <div className="flex justify-center items-center text-wrap text-5xl font-semibold">
-        <img src={smart} className="h-auto" />
-      </div> */}
 
       <div className="flex flex-col gap-[40px]">
         {/* Footer Section */}
         <div>
-          <div className="border mx-28 mb-14 border-gray-700"></div>
+          <div className="border mb-14 border-gray-700"></div>
           <Footer />
         </div>
       </div>
