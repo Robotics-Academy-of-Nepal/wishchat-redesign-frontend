@@ -9,9 +9,21 @@ import Loading from "../Loading";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
-const ChatbotCard = ({ name }) => {
+const ChatbotCard = ({ name, noOfChatbots }) => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    console.log(noOfChatbots);
+    if (noOfChatbots > 0) {
+      navigate("/playground");
+    } else {
+      navigate("/playground/build");
+    }
+  };
   return (
-    <div className="flex flex-col items-center hover:scale-105 transiition duration-75 overflow-hidden h-80">
+    <div
+      className="flex flex-col items-center hover:scale-105 transiition duration-75 overflow-hidden h-80"
+      onClick={handleNavigate}
+    >
       <div
         className="h-[270px] w-full flex justify-center items-center overflow-hidden rounded-3xl relative transition-shadow duration-300 cursor-pointer"
         style={{
@@ -41,8 +53,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const isActive = (path) => location.pathname.includes(path);
-
-  // Function to get token from localStorage
+  const [noOfChatbots, setNoOfChatbots] = useState();
   const getToken = () => localStorage.getItem("token");
 
   // Fetch chatbots from API on page load
@@ -71,6 +82,7 @@ export default function Dashboard() {
         if (response.ok) {
           console.log(data);
           setChatbots(data.chatbots);
+          setNoOfChatbots(data.count);
         } else {
           console.error("Error fetching chatbots:", data);
         }
@@ -109,11 +121,9 @@ export default function Dashboard() {
       console.error("Error creating chatbot:", error);
     }
   };
-  // if (isActive("/teammates")) {
-  //   return <Outlet />;
-  // } else
+
   return (
-    <div className="fixed inset-0 overflow-scroll flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
+    <div className="fixed inset-4 rounded-4xl overflow-scroll flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
       <Navbar />
 
       {isActive("/teammates") ? (
@@ -140,7 +150,7 @@ export default function Dashboard() {
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
             >
               {chatbots.map(({ id, name }) => (
-                <ChatbotCard key={id} name={name} />
+                <ChatbotCard key={id} name={name} noOfChatbots={noOfChatbots} />
               ))}
             </motion.div>
           )}

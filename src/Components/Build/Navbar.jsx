@@ -29,27 +29,15 @@ const Navbar = () => {
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
         </Link>
-        <Link to="/dashboard">
-          <button className="hover:text-blue-400">Dashboard</button>
-        </Link>
-        <Link to="/dashboard/teammates">
-          <button className="hover:text-blue-400">Teammates</button>
-        </Link>
-        {/* <Link to="/dashboard/playground">
+        <Link to="/playground">
           <button className="hover:text-blue-400">Playground</button>
         </Link>
-        <Link to="*">
+        <Link to="/playground/deploy">
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
-        <Link to="/dashboard/build">
+        <Link to="/playground/build">
           <button className="hover:text-blue-400">Build</button>
-        </Link> */}
-        <button
-          className="hover:text-blue-400"
-          onClick={() => navigate("/pricing")}
-        >
-          Pricing
-        </button>
+        </Link>
       </div>
 
       {/* Profile button */}
