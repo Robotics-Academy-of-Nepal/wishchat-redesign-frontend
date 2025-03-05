@@ -1,4 +1,10 @@
 import { useState } from "react";
+import UploadFile from "./UploadFile";
+import QandA from "./QandA";
+import Text from "./Text";
+import Uploaded from "./Uploaded";
+import MainQuestion from "./MainQuestion";
+
 const Build = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleClick = (index) => {
@@ -6,8 +12,8 @@ const Build = () => {
   };
   const buttons = ["Upload Files", "Q&A", "Text", "Uploaded", "Main Question"];
   return (
-    <div className="h-full w-full flex flex-col items-center pb-36">
-      <div className="flex flex-col items-start gap-14">
+    <div className="h w-full flex flex-col items-center pb-14">
+      <div className="flex flex-col items-start gap-12">
         <div className="mt-[50px] flex flex-col gap-3">
           <h1 className="font-medium text-6xl">
             Build Your AI
@@ -28,7 +34,7 @@ const Build = () => {
               <button
                 key={index}
                 onClick={() => handleClick(index)}
-                className={`text-lg z-20 relative transition-colors duration-700
+                className={`text-lg z-20 relative transition-colors duration-700 font-
                   ${selectedIndex === index ? "text-white" : "text-black"}`}
               >
                 {button}
@@ -44,6 +50,11 @@ const Build = () => {
             }}
           />
         </div>
+        {selectedIndex === 0 && <UploadFile />}
+        {selectedIndex === 1 && <QandA />}
+        {selectedIndex === 2 && <Text />}
+        {selectedIndex === 3 && <Uploaded />}
+        {selectedIndex === 4 && <MainQuestion />}
       </div>
     </div>
   );

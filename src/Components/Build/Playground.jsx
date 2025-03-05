@@ -6,7 +6,7 @@ export default function Playground() {
   const isActive = (path) => location.pathname.includes(path);
 
   return (
-    <div className="fixed inset-4 rounded-4xl overflow-scroll flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
+    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
       <Navbar />
       {isActive("/build") ? (
         <Outlet />
@@ -29,7 +29,7 @@ export default function Playground() {
             <div className="bg-white w-full h-[50px] gap-2 rounded-4xl flex px-4 py-3 items-center justify-center">
               <input
                 type="text"
-                className="w-full h-[50px] placeholder:font-medium placeholder-black px-3  rounded-lg focus:outline-none"
+                className="w-full h-[50px] placeholder:font-medium placeholder-black px-3 rounded-lg focus:outline-none"
                 placeholder="Type Whatever you want...."
               />
 
