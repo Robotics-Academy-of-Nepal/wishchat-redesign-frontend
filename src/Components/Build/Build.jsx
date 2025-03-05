@@ -34,7 +34,7 @@ const Build = () => {
               <button
                 key={index}
                 onClick={() => handleClick(index)}
-                className={`text-lg z-20 relative transition-colors duration-700 font-
+                className={`text-lg z-20 relative transition-colors duration-700 
                   ${selectedIndex === index ? "text-white" : "text-black"}`}
               >
                 {button}
