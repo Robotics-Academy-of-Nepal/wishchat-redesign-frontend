@@ -54,9 +54,11 @@ const Build = () => {
             }}
           />
         </div>
-        {selectedIndex === 0 && <UploadFile id={id} />}
-        {selectedIndex === 1 && <QandA id={id} />}
-        {selectedIndex === 2 && <Text />}
+        {selectedIndex === 0 && (
+          <UploadFile id={id} azure_index={azure_index} />
+        )}
+        {selectedIndex === 1 && <QandA id={id} azure_index={azure_index} />}
+        {selectedIndex === 2 && <Text id={id} azure_index={azure_index} />}
         {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
         {selectedIndex === 4 && <MainQuestion />}
       </div>
