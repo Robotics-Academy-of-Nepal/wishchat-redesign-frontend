@@ -9,8 +9,8 @@ import MainQuestion from "./MainQuestion";
 const Build = () => {
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { id, name } = location.state || null;
-  console.log(id);
+  const { id, name, azure_index } = location.state || null;
+  console.log(id, name, azure_index);
   const handleClick = (index) => {
     setSelectedIndex(index);
   };
@@ -55,9 +55,9 @@ const Build = () => {
           />
         </div>
         {selectedIndex === 0 && <UploadFile id={id} />}
-        {selectedIndex === 1 && <QandA />}
+        {selectedIndex === 1 && <QandA id={id} />}
         {selectedIndex === 2 && <Text />}
-        {selectedIndex === 3 && <Uploaded id={id} name={name} />}
+        {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
         {selectedIndex === 4 && <MainQuestion />}
       </div>
     </div>

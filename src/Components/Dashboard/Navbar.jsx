@@ -8,7 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 const Navbar = () => {
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
-
+  const username = localStorage.getItem("FirstName");
+  const email = localStorage.getItem("email");
   const logOut = () => {
     localStorage.clear();
     navigate("/");
@@ -35,18 +36,9 @@ const Navbar = () => {
         <Link to="/dashboard/teammates">
           <button className="hover:text-blue-400">Teammates</button>
         </Link>
-        {/* <Link to="/dashboard/playground">
-          <button className="hover:text-blue-400">Playground</button>
-        </Link>
-        <Link to="*">
-          <button className="hover:text-blue-400">Deploy</button>
-        </Link>
-        <Link to="/dashboard/build">
-          <button className="hover:text-blue-400">Build</button>
-        </Link> */}
         <button
           className="hover:text-blue-400"
-          onClick={() => navigate("/pricing")}
+          onClick={() => navigate("/dashboard/pricing")}
         >
           Pricing
         </button>
@@ -72,8 +64,8 @@ const Navbar = () => {
             className="z-10 absolute mt-40 right-4 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
           >
             <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-              <div>Username</div>
-              <div className="font-medium truncate">name@flowbite.com</div>
+              <div>{username}</div>
+              <div className="font-medium truncate">{email}</div>
             </div>
             <div className="py-1">
               <a

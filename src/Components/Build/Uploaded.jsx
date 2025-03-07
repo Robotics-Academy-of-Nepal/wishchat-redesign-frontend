@@ -27,7 +27,6 @@ const Uploaded = ({ id, name }) => {
       <div className="w-full p-4 border border-stone-400 bg-white rounded-lg flex justify-between">
         <div className="w-full flex  gap-2">
           <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text- text-lg font-light text-black rounded-md">
-            {/* {name && name.split(".").pop().toLowerCase()} */}
             src
           </div>
           <span className="flex items-center">{name}.sourcefile</span>

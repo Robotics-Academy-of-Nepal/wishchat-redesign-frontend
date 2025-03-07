@@ -14,9 +14,9 @@ const ChatbotCard = ({ id, name, azure_index }) => {
   const handleNavigate = () => {
     console.log(id, name, azure_index);
     if (azure_index) {
-      navigate("/playground", { state: { id, name } });
+      navigate("/playground", { state: { id, name, azure_index } });
     } else {
-      navigate("/playground/build", { state: { id, name } });
+      navigate("/playground/build", { state: { id, name, azure_index } });
     }
   };
   return (
@@ -38,9 +38,6 @@ const ChatbotCard = ({ id, name, azure_index }) => {
           alt="Chatbot Logo"
         />
       </div>
-      {/* <div>
-
-      </div> */}
       <h2 className="font-semibold text-lg mt-2">{name}</h2>
     </div>
   );
@@ -124,7 +121,7 @@ export default function Dashboard() {
     <div className="fixed inset-4 rounded-4xl overflow-scroll flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
       <Navbar />
 
-      {isActive("/teammates") ? (
+      {isActive("/teammates") || isActive("/pricing") ? (
         <Outlet />
       ) : (
         <div className=" p-10">

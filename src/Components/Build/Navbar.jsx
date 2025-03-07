@@ -5,10 +5,11 @@ import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Navbar = ({ id, name }) => {
+const Navbar = ({ id, name, azure_index }) => {
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
-
+  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
   const logOut = () => {
     localStorage.clear();
     navigate("/");
@@ -32,13 +33,17 @@ const Navbar = ({ id, name }) => {
         <Link to="/dashboard">
           <button className="hover:text-blue-400">Dashboard</button>
         </Link>
-        <Link to="/playground" state={{ id, name }}>
-          <button className="hover:text-blue-400">Playground</button>
-        </Link>
+        {azure_index ? (
+          <Link to="/playground" state={{ id, name, azure_index }}>
+            <button className="hover:text-blue-400">Playground</button>
+          </Link>
+        ) : (
+          <span className="cursor-not-allowed text-gray-500">Playground</span>
+        )}
         <Link to="/playground/deploy">
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
-        <Link to="/playground/build" state={{ id, name }}>
+        <Link to="/playground/build" state={{ id, name, azure_index }}>
           <button className="hover:text-blue-400">Build</button>
         </Link>
       </div>
@@ -63,8 +68,8 @@ const Navbar = ({ id, name }) => {
             className="z-10 absolute mt-40 right-4 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
           >
             <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-              <div>Username</div>
-              <div className="font-medium truncate">name@flowbite.com</div>
+              <div>{username}</div>
+              <div className="font-medium truncate">{email}</div>
             </div>
             <div className="py-1">
               <a

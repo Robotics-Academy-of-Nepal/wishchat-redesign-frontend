@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
 
-import Pricing from "./Components/Pricing/Pricing";
+import Pricing from "./Components/Dashboard/Pricing";
 import Login from "./Components/SignIn/SignIn";
 
 import Dashboard from "./Components/Dashboard/Dashboard";
@@ -17,8 +17,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/pricing" element={<Pricing />} />
         <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="pricing" element={<Pricing />} />
           <Route path="teammates" element={<Teammates />} />
         </Route>
         <Route path="/playground" element={<Playground />}>

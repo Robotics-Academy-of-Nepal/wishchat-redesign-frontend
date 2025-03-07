@@ -4,11 +4,11 @@ import { Outlet, useLocation } from "react-router-dom";
 export default function Playground() {
   const location = useLocation();
   const isActive = (path) => location.pathname.includes(path);
-  const { id, name } = location.state || null;
-  console.log(id, name);
+  const { id, name, azure_index } = location.state || null;
+  console.log(id, name, azure_index);
   return (
     <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
-      <Navbar id={id} name={name} />
+      <Navbar id={id} name={name} azure_index={azure_index} />
       {isActive("/build") ? (
         <Outlet />
       ) : (
