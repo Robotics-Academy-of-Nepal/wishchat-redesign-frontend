@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import UploadFile from "./UploadFile";
 import QandA from "./QandA";
 import Text from "./Text";
@@ -6,7 +7,10 @@ import Uploaded from "./Uploaded";
 import MainQuestion from "./MainQuestion";
 
 const Build = () => {
+  const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { id, name } = location.state || null;
+  console.log(id);
   const handleClick = (index) => {
     setSelectedIndex(index);
   };
@@ -50,10 +54,10 @@ const Build = () => {
             }}
           />
         </div>
-        {selectedIndex === 0 && <UploadFile />}
+        {selectedIndex === 0 && <UploadFile id={id} />}
         {selectedIndex === 1 && <QandA />}
         {selectedIndex === 2 && <Text />}
-        {selectedIndex === 3 && <Uploaded />}
+        {selectedIndex === 3 && <Uploaded id={id} name={name} />}
         {selectedIndex === 4 && <MainQuestion />}
       </div>
     </div>

@@ -9,14 +9,14 @@ import Loading from "../Loading";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
-const ChatbotCard = ({ name, noOfChatbots }) => {
+const ChatbotCard = ({ id, name, azure_index }) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    console.log(noOfChatbots);
-    if (noOfChatbots > 0) {
-      navigate("/playground");
+    console.log(id, name, azure_index);
+    if (azure_index) {
+      navigate("/playground", { state: { id, name } });
     } else {
-      navigate("/playground/build");
+      navigate("/playground/build", { state: { id, name } });
     }
   };
   return (
@@ -53,7 +53,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const isActive = (path) => location.pathname.includes(path);
-  const [noOfChatbots, setNoOfChatbots] = useState();
   const getToken = () => localStorage.getItem("token");
 
   // Fetch chatbots from API on page load
@@ -82,7 +81,6 @@ export default function Dashboard() {
         if (response.ok) {
           console.log(data);
           setChatbots(data.chatbots);
-          setNoOfChatbots(data.count);
         } else {
           console.error("Error fetching chatbots:", data);
         }
@@ -149,8 +147,13 @@ export default function Dashboard() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
             >
-              {chatbots.map(({ id, name }) => (
-                <ChatbotCard key={id} name={name} noOfChatbots={noOfChatbots} />
+              {chatbots.map(({ id, name, azure_index_name }) => (
+                <ChatbotCard
+                  key={id}
+                  id={id}
+                  name={name}
+                  azure_index={azure_index_name}
+                />
               ))}
             </motion.div>
           )}

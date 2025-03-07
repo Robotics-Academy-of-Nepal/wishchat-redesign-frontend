@@ -8,7 +8,7 @@ import Loading from "../Loading";
 const Teammates = () => {
   const [loading, setLoading] = useState(true);
   const [invitePopUp, setInvitePopUp] = useState(false);
-  const [members, setMembers] = useState(null);
+  const [members, setMembers] = useState([]);
   const navigate = useNavigate();
   const getToken = () => localStorage.getItem("token");
   const is_owner = JSON.parse(localStorage.getItem("is_owner"));
@@ -173,8 +173,6 @@ const Teammates = () => {
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="space-y-4"
         >
-          {/* <p className="text-xl font-semibold">Members:</p> */}
-
           {/* Render Members as List (Cards) */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {members.map((member) => (

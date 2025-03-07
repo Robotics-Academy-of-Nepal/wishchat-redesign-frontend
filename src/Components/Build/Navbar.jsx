@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Navbar = () => {
+const Navbar = ({ id, name }) => {
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
 
@@ -29,13 +29,16 @@ const Navbar = () => {
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
         </Link>
-        <Link to="/playground">
+        <Link to="/dashboard">
+          <button className="hover:text-blue-400">Dashboard</button>
+        </Link>
+        <Link to="/playground" state={{ id, name }}>
           <button className="hover:text-blue-400">Playground</button>
         </Link>
         <Link to="/playground/deploy">
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
-        <Link to="/playground/build">
+        <Link to="/playground/build" state={{ id, name }}>
           <button className="hover:text-blue-400">Build</button>
         </Link>
       </div>
