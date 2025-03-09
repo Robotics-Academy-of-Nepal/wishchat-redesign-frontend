@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import uploadIcon from "../../assets/uploadIcon.png";
 import { useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
 import { IoTrashOutline } from "react-icons/io5";
 
-const UploadFile = ({ id }) => {
+const UploadFile = ({ id, name, azure_index }) => {
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [isTraining, setIsTraining] = useState(false);
 
   const handleFileChange = (event) => {
-    // if (existingFilesCount >= 3) return;
+    // if (selectedFiles.length >= 3) return;
 
     const files = Array.from(event.target.files).slice(0, 3); // Limit to 3 files
     const newFiles = files.map((file) => ({
@@ -50,12 +51,13 @@ const UploadFile = ({ id }) => {
 
       const formData = new FormData();
 
-      selectedFiles.forEach((fileObj, index) => {
-        const filenameWithoutExt = fileObj.name.replace(/\.[^/.]+$/, ""); // Remove file extension
-        formData.append(`file${index + 1}`, fileObj.file);
-        formData.append(`filename${index + 1}`, filenameWithoutExt);
+      selectedFiles.forEach((fileObj) => {
+        formData.append(` ${fileObj.name}`, fileObj.file);
       });
-      console.log(formData);
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+      // console.log(formData);
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}api/upload/${id}/`,
         {
@@ -64,10 +66,16 @@ const UploadFile = ({ id }) => {
           body: formData,
         }
       );
-
-      if (response.ok) {
+      if (response.status === 200) {
+        const data = await response.json(); // Parse the JSON response
+        console.log("trainresponse:", data);
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
-        navigate("/playground");
+        console.log(data.consolidated_index); // Access the parsed data
+
+        const azure_index = data.consolidated_index;
+        navigate("/playground", {
+          state: { id, name, azure_index },
+        });
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -84,7 +92,44 @@ const UploadFile = ({ id }) => {
       setProgress(0);
     }
   };
+  useEffect(() => {
+    if (azure_index) {
+      const fetchData = async () => {
+        const token = localStorage.getItem("token");
 
+        if (!token) {
+          console.error("Token is missing!");
+          return;
+        }
+
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            }
+          );
+          console.log("response: ", response);
+          if (response.data.documents.length && response.status == 200) {
+            console.log(response.data.documents);
+            const newFiles = response.data.documents.map((file) => ({
+              file: null,
+              name: `${file.filename}${file.extension}`,
+              // name: `${file.filename}`,
+              date: file.upload_at,
+            }));
+            setSelectedFiles(newFiles);
+          }
+        } catch (error) {
+          console.log("fetch list error:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [azure_index, id]);
   return (
     <div className="w-full px-8 flex flex-col items-center gap-10 -mt-2">
       <input
@@ -103,8 +148,10 @@ const UploadFile = ({ id }) => {
         Drop your files here
         <br />
         <span className="text-lg text-stone-400">{`(PDF, DOCX, DOC or TXT)`}</span>
-        <p className="text-xs text-red-800">
+        <p className="text-xs text-red-800 text-center">
           Only three files allowed. File should be less that 200mb.
+          <br />
+          Q/A and text are also considered as file.
         </p>
       </label>
       {selectedFiles.length > 0 && (
@@ -137,7 +184,19 @@ const UploadFile = ({ id }) => {
           </div>
         </>
       )}
-
+      {isTraining && (
+        <div className="w-full max-w-lg mt-4">
+          <div className="relative h-4 bg-gray-200 rounded">
+            <div
+              className="absolute top-0 left-0 h-4 bg-blue-500 rounded"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="mt-2 text-center text-gray-700">
+            Training Progress: {progress}%
+          </p>
+        </div>
+      )}
       <button
         onClick={handleTrain}
         className={`flex items-center justify-evenly p-4 gap-2 ${
@@ -161,19 +220,6 @@ const UploadFile = ({ id }) => {
           </>
         )}
       </button>
-      {isTraining && (
-        <div className="w-full max-w-lg mt-4">
-          <div className="relative h-4 bg-gray-200 rounded">
-            <div
-              className="absolute top-0 left-0 h-4 bg-blue-500 rounded"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <p className="mt-2 text-center text-gray-700">
-            Training Progress: {progress}%
-          </p>
-        </div>
-      )}
     </div>
   );
 };

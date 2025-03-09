@@ -14,7 +14,7 @@ const Build = () => {
   const handleClick = (index) => {
     setSelectedIndex(index);
   };
-  const buttons = ["Upload Files", "Q&A", "Text", "Uploaded", "Main Question"];
+  const buttons = ["Upload Files", "Q&A", "Text"];
   return (
     <div className="h w-full flex flex-col items-center pb-14">
       <div className="flex flex-col items-start gap-12">
@@ -33,7 +33,7 @@ const Build = () => {
         </div>
 
         <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
-          <div className="grid grid-cols-5 justify-evenly w-full h-full z-10 relative">
+          <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
             {buttons.map((button, index) => (
               <button
                 key={index}
@@ -54,13 +54,18 @@ const Build = () => {
             }}
           />
         </div>
+
         {selectedIndex === 0 && (
-          <UploadFile id={id} azure_index={azure_index} />
+          <UploadFile id={id} name={name} azure_index={azure_index} />
         )}
-        {selectedIndex === 1 && <QandA id={id} azure_index={azure_index} />}
-        {selectedIndex === 2 && <Text id={id} azure_index={azure_index} />}
-        {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
-        {selectedIndex === 4 && <MainQuestion />}
+        {selectedIndex === 1 && (
+          <QandA id={id} name={name} azure_index={azure_index} />
+        )}
+        {selectedIndex === 2 && (
+          <Text id={id} name={name} azure_index={azure_index} />
+        )}
+        {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
+        {selectedIndex === 4 && <MainQuestion />} */}
       </div>
     </div>
   );
