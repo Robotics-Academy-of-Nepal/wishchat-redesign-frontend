@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import UploadFile from "./UploadFile";
 import QandA from "./QandA";
 import Text from "./Text";
+import Navbar from "../Navbar";
 // import Uploaded from "./Uploaded";
 // import MainQuestion from "./MainQuestion";
 import axios from "axios";
@@ -185,74 +186,77 @@ const Build = () => {
   }, [azure_index, id]);
 
   return (
-    <div className="h w-full flex flex-col items-center pb-14">
-      <div className="flex flex-col items-start gap-12">
-        <div className="mt-[50px] flex flex-col gap-3">
-          <h1 className="font-medium text-6xl">
-            Build Your AI
-            <br />
-            Chatbot
-          </h1>
+    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
+      <Navbar id={id} name={name} azure_index={azure_index} />
+      <div className="h w-full flex flex-col items-center pb-14">
+        <div className="flex flex-col items-start gap-12">
+          <div className="mt-[50px] flex flex-col gap-3">
+            <h1 className="font-medium text-6xl">
+              Build Your AI
+              <br />
+              Chatbot
+            </h1>
 
-          <p className="text-2xl">
-            Train your chatbot using files, manual Q&A, or
-            <br />
-            direct text input—all in one place
-          </p>
-        </div>
-
-        <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
-          <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
-            {buttons.map((button, index) => (
-              <button
-                key={index}
-                onClick={() => handleClick(index)}
-                className={`text-lg z-20 relative transition-colors duration-700 
-                  ${selectedIndex === index ? "text-white" : "text-black"}`}
-              >
-                {button}
-              </button>
-            ))}
+            <p className="text-2xl">
+              Train your chatbot using files, manual Q&A, or
+              <br />
+              direct text input—all in one place
+            </p>
           </div>
-          {/* Shifting div */}
-          <div
-            className="absolute bottom-2 h-12 rounded-full bg-blue-500 transition-all duration-700 ease-in-out z-0"
-            style={{
-              width: `calc(100% / ${buttons.length} - 16px)`,
-              left: `calc(100% / ${buttons.length} * ${selectedIndex} + 7px)`,
-            }}
-          />
-        </div>
 
-        {selectedIndex === 0 && (
-          <UploadFile
-            id={id}
-            name={name}
-            azure_index={azure_index}
-            Files={Files}
-            setFiles={setFiles}
-          />
-        )}
-        {selectedIndex === 1 && (
-          <QandA
-            id={id}
-            name={name}
-            azure_index={azure_index}
-            QA={QA}
-            setQA={setQA}
-          />
-        )}
-        {selectedIndex === 2 && (
-          <Text
-            id={id}
-            name={name}
-            azure_index={azure_index}
-            textContent={textContent}
-            setTextContent={setTextContent}
-          />
-        )}
-        {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
+          <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
+            <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
+              {buttons.map((button, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleClick(index)}
+                  className={`text-lg z-20 relative transition-colors duration-700 
+                  ${selectedIndex === index ? "text-white" : "text-black"}`}
+                >
+                  {button}
+                </button>
+              ))}
+            </div>
+            {/* Shifting div */}
+            <div
+              className="absolute bottom-2 h-12 rounded-full bg-blue-500 transition-all duration-700 ease-in-out z-0"
+              style={{
+                width: `calc(100% / ${buttons.length} - 16px)`,
+                left: `calc(100% / ${buttons.length} * ${selectedIndex} + 7px)`,
+              }}
+            />
+          </div>
+
+          {selectedIndex === 0 && (
+            <UploadFile
+              id={id}
+              name={name}
+              azure_index={azure_index}
+              Files={Files}
+              setFiles={setFiles}
+            />
+          )}
+          {selectedIndex === 1 && (
+            <QandA
+              id={id}
+              name={name}
+              azure_index={azure_index}
+              QA={QA}
+              setQA={setQA}
+            />
+          )}
+          {selectedIndex === 2 && (
+            <Text
+              id={id}
+              name={name}
+              azure_index={azure_index}
+              textContent={textContent}
+              setTextContent={setTextContent}
+            />
+          )}
+          {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
         {selectedIndex === 4 && <MainQuestion />} */}
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/wishchat-logo.png";
+import logo from "../assets/wishchat-logo.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
@@ -43,7 +43,7 @@ const Navbar = ({ id, name, azure_index }) => {
         <Link to="/playground/deploy">
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
-        <Link to="/playground/build" state={{ id, name, azure_index }}>
+        <Link to="/build" state={{ id, name, azure_index }}>
           <button className="hover:text-blue-400">Build</button>
         </Link>
       </div>
