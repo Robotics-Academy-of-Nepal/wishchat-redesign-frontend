@@ -99,67 +99,67 @@ const QandA = ({ id, name, azure_index }) => {
 
     setQA(formattedQA);
   };
-  useEffect(() => {
-    if (azure_index) {
-      const fetchData = async () => {
-        const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   if (azure_index) {
+  //     const fetchData = async () => {
+  //       const token = localStorage.getItem("token");
 
-        if (!token) {
-          console.error("Token is missing!");
-          return;
-        }
+  //       if (!token) {
+  //         console.error("Token is missing!");
+  //         return;
+  //       }
 
-        try {
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
-            {
-              headers: {
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
+  //       try {
+  //         const response = await axios.get(
+  //           `${import.meta.env.VITE_API_URL}api/list/${id}/`,
+  //           {
+  //             headers: {
+  //               Authorization: `Token ${token}`,
+  //             },
+  //           }
+  //         );
 
-          console.log("response: ", response);
+  //         console.log("response: ", response);
 
-          if (response.status === 200 && response.data.documents) {
-            const document = response.data.documents.find(
-              (doc) => doc.filename === `${QAName}`
-            );
+  //         if (response.status === 200 && response.data.documents) {
+  //           const document = response.data.documents.find(
+  //             (doc) => doc.filename === `${QAName}`
+  //           );
 
-            if (document) {
-              console.log("Document found, fetching Q&A...");
+  //           if (document) {
+  //             console.log("Document found, fetching Q&A...");
 
-              try {
-                const qa_res = await axios.get(
-                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
-                    document.id
-                  }/`,
-                  {
-                    headers: {
-                      Authorization: `Token ${token}`,
-                    },
-                  }
-                );
+  //             try {
+  //               const qa_res = await axios.get(
+  //                 `${import.meta.env.VITE_API_URL}api/get/${id}/${
+  //                   document.id
+  //                 }/`,
+  //                 {
+  //                   headers: {
+  //                     Authorization: `Token ${token}`,
+  //                   },
+  //                 }
+  //               );
 
-                console.log("qaRes:", qa_res);
-                parse(qa_res.data.document.content);
-              } catch (qaError) {
-                console.log("Error fetching Q&A document: ", qaError);
-              }
-            }
-          } else {
-            console.log("No documents available or response not successful.");
-          }
-        } catch (listError) {
-          console.log("Error fetching documents list: ", listError);
-        }
-      };
+  //               console.log("qaRes:", qa_res);
+  //               parse(qa_res.data.document.content);
+  //             } catch (qaError) {
+  //               console.log("Error fetching Q&A document: ", qaError);
+  //             }
+  //           }
+  //         } else {
+  //           console.log("No documents available or response not successful.");
+  //         }
+  //       } catch (listError) {
+  //         console.log("Error fetching documents list: ", listError);
+  //       }
+  //     };
 
-      (async () => {
-        await fetchData();
-      })();
-    }
-  }, [QAName, azure_index, id]);
+  //     (async () => {
+  //       await fetchData();
+  //     })();
+  //   }
+  // }, [QAName, azure_index, id]);
 
   const handleUpload = async () => {
     const token = localStorage.getItem("token");

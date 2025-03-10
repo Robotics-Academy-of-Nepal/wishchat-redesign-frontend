@@ -10,7 +10,8 @@ const UploadFile = ({ id, name, azure_index }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [isTraining, setIsTraining] = useState(false);
-
+  let QandAContent = "";
+  let textContent = "";
   const handleFileChange = (event) => {
     // if (selectedFiles.length >= 3) return;
 
@@ -92,44 +93,7 @@ const UploadFile = ({ id, name, azure_index }) => {
       setProgress(0);
     }
   };
-  useEffect(() => {
-    if (azure_index) {
-      const fetchData = async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          console.error("Token is missing!");
-          return;
-        }
-
-        try {
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
-            {
-              headers: {
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
-          console.log("response: ", response);
-          if (response.data.documents.length && response.status == 200) {
-            console.log(response.data.documents);
-            const newFiles = response.data.documents.map((file) => ({
-              file: null,
-              name: `${file.filename}${file.extension}`,
-              // name: `${file.filename}`,
-              date: file.upload_at,
-            }));
-            setSelectedFiles(newFiles);
-          }
-        } catch (error) {
-          console.log("fetch list error:", error);
-        }
-      };
-
-      fetchData();
-    }
-  }, [azure_index, id]);
+  
   return (
     <div className="w-full px-8 flex flex-col items-center gap-10 -mt-2">
       <input

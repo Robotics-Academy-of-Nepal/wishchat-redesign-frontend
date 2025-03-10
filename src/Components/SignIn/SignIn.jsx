@@ -174,10 +174,6 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-blue-200">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center">
-        <img src={logo} alt="Background" className="h-[200px] w-[200px]" />
-      </div>
 
       {/* Glass Card */}
       <motion.div

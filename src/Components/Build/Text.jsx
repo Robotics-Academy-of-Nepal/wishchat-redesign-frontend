@@ -9,67 +9,67 @@ const Text = ({ id, name, azure_index }) => {
   const [content, setContent] = useState("");
   const textName = `Text-${id}`;
 
-  useEffect(() => {
-    if (azure_index) {
-      const fetchData = async () => {
-        const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   if (azure_index) {
+  //     const fetchData = async () => {
+  //       const token = localStorage.getItem("token");
 
-        if (!token) {
-          console.error("Token is missing!");
-          return;
-        }
+  //       if (!token) {
+  //         console.error("Token is missing!");
+  //         return;
+  //       }
 
-        try {
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
-            {
-              headers: {
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
+  //       try {
+  //         const response = await axios.get(
+  //           `${import.meta.env.VITE_API_URL}api/list/${id}/`,
+  //           {
+  //             headers: {
+  //               Authorization: `Token ${token}`,
+  //             },
+  //           }
+  //         );
 
-          console.log("response: ", response);
+  //         console.log("response: ", response);
 
-          if (response.status === 200 && response.data.documents) {
-            const document = response.data.documents.find(
-              (doc) => doc.filename === `${textName}`
-            );
+  //         if (response.status === 200 && response.data.documents) {
+  //           const document = response.data.documents.find(
+  //             (doc) => doc.filename === `${textName}`
+  //           );
 
-            if (document) {
-              console.log("Document found, fetching Q&A...");
+  //           if (document) {
+  //             console.log("Document found, fetching Q&A...");
 
-              try {
-                const text_res = await axios.get(
-                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
-                    document.id
-                  }/`,
-                  {
-                    headers: {
-                      Authorization: `Token ${token}`,
-                    },
-                  }
-                );
+  //             try {
+  //               const text_res = await axios.get(
+  //                 `${import.meta.env.VITE_API_URL}api/get/${id}/${
+  //                   document.id
+  //                 }/`,
+  //                 {
+  //                   headers: {
+  //                     Authorization: `Token ${token}`,
+  //                   },
+  //                 }
+  //               );
 
-                console.log("textRes:", text_res);
-                setContent(text_res.data.document.content);
-              } catch (textError) {
-                console.log("Error fetching text document: ", textError);
-              }
-            }
-          } else {
-            console.log("No documents available or response not successful.");
-          }
-        } catch (listError) {
-          console.log("Error fetching documents list: ", listError);
-        }
-      };
+  //               console.log("textRes:", text_res);
+  //               setContent(text_res.data.document.content);
+  //             } catch (textError) {
+  //               console.log("Error fetching text document: ", textError);
+  //             }
+  //           }
+  //         } else {
+  //           console.log("No documents available or response not successful.");
+  //         }
+  //       } catch (listError) {
+  //         console.log("Error fetching documents list: ", listError);
+  //       }
+  //     };
 
-      (async () => {
-        await fetchData();
-      })();
-    }
-  }, [textName, azure_index, id]);
+  //     (async () => {
+  //       await fetchData();
+  //     })();
+  //   }
+  // }, [textName, azure_index, id]);
   const simulateProgress = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -145,17 +145,7 @@ const Text = ({ id, name, azure_index }) => {
             setContent(e.target.value);
           }}
         ></textarea>
-        {/* <div className="w-full flex justify-between">
-          <button className="flex items-center justify-evenly p-3 px-6 rounded-full text-stone-400 border border-gray-400 text-2xl font-light ">
-            Cancel
-          </button>
-          <button className="flex items-center justify-evenly py-3 px-6 gap-3 bg-blue-500 rounded-full text-white text-2xl font-light">
-            Upload
-            <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center">
-              <LuArrowRight className="h-5 w-5" />
-            </div>
-          </button>
-        </div> */}
+
       </div>
       {isTraining && (
         <div className="w-full max-w-lg mt-4">
