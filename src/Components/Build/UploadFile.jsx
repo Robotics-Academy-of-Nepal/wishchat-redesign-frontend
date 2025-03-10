@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import uploadIcon from "../../assets/uploadIcon.png";
 import { useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
 import { IoTrashOutline } from "react-icons/io5";
+import axios from "axios";
 
-const UploadFile = ({ id, name, azure_index }) => {
+const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [isTraining, setIsTraining] = useState(false);
-  let QandAContent = "";
-  let textContent = "";
   const handleFileChange = (event) => {
     // if (selectedFiles.length >= 3) return;
 
@@ -23,6 +21,24 @@ const UploadFile = ({ id, name, azure_index }) => {
     }));
 
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 3));
+  };
+  const handleDeleteFile = (fileId) => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found");
+    console.log(fileId);
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${fileId}/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleDeselectFile = (index) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
@@ -73,7 +89,7 @@ const UploadFile = ({ id, name, azure_index }) => {
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
         console.log(data.consolidated_index); // Access the parsed data
 
-        const azure_index = data.consolidated_index;
+        azure_index = data.consolidated_index;
         navigate("/playground", {
           state: { id, name, azure_index },
         });
@@ -93,7 +109,7 @@ const UploadFile = ({ id, name, azure_index }) => {
       setProgress(0);
     }
   };
-  
+
   return (
     <div className="w-full px-8 flex flex-col items-center gap-10 -mt-2">
       <input
@@ -138,6 +154,36 @@ const UploadFile = ({ id, name, azure_index }) => {
                   <button
                     className="text-red-600 hover:text-red-800 flex items-center gap-1"
                     onClick={() => handleDeselectFile(index)}
+                  >
+                    <IoTrashOutline className="h-5 w-5" />
+                    Remove{" "}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+      {Files.length > 0 && (
+        <>
+          <h3 className="text-start w-full -mb-6 text-lg">Uploaded Files:</h3>
+          <div className=" w-full bg-white border-stone-400 p-6 rounded-xl">
+            <ul className="flex flex-col gap-1.5 w-full">
+              {Files.map((file, index) => (
+                <li
+                  key={index}
+                  className="flex justify-between gap-2 border border-stone-400 bg-white w-full p-4 rounded-lg"
+                >
+                  <div className="w-full flex  gap-2">
+                    <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text- text-lg font-light text-black rounded-md">
+                      {file.name.split(".").pop().toLowerCase()}
+                    </div>
+                    <span className="flex items-center">{file.name}</span>
+                  </div>
+
+                  <button
+                    className="text-red-600 hover:text-red-800 flex items-center gap-1"
+                    onClick={() => handleDeleteFile(file.id)}
                   >
                     <IoTrashOutline className="h-5 w-5" />
                     Remove{" "}

@@ -17,7 +17,7 @@ const Navbar = () => {
         <button className="hover:text-blue-400">Features</button>
         <button
           className="hover:opacity-35"
-          onClick={() => navigate("/pricing")}
+          onClick={() => navigate("/dashboard/pricing")}
         >
           Pricing
         </button>

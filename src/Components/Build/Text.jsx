@@ -1,75 +1,13 @@
 import { LuArrowRight } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const Text = ({ id, name, azure_index }) => {
+const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [content, setContent] = useState("");
   const textName = `Text-${id}`;
 
-  // useEffect(() => {
-  //   if (azure_index) {
-  //     const fetchData = async () => {
-  //       const token = localStorage.getItem("token");
-
-  //       if (!token) {
-  //         console.error("Token is missing!");
-  //         return;
-  //       }
-
-  //       try {
-  //         const response = await axios.get(
-  //           `${import.meta.env.VITE_API_URL}api/list/${id}/`,
-  //           {
-  //             headers: {
-  //               Authorization: `Token ${token}`,
-  //             },
-  //           }
-  //         );
-
-  //         console.log("response: ", response);
-
-  //         if (response.status === 200 && response.data.documents) {
-  //           const document = response.data.documents.find(
-  //             (doc) => doc.filename === `${textName}`
-  //           );
-
-  //           if (document) {
-  //             console.log("Document found, fetching Q&A...");
-
-  //             try {
-  //               const text_res = await axios.get(
-  //                 `${import.meta.env.VITE_API_URL}api/get/${id}/${
-  //                   document.id
-  //                 }/`,
-  //                 {
-  //                   headers: {
-  //                     Authorization: `Token ${token}`,
-  //                   },
-  //                 }
-  //               );
-
-  //               console.log("textRes:", text_res);
-  //               setContent(text_res.data.document.content);
-  //             } catch (textError) {
-  //               console.log("Error fetching text document: ", textError);
-  //             }
-  //           }
-  //         } else {
-  //           console.log("No documents available or response not successful.");
-  //         }
-  //       } catch (listError) {
-  //         console.log("Error fetching documents list: ", listError);
-  //       }
-  //     };
-
-  //     (async () => {
-  //       await fetchData();
-  //     })();
-  //   }
-  // }, [textName, azure_index, id]);
   const simulateProgress = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -87,7 +25,7 @@ const Text = ({ id, name, azure_index }) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
 
-    const textFile = new File([content], `${textName}.txt`, {
+    const textFile = new File([textContent], `${textName}.txt`, {
       type: "text/plain",
     });
 
@@ -134,18 +72,25 @@ const Text = ({ id, name, azure_index }) => {
     }
   };
   return (
-    <div className="w-full px-10 flex flex-col items-center gap-3 justify-center">
+    <div className="w-full px- flex flex-col items-center gap-3 justify-center">
       <div className="w-full flex flex-col gap-4 p-6 items-center rounded-2xl bg-white">
         <p className="font- text-2xl">Text Input</p>
         <textarea
-          className="h-44 w-full border-2 border-stone-300 rounded-2xl placeholder:text-2xl placeholder:text-stone-400 placeholder:font-light px-6 py-2"
+          className="h-72 w-full border-2 border-stone-300 rounded-2xl placeholder:text-2xl placeholder:text-stone-400 placeholder:font-light px-6 py-2"
           placeholder="Enter text to train your chatbot... "
-          value={content}
+          value={textContent}
           onChange={(e) => {
-            setContent(e.target.value);
+            setTextContent(e.target.value);
+          }}
+          onInput={(e) => {
+            e.target.style.height = "200px";
+            const newHeight = e.target.scrollHeight;
+            e.target.style.height = `${Math.min(
+              Math.max(newHeight, 200),
+              1200
+            )}px`;
           }}
         ></textarea>
-
       </div>
       {isTraining && (
         <div className="w-full max-w-lg mt-4">

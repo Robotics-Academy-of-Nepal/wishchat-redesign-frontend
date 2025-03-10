@@ -1,114 +1,189 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import UploadFile from "./UploadFile";
 import QandA from "./QandA";
 import Text from "./Text";
-import Uploaded from "./Uploaded";
-import MainQuestion from "./MainQuestion";
+// import Uploaded from "./Uploaded";
+// import MainQuestion from "./MainQuestion";
 import axios from "axios";
 
 const Build = () => {
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { id, name, azure_index } = location.state || null;
+  const [textContent, setTextContent] = useState("");
+  const [QA, setQA] = useState([{ Q: "", A: "" }]);
+  const [Files, setFiles] = useState([]);
+
   console.log(id, name, azure_index);
+  const parseQA = (content) => {
+    const result = {};
+    let qaPositions = [];
+    let currentPosition = 0;
+
+    // Find all Q and A positions in the content
+    while (currentPosition < content.length) {
+      // Look for Q followed by a number
+      if (
+        content[currentPosition] === "Q" &&
+        currentPosition + 1 < content.length &&
+        !isNaN(parseInt(content[currentPosition + 1]))
+      ) {
+        // Find the index where this Q marker ends (at the colon)
+        let markerEnd = content.indexOf(":", currentPosition);
+        if (markerEnd !== -1) {
+          // Extract the full marker (e.g., "Q1")
+          let marker = content.substring(currentPosition, markerEnd);
+          // Add to positions array with the position after the colon
+          qaPositions.push({ marker: marker, position: markerEnd + 1 });
+        }
+      }
+
+      // Look for A followed by a number
+      if (
+        content[currentPosition] === "A" &&
+        currentPosition + 1 < content.length &&
+        !isNaN(parseInt(content[currentPosition + 1]))
+      ) {
+        // Find the index where this A marker ends (at the colon)
+        let markerEnd = content.indexOf(":", currentPosition);
+        if (markerEnd !== -1) {
+          // Extract the full marker (e.g., "A1")
+          let marker = content.substring(currentPosition, markerEnd);
+          // Add to positions array with the position after the colon
+          qaPositions.push({ marker: marker, position: markerEnd + 1 });
+        }
+      }
+
+      currentPosition++;
+    }
+
+    // Sort positions by their occurrence in the text
+    qaPositions.sort((a, b) => a.position - b.position);
+
+    // Extract content between consecutive positions
+    for (let i = 0; i < qaPositions.length; i++) {
+      const currentMarker = qaPositions[i].marker;
+      const startPos = qaPositions[i].position;
+
+      // If this is the last marker, extract until the end of the content
+      if (i === qaPositions.length - 1) {
+        result[currentMarker] = content.substring(startPos).trim();
+      } else {
+        const endPos =
+          qaPositions[i + 1].position - qaPositions[i + 1].marker.length - 1;
+        result[currentMarker] = content.substring(startPos, endPos).trim();
+      }
+    }
+    const formattedQA = Object.keys(result)
+      .filter((key) => key.startsWith("Q")) // Filter only the questions (Q1, Q2, etc.)
+      .map((key, index) => ({
+        Q: result[key], // Question text
+        A: result[`A${index + 1}`], // Answer text (A1 for Q1, A2 for Q2, etc.)
+      }));
+    console.log(formattedQA);
+
+    return formattedQA;
+  };
   const handleClick = (index) => {
     setSelectedIndex(index);
   };
   const buttons = ["Upload Files", "Q&A", "Text"];
   useEffect(() => {
-      if (azure_index) {
-        const fetchData = async () => {
-          const token = localStorage.getItem("token");
-  
-          if (!token) {
-            console.error("Token is missing!");
-            return;
-          }
-  
-          try {
-            const response = await axios.get(
-              `${import.meta.env.VITE_API_URL}api/list/${id}/`,
-              {
-                headers: {
-                  Authorization: `Token ${token}`,
-                },
-              }
-            );
-            console.log("response: ", response);
-            if (response.data.documents.length && response.status == 200) {
-              console.log(response.data.documents);
-              const newFiles = response.data.documents
-                .filter(
-                  (file) =>
-                    file.filename !== `Q&A-${id}` &&
-                    file.filename !== `Text-${id}`
-                )
-                .map((file) => ({
-                  file: null,
-                  name: `${file.filename}`,
-                  date: file.upload_at,
-                }));
-              setSelectedFiles(newFiles);
-  
-              const foundQandA = response.data.documents.find(
-                (file) => file.filename === `Q&A-${id}`
-              );
-  
-              if (foundQandA) {
-                axios
-                  .get(
-                    `${import.meta.env.VITE_API_URL}api/get/${id}/${
-                      foundQandA.id
-                    }/`,
-                    {
-                      headers: {
-                        Authorization: `Token ${token}`,
-                      },
-                    }
-                  )
-                  .then((response) => {
-                    console.log("QAres:", response);
-                    QandAContent = response.data.document.content;
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching Q&A:", error);
-                  });
-              }
-              const foundText = response.data.documents.find(
-                (file) => file.filename === `Text-${id}`
-              );
-  
-              if (foundText) {
-                axios
-                  .get(
-                    `${import.meta.env.VITE_API_URL}api/get/${id}/${
-                      foundText.id
-                    }/`,
-                    {
-                      headers: {
-                        Authorization: `Token ${token}`,
-                      },
-                    }
-                  )
-                  .then((response) => {
-                    console.log("textRes:", response);
-                    textContent = response.data.document.content;
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching Text:", error);
-                  });
-              }
+    if (azure_index) {
+      const fetchData = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          console.error("Token is missing!");
+          return;
+        }
+
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
             }
-          } catch (error) {
-            console.log("fetch list error:", error);
+          );
+          console.log("response: ", response);
+          if (response.data.documents.length && response.status == 200) {
+            console.log(response.data.documents);
+            const newFiles = response.data.documents
+              .filter(
+                (file) =>
+                  file.filename !== `Q&A-${id}` &&
+                  file.filename !== `Text-${id}`
+              )
+              .map((file) => ({
+                name: `${file.filename}`,
+                date: file.upload_at,
+                id: file.id,
+              }));
+            setFiles(newFiles);
+
+            const foundQandA = response.data.documents.find(
+              (file) => file.filename === `Q&A-${id}`
+            );
+
+            if (foundQandA) {
+              axios
+                .get(
+                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
+                    foundQandA.id
+                  }/`,
+                  {
+                    headers: {
+                      Authorization: `Token ${token}`,
+                    },
+                  }
+                )
+                .then((response) => {
+                  console.log("QAres:", response);
+                  const formattedQA = parseQA(response.data.document.content);
+                  setQA(formattedQA);
+                })
+                .catch((error) => {
+                  console.error("Error fetching Q&A:", error);
+                });
+            }
+
+            const foundText = response.data.documents.find(
+              (file) => file.filename === `Text-${id}`
+            );
+
+            if (foundText) {
+              axios
+                .get(
+                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
+                    foundText.id
+                  }/`,
+                  {
+                    headers: {
+                      Authorization: `Token ${token}`,
+                    },
+                  }
+                )
+                .then((response) => {
+                  console.log("textRes:", response);
+                  setTextContent(response.data.document.content);
+                })
+                .catch((error) => {
+                  console.error("Error fetching Text:", error);
+                });
+            }
           }
-        };
-  
-        fetchData();
-      }
-    }, [azure_index, id]);
-  
+        } catch (error) {
+          console.log("fetch list error:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [azure_index, id]);
+
   return (
     <div className="h w-full flex flex-col items-center pb-14">
       <div className="flex flex-col items-start gap-12">
@@ -150,13 +225,31 @@ const Build = () => {
         </div>
 
         {selectedIndex === 0 && (
-          <UploadFile id={id} name={name} azure_index={azure_index} />
+          <UploadFile
+            id={id}
+            name={name}
+            azure_index={azure_index}
+            Files={Files}
+            setFiles={setFiles}
+          />
         )}
         {selectedIndex === 1 && (
-          <QandA id={id} name={name} azure_index={azure_index} />
+          <QandA
+            id={id}
+            name={name}
+            azure_index={azure_index}
+            QA={QA}
+            setQA={setQA}
+          />
         )}
         {selectedIndex === 2 && (
-          <Text id={id} name={name} azure_index={azure_index} />
+          <Text
+            id={id}
+            name={name}
+            azure_index={azure_index}
+            textContent={textContent}
+            setTextContent={setTextContent}
+          />
         )}
         {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
         {selectedIndex === 4 && <MainQuestion />} */}
