@@ -5,18 +5,26 @@ import Loading from "./Loading";
 import Typewriter from "./Typewriter";
 import { marked } from "marked";
 import { IoIosSend } from "react-icons/io";
-
+import ChatSidebar from "./ChatSidebar";
+import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
+import { FaArrowsRotate } from "react-icons/fa6";
+import ResetButton from "./ResetButton";
 const Chat = () => {
   const location = useLocation();
   const [messages, setMessages] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   const [justAsked, setJustAsked] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const token = localStorage.getItem("token");
   const { id, prompt, api_key } = location.state || {};
   console.log("chat state:", id, prompt, api_key);
+  const [temperature, setTemperature] = useState(0.7);
 
+  const resetMessages = () => {
+    setMessages([]);
+  };
   useEffect(() => {
     if (!token) {
       console.error("Token not found");
@@ -59,7 +67,7 @@ const Chat = () => {
       .post(
         `${import.meta.env.VITE_API_URL}api/query/`,
         // { query: input, chatbot_id: id },
-        { query: input },
+        { query: input, temperature: temperature },
         {
           headers: {
             // Authorization: `Token ${token}`,
@@ -98,50 +106,71 @@ const Chat = () => {
 
   return (
     // <div className="w-full h-screen flex flex-row bg-[url(/public/subtlebg.png)] justify-center p-4 rounded-lg">
-    <div className="w-full h-screen flex flex-row justify-center p-4 rounded-lg">
-      <div className="w-96 flex flex-col rounded-lg bg-white shadow-lg">
-        <div className="flex-1 p-2">
-          {messages.map((msg, index) => (
-            <div key={index} className="p-2">
-              <div className="flex justify-end">
-                <div className="max-w-6xl p-3 text-white bg-blue-500 rounded-3xl">
-                  {msg.query}
+    <div className="w-full h-[650px] flex flex-row justify-evenly rounded-lg">
+      <ChatSidebar
+        showSidebar={showSidebar}
+        setShowSidebar={setShowSidebar}
+        temperature={temperature}
+        setTemperature={setTemperature}
+      />
+      <TbLayoutSidebarLeftExpandFilled
+        className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}
+        onClick={() => setShowSidebar((prev) => !prev)}
+      />
+      <div className="w-full flex justify-center">
+        <div className="w-[500px] flex flex-col justify-between rounded-lg bg-white shadow-lg ">
+          <div className="w-full flex justify-between">
+            {/* <div
+              className="flex items-center justify-center rounded-xl p-2 m-2 bg-blue-500 font-bold text-white"
+              onClick={() => setMessages([])}
+            >
+              <FaArrowsRotate className="h-5 w-5 hover:rotate-180 transition-transform duration-700" />
+            </div> */}
+            <ResetButton handleClick={resetMessages} />
+          </div>
+          <div className="p-2 overflow-y-scroll h-full">
+            {messages.map((msg, index) => (
+              <div key={index} className="p-2">
+                <div className="flex justify-end">
+                  <div className="max-w-6xl p-3 text-white bg-blue-500 rounded-3xl">
+                    {msg.query}
+                  </div>
                 </div>
+                {msg.reply && (
+                  <div className="p-3 inline-block max-w-2/3 bg-stone-200 rounded-3xl">
+                    {index === messages.length - 1 && isLoading ? (
+                      <Loading />
+                    ) : index === messages.length - 1 && justAsked ? (
+                      <Typewriter
+                        text={messages[messages.length - 1].reply}
+                        delay={5}
+                        setJustAsked={setJustAsked}
+                      />
+                    ) : (
+                      <div
+                        className="prose prose-invert max-w-none"
+                        dangerouslySetInnerHTML={{ __html: msg.reply }}
+                      />
+                    )}
+                  </div>
+                )}
               </div>
-              {msg.reply && (
-                <div className="p-3 inline-block max-w-2/3 bg-stone-200 rounded-3xl">
-                  {index === messages.length - 1 && isLoading ? (
-                    <Loading />
-                  ) : index === messages.length - 1 && justAsked ? (
-                    <Typewriter
-                      text={messages[messages.length - 1].reply}
-                      delay={5}
-                      setJustAsked={setJustAsked}
-                    />
-                  ) : (
-                    <div
-                      className="prose prose-invert max-w-none"
-                      dangerouslySetInnerHTML={{ __html: msg.reply }}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="w-full p-2 border-t border-stone-400 sticky bottom-0 left-0 flex items-center gap-2 justify-center">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-            className="w-full p-2 border border-gray-400 rounded-lg bg-white placeholder:text-black"
-          />
-          <button
-            onClick={handlePrompt}
-            className="px-2 py-2 bg-blue-500 text-white rounded-lg"
-          >
-            <IoIosSend className="" />
-          </button>
+            ))}
+          </div>
+          <div className="w-full p-2 border-t border-stone-300 flex items-center gap-2 justify-center">
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a message..."
+              className="w-full p-2 border border-gray-300 rounded-lg bg-white placeholder:text-gray-500"
+            />
+            <button
+              onClick={handlePrompt}
+              className="px-2 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              <IoIosSend className="" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
