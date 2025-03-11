@@ -19,9 +19,9 @@ const Chat = () => {
   const [systemPrompt, setSystemPrompt] = useState("");
   const token = localStorage.getItem("token");
   const { id, prompt, api_key } = location.state || {};
-  console.log("chat state:", id, prompt, api_key);
   const [temperature, setTemperature] = useState(0.7);
 
+  console.log("chat_state:", location.state);
   const resetMessages = () => {
     setMessages([]);
   };

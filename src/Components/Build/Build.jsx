@@ -11,12 +11,13 @@ import axios from "axios";
 const Build = () => {
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { id, name, azure_index } = location.state || null;
+  const { id, name, api_key, azure_index, messages_used } =
+    location.state || null;
   const [textContent, setTextContent] = useState("");
   const [QA, setQA] = useState([{ Q: "", A: "" }]);
   const [Files, setFiles] = useState([]);
 
-  console.log(id, name, azure_index);
+  console.log("build state:", location.state);
   const parseQA = (content) => {
     const result = {};
     let qaPositions = [];
@@ -187,7 +188,13 @@ const Build = () => {
 
   return (
     <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
-      <Navbar id={id} name={name} azure_index={azure_index} />
+      <Navbar
+        id={id}
+        name={name}
+        api_key={api_key}
+        azure_index={azure_index}
+        messages_used={messages_used}
+      />
       <div className="h w-full flex flex-col items-center pb-14">
         <div className="flex flex-col items-start gap-12">
           <div className="mt-[50px] flex flex-col gap-3">

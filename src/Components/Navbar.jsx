@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-const Navbar = ({ id, name, api_key, azure_index }) => {
+const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
+  console.log("navbar props:", id, name, api_key, azure_index, messages_used);
   const navigate = useNavigate();
   const location = useLocation();
-  const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
   const logOut = () => {
@@ -36,11 +37,11 @@ const Navbar = ({ id, name, api_key, azure_index }) => {
         {azure_index ? (
           <Link
             to={`${
-              location.pathname.includes("playground/chat")
+              location.pathname.includes("playground/chat") || messages_used > 0
                 ? "/playground/chat"
                 : "/playground"
             }`}
-            state={{ id, name, api_key, azure_index }}
+            state={{ id, name, api_key, azure_index, messages_used }}
           >
             <button className="hover:text-blue-400">Playground</button>
           </Link>
@@ -50,7 +51,10 @@ const Navbar = ({ id, name, api_key, azure_index }) => {
         <Link to="/playground/deploy">
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
-        <Link to="/build" state={{ id, name, azure_index }}>
+        <Link
+          to="/build"
+          state={{ id, name, api_key, azure_index, messages_used }}
+        >
           <button className="hover:text-blue-400">Build</button>
         </Link>
       </div>

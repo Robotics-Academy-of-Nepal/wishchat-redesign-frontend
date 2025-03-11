@@ -16,13 +16,17 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
     if (azure_index) {
       if (messages_used > 0) {
         navigate("/playground/chat", {
-          state: { id, name, api_key, azure_index, prompt: "" },
+          state: { id, name, api_key, azure_index, prompt: "", messages_used },
         });
       } else {
-        navigate("/playground", { state: { id, name, api_key, azure_index } });
+        navigate("/playground", {
+          state: { id, name, api_key, azure_index, messages_used },
+        });
       }
     } else {
-      navigate("/build", { state: { id, name, azure_index } });
+      navigate("/build", {
+        state: { id, name, api_key, azure_index, messages_used },
+      });
     }
   };
   return (
