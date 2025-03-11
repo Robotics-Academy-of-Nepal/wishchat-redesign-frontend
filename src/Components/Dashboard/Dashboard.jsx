@@ -9,16 +9,17 @@ import Loading from "../Loading";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
-const ChatbotCard = ({ id, name, azure_index, messages_used }) => {
+const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   const navigate = useNavigate();
+  console.log("dashboard destructure:", id, name, api_key, azure_index);
   const handleNavigate = () => {
     if (azure_index) {
       if (messages_used > 0) {
         navigate("/playground/chat", {
-          state: { id, name, azure_index, prompt: "" },
+          state: { id, name, api_key, azure_index, prompt: "" },
         });
       } else {
-        navigate("/playground", { state: { id, name, azure_index } });
+        navigate("/playground", { state: { id, name, api_key, azure_index } });
       }
     } else {
       navigate("/build", { state: { id, name, azure_index } });
@@ -150,10 +151,17 @@ export default function Dashboard() {
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
             >
               {chatbots.map(
-                ({ id, name, azure_index_name, quota: { messages_used } }) => (
+                ({
+                  id,
+                  name,
+                  azure_index_name,
+                  api_key,
+                  quota: { messages_used },
+                }) => (
                   <ChatbotCard
                     key={id}
                     id={id}
+                    api_key={api_key}
                     name={name}
                     azure_index={azure_index_name}
                     messages_used={messages_used}

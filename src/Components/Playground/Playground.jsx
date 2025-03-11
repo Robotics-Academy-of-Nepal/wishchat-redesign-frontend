@@ -7,8 +7,9 @@ export default function Playground() {
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname.includes(path);
-  const { id, name, azure_index } = location.state ?? {};
-  console.log(id, name, azure_index);
+  console.log(location);
+  const { id, name, api_key, azure_index } = location.state ?? {};
+  console.log("Playground state:", id, name, api_key, azure_index);
   const [prompt, setPrompt] = useState("");
 
   const handleInputChange = (event) => {
@@ -46,9 +47,11 @@ export default function Playground() {
               />
 
               <button
-                onClick={() => (
-                  navigate("/playground/chat"), { state: { id, prompt } }
-                )}
+                onClick={() =>
+                  navigate("/playground/chat", {
+                    state: { id, name, api_key, azure_index, prompt },
+                  })
+                }
                 className="h-[40px] w-[42px] text-white rounded-full bg-blue-500 flex items-center justify-center"
               >
                 <LuArrowRight className="h-6 w-6" />

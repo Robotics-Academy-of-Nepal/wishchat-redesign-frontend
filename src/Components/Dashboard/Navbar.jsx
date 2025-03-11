@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-inherit px-4">
+    <div className="flex items-center sticky justify-between bg-inherit px-4">
       <div className="flex items-start justify-start">
         <img src={logo} className="h-28 w-28" />
       </div>
