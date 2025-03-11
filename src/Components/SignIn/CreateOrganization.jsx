@@ -1,15 +1,26 @@
+import axios from "axios";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const CreateOrganization = () => {
-  const [formData, setFormData] = useState({ name: "", description: "" });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
+  const [name, setName] = useState("");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await onSubmit(formData);
+    axios
+      .post(
+        `${import.meta.env.VITE_API_URL}auth/organizations/create/`,
+        { name: name },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        navigate("/dashboard");
+      });
   };
   return (
     <div className="fixed inset-4 rounded-[50px] bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center">
@@ -25,35 +36,23 @@ const CreateOrganization = () => {
               name="name"
               type="text"
               placeholder="Enter chatbot name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Description
-            </label>
-            <textarea
-              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500"
-              name="description"
-              placeholder="Enter chatbot description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="3"
-            />
-          </div>
           <div className="flex justify-end space-x-3">
-            <button
+            {/* <button
               type="button"
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full"
               //   onClick={onCancel}
             >
               Cancel
-            </button>
+            </button> */}
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+              onClick={handleSubmit}
             >
               Create
             </button>

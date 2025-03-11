@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/wishchat-logo.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const Navbar = ({ id, name, azure_index }) => {
+const Navbar = ({ id, name, api_key, azure_index }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
@@ -34,7 +34,14 @@ const Navbar = ({ id, name, azure_index }) => {
           <button className="hover:text-blue-400">Dashboard</button>
         </Link>
         {azure_index ? (
-          <Link to="/playground" state={{ id, name, azure_index }}>
+          <Link
+            to={`${
+              location.pathname.includes("playground/chat")
+                ? "/playground/chat"
+                : "/playground"
+            }`}
+            state={{ id, name, api_key, azure_index }}
+          >
             <button className="hover:text-blue-400">Playground</button>
           </Link>
         ) : (

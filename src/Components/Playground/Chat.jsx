@@ -7,8 +7,8 @@ import { marked } from "marked";
 import { IoIosSend } from "react-icons/io";
 import ChatSidebar from "./ChatSidebar";
 import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
-import { FaArrowsRotate } from "react-icons/fa6";
 import ResetButton from "./ResetButton";
+
 const Chat = () => {
   const location = useLocation();
   const [messages, setMessages] = useState([]);
@@ -16,7 +16,7 @@ const Chat = () => {
   const [input, setInput] = useState("");
   const [justAsked, setJustAsked] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
-
+  const [systemPrompt, setSystemPrompt] = useState("");
   const token = localStorage.getItem("token");
   const { id, prompt, api_key } = location.state || {};
   console.log("chat state:", id, prompt, api_key);
@@ -30,7 +30,7 @@ const Chat = () => {
       console.error("Token not found");
       return;
     }
-    if (prompt != "") {
+    if (typeof prompt !== "undefined" && prompt !== "") {
       console.log("Includes prompt getting response.");
       setMessages([{ query: prompt, reply: "Loading..." }]);
       setLoading(true);
@@ -51,6 +51,17 @@ const Chat = () => {
         })
         .catch((error) => {
           console.error("Error sending request:", error);
+          setLoading(false);
+          setMessages((prevMessages) =>
+            prevMessages.map((msg, index) =>
+              index === prevMessages.length - 1
+                ? {
+                    ...msg,
+                    reply: marked(`Error getting reply...`),
+                  }
+                : msg
+            )
+          );
         });
     }
   }, [id, prompt, token, api_key]);
@@ -112,6 +123,9 @@ const Chat = () => {
         setShowSidebar={setShowSidebar}
         temperature={temperature}
         setTemperature={setTemperature}
+        systemPrompt={systemPrompt}
+        setSystemPrompt={setSystemPrompt}
+        id={id}
       />
       <TbLayoutSidebarLeftExpandFilled
         className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}

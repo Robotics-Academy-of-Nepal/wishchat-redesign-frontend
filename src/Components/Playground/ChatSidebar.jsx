@@ -1,17 +1,43 @@
 import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
 import ResetButton from "./ResetButton";
-
+import axios from "axios";
 const ChatSidebar = ({
   showSidebar,
   setShowSidebar,
   temperature,
   setTemperature,
+  systemPrompt,
+  setSystemPrompt,
+  id,
 }) => {
+  console.log(id);
+  const token = localStorage.getItem("token");
+
   const resetSidebar = () => {
     setTemperature(0.7);
   };
   const handleSliderChange = (e) => {
     setTemperature(parseFloat(e.target.value));
+  };
+  const handleSystemPrompt = () => {
+    console.log(systemPrompt);
+    axios
+      .post(
+        `${import.meta.env.VITE_API_URL}api/system-prompt/`,
+        { chatbot_id: id, prompt: systemPrompt },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Response:", response.data);
+        // const res = response.data.response;
+      })
+      .catch((error) => {
+        console.log("response:", error);
+      });
   };
   return (
     <div
@@ -58,20 +84,32 @@ const ChatSidebar = ({
               <span>Active</span>
             </div>
           </div> */}
-
-          <div className="p-2 border-t border-gray-200">
-            <h6 className="font-medium mb-2">System Prompt</h6>
-            <textarea
-              className="w-full p-2 border border-gray-300 rounded-lg text-sm"
-              rows="10"
-              placeholder="Add a system prompt here..."
-            ></textarea>
+          <div>
+            <div className="p-2 border-t border-gray-200">
+              <h6 className="font-medium mb-2">System Prompt</h6>
+              <textarea
+                className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                rows="10"
+                placeholder="Add a system prompt here..."
+                value={systemPrompt}
+                onChange={(e) => setSystemPrompt(e.target.value)}
+              ></textarea>
+            </div>
+            <p className="text-yellow-600 text-xs">
+              परिवर्तनहरू गर्न &quot;Apply Changes&quot; थिच्नुहोस्।
+              <br />
+              Apply changes prompt to make changes.
+            </p>
           </div>
           <div>
-            {/* {temperature} */}
-            <button className="bg-amber-700 text-gray-100 p-2 rounded-xl">
+            {/* {systemPrompt.trim() !== "" && ( */}
+            <button
+              className="bg-blue-500 text-white hover:bg-blue-400 p-2 rounded-xl "
+              onClick={handleSystemPrompt}
+            >
               Apply Changes
             </button>
+            {/* )} */}
           </div>
         </nav>
       </div>

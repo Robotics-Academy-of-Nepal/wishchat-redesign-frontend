@@ -91,16 +91,16 @@ const Login = () => {
       localStorage.setItem("Picture", response.data.google_data.picture);
       localStorage.setItem("ID", response.data.user.id);
       localStorage.setItem("username", response.data.user.username);
-      localStorage.setItem("org_id", response.data.organization.id);
-      localStorage.setItem("org_name", response.data.organization.name);
-      localStorage.setItem("is_owner", response.data.organization.is_owner);
 
       // Check for organization instead of company_name
       if (response.data.has_organization && response.data.organization) {
+        localStorage.setItem("org_id", response.data.organization.id);
+        localStorage.setItem("org_name", response.data.organization.name);
+        localStorage.setItem("is_owner", response.data.organization.is_owner);
         localStorage.setItem("companyname", response.data.organization.name);
         navigate("/dashboard");
       } else {
-        navigate("/company");
+        navigate("/createOrganization");
       }
     }
   };
@@ -159,7 +159,7 @@ const Login = () => {
       });
 
       // Navigate to dashboard after successful login
-      navigate("/dashboard");
+      navigate("/createOrganization");
     } catch (error) {
       console.error("Login error:", error);
       toast({
@@ -174,7 +174,6 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-blue-200">
-
       {/* Glass Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

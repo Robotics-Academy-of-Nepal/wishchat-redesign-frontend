@@ -18,7 +18,7 @@ export default function Playground() {
 
   return (
     <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
-      <Navbar id={id} name={name} azure_index={azure_index} />
+      <Navbar id={id} name={name} api_key={api_key} azure_index={azure_index} />
       {isActive("/chat") ? (
         <Outlet />
       ) : (

@@ -10,6 +10,7 @@ import Teammates from "./Components/Dashboard/Teammates";
 import Playground from "./Components/Playground/Playground";
 import Build from "./Components/Build/Build";
 import Chat from "./Components/Playground/Chat";
+import CreateOrganization from "./Components/SignIn/CreateOrganization";
 
 import "./App.css";
 
@@ -27,6 +28,7 @@ function App() {
         </Route>
         <Route path="/build" element={<Build />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/createOrganization" element={<CreateOrganization />} />
         <Route path="/login/:invitation_code" element={<Login />} />
       </Routes>
     </Router>
