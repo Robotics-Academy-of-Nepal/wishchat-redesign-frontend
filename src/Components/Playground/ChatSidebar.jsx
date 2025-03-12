@@ -41,8 +41,8 @@ const ChatSidebar = ({
   };
   return (
     <div
-      className={`flex-shrink-0 bg-white text-gray-700 w-0 overflow-hidden shadow-xl transition-all duration-300 ease-in-out ${
-        showSidebar ? "w-[380px] p-4" : "w-0 p-0"
+      className={`lg:flex-shrink-0 bg-white text-gray-700 overflow-hidden shadow-xl transition-all duration-300 ease-in-out ${
+        showSidebar ? "lg:w-[380px] p-4 w-full" : " w-0 p-0"
       }`}
     >
       <div className="min-w-[270px]">

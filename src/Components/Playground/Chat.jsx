@@ -117,7 +117,9 @@ const Chat = () => {
 
   return (
     // <div className="w-full h-screen flex flex-row bg-[url(/public/subtlebg.png)] justify-center p-4 rounded-lg">
-    <div className="w-full h-[650px] flex flex-row justify-evenly rounded-lg">
+    <div
+      className={`w-full h-[600px] flex flex-row lg:justify-evenly rounded-lg `}
+    >
       <ChatSidebar
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
@@ -131,9 +133,15 @@ const Chat = () => {
         className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}
         onClick={() => setShowSidebar((prev) => !prev)}
       />
-      <div className="w-full flex justify-center">
-        <div className="w-[500px] flex flex-col justify-between rounded-lg bg-white shadow-lg ">
-          <div className="w-full flex justify-between">
+      <div
+        className={`w-full flex justify-center ${
+          showSidebar && "hidden lg:flex justify-center"
+        }`}
+      >
+        <div className={`w-[500px] h-full flex flex-col justify-between rounded-lg bg-white shadow-lg ${
+          showSidebar && "hidden lg:flex justify-center"
+        }`}>
+          <div className="w-full  flex justify-between">
             {/* <div
               className="flex items-center justify-center rounded-xl p-2 m-2 bg-blue-500 font-bold text-white"
               onClick={() => setMessages([])}
