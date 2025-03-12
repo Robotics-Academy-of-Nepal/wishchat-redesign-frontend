@@ -18,8 +18,8 @@ export default function Homepage() {
         <div className="flex flex-col gap-8 ">
           <div className="flex justify-center items-center mt-12">
             <button>
-              <div className="flex items-center justify-center gap-6 border-2 border-black rounded-4xl w-[310px] font-semibold text-lg text-gray-800 py-2.5">
-                <RiRobot3Line className="text-xl" /> Welcome to Wishchat
+              <div className="flex items-center justify-center gap-4 border-2 border-black rounded-4xl w-[280px] font-semibold text-md text-gray-800 py-2.5">
+                <RiRobot3Line className="text-lg" /> Welcome to Wishchat
               </div>
             </button>
           </div>
@@ -52,18 +52,13 @@ export default function Homepage() {
       </div>
 
       {/* Additional Info Section */}
-      <div className="flex justify-center font-medium text-5xl text-center my-10">
+      <div className="flex justify-center font-medium text-5xl text-center my-8">
         Smart chatbot solution <br />
         for interactions.
       </div>
 
-      <div className="flex flex-col gap-[40px]">
-        {/* Footer Section */}
-        <div>
-          <div className="border mb-14 border-gray-700"></div>
-          <Footer />
-        </div>
-      </div>
+      {/* Footer Section */}
+      <Footer />
     </div>
   );
 }

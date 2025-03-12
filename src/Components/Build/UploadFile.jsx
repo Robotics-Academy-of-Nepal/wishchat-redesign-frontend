@@ -111,7 +111,7 @@ const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
   };
 
   return (
-    <div className="w-full px-8 flex flex-col items-center gap-10 -mt-2">
+    <div className="w-full px-8 flex flex-col items-center gap-10 mt-2">
       <input
         type="file"
         id="fileUpload"

@@ -42,7 +42,7 @@ const ChatSidebar = ({
   return (
     <div
       className={`flex-shrink-0 bg-white text-gray-700 shadow-xl transition-all overflow-hidden duration-300 ease-in-out ${
-        showSidebar ? "lg:w-[380px] p-4 w-full h-full" : " w-0 h-0 p-0"
+        showSidebar ? "lg:w-[380px] p-4 w-full h-full" : " w-0 p-0"
       }`}
     >
       <TbLayoutSidebarRightExpandFilled

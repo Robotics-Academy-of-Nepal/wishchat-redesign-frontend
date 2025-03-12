@@ -12,6 +12,8 @@ import Build from "./Components/Build/Build";
 import Chat from "./Components/Playground/Chat";
 import CreateOrganization from "./Components/SignIn/CreateOrganization";
 
+import Deploy from "./Components/Deploy/Deploy";
+import DeployForm from "./Components/Deploy/DeployForm";
 import "./App.css";
 
 function App() {
@@ -25,6 +27,9 @@ function App() {
         </Route>
         <Route path="/playground" element={<Playground />}>
           <Route path="chat" element={<Chat />} />
+        </Route>
+        <Route path="/deploy" element={<Deploy />}>
+          <Route path="form" element={<DeployForm />} />
         </Route>
         <Route path="/build" element={<Build />} />
         <Route path="/login" element={<Login />} />

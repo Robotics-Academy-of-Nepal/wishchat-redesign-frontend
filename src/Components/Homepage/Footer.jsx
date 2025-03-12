@@ -1,14 +1,14 @@
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import { CiLinkedin } from "react-icons/ci";
-import logo from "../../assets/wishchat-logo.png";
+import logo from "../../../public/Logo.png";
 const Footer = () => {
   return (
-    <div className="md:flex-row md:flex sm:flex-col sm:gap-[50px] justify-evenly">
+    <div className="md:flex-row md:flex sm:flex-col sm:gap-[50px] justify-evenly py-14 border-t-2 border-gray-500 mx-6">
       {/* Company Info */}
       <div className="flex flex-col gap-2 items-center justify-center md:justify-start md:items-start">
-        <div className="items-start flex justify-start flex-col">
-          <img src={logo} className="h-[150px] w-[150px]" />
+        <div className="gap-2 items-start flex justify-start flex-col">
+          <img src={logo} />
           <h1>
             Your go to platform for seamless
             <br />

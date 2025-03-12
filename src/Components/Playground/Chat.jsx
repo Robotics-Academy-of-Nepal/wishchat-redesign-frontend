@@ -117,7 +117,7 @@ const Chat = () => {
 
   return (
     <div
-      className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl m-6 overflow-y-scroll`}
+      className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl m-6 p-2`}
     >
       <ChatSidebar
         showSidebar={showSidebar}
@@ -128,7 +128,7 @@ const Chat = () => {
         setSystemPrompt={setSystemPrompt}
         id={id}
       />
-      <div className="w-full h-full flex flex-col lg:flex-row justify-between overflow-y-scroll overflow-hidden rounded-xl">
+      <div className="w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden rounded-xl">
         <TbLayoutSidebarLeftExpandFilled
           className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}
           onClick={() => setShowSidebar((prev) => !prev)}

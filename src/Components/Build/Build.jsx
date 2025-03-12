@@ -12,7 +12,7 @@ const Build = () => {
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { id, name, api_key, azure_index, messages_used } =
-    location.state || null;
+    location.state || {};
   const [textContent, setTextContent] = useState("");
   const [QA, setQA] = useState([{ Q: "", A: "" }]);
   const [Files, setFiles] = useState([]);
@@ -195,8 +195,8 @@ const Build = () => {
         azure_index={azure_index}
         messages_used={messages_used}
       />
-      <div className="h w-full flex flex-col items-center pb-14">
-        <div className="flex flex-col items-start gap-12">
+      <div className="w-full flex flex-col items-center pb-14">
+        <div className="flex flex-col items-start gap-8">
           <div className="mt-[50px] flex flex-col gap-3">
             <h1 className="font-medium text-6xl">
               Build Your AI

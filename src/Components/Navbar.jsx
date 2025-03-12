@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "../assets/wishchat-logo.png";
+import logo from "../../public/Logo.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
@@ -22,9 +22,9 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-inherit px-4">
-      <div className="flex items-start justify-start">
-        <img src={logo} className="h-28 w-28" />
+    <div className="flex items-center justify-between bg-inherit px-6 py-2 ">
+      <div className="flex items-center justify-start h-full">
+        <img src={logo} />
       </div>
 
       <div className="flex items-center justify-center gap-12 py-3 font-sans text-lg">
@@ -48,7 +48,10 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
         ) : (
           <span className="cursor-not-allowed text-gray-500">Playground</span>
         )}
-        <Link to="/playground/deploy">
+        <Link
+          to="/deploy"
+          state={{ id, name, api_key, azure_index, messages_used }}
+        >
           <button className="hover:text-blue-400">Deploy</button>
         </Link>
         <Link

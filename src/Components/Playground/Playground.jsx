@@ -17,7 +17,7 @@ export default function Playground() {
   };
 
   return (
-    <div className="fixed inset-4 rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
+    <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
       <Navbar
         id={id}
         name={name}
