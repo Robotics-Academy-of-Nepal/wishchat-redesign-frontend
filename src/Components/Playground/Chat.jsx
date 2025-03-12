@@ -116,9 +116,8 @@ const Chat = () => {
   };
 
   return (
-    // <div className="w-full h-screen flex flex-row bg-[url(/public/subtlebg.png)] justify-center p-4 rounded-lg">
     <div
-      className={`w-full h-[600px] flex flex-row lg:justify-evenly rounded-lg `}
+      className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl m-6 overflow-y-scroll`}
     >
       <ChatSidebar
         showSidebar={showSidebar}
@@ -129,69 +128,73 @@ const Chat = () => {
         setSystemPrompt={setSystemPrompt}
         id={id}
       />
-      <TbLayoutSidebarLeftExpandFilled
-        className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}
-        onClick={() => setShowSidebar((prev) => !prev)}
-      />
-      <div
-        className={`w-full flex justify-center ${
-          showSidebar && "hidden lg:flex justify-center"
-        }`}
-      >
-        <div className={`w-[500px] h-full flex flex-col justify-between rounded-lg bg-white shadow-lg ${
-          showSidebar && "hidden lg:flex justify-center"
-        }`}>
-          <div className="w-full  flex justify-between">
-            {/* <div
+      <div className="w-full h-full flex flex-col lg:flex-row justify-between overflow-y-scroll overflow-hidden rounded-xl">
+        <TbLayoutSidebarLeftExpandFilled
+          className={`h-8 w-8 text-gray-700 m-4 ${showSidebar && "hidden"}`}
+          onClick={() => setShowSidebar((prev) => !prev)}
+        />
+        <div
+          className={`w-full h-full flex justify-center rounded-xl ${
+            showSidebar && "hidden lg:flex justify-center"
+          }`}
+        >
+          <div
+            className={`w-[500px] flex flex-col justify-between rounded-lg bg-white shadow-lg m-2 ${
+              showSidebar && "hidden lg:flex"
+            }`}
+          >
+            <div className="w-full flex justify-between">
+              {/* <div
               className="flex items-center justify-center rounded-xl p-2 m-2 bg-blue-500 font-bold text-white"
               onClick={() => setMessages([])}
             >
               <FaArrowsRotate className="h-5 w-5 hover:rotate-180 transition-transform duration-700" />
             </div> */}
-            <ResetButton handleClick={resetMessages} />
-          </div>
-          <div className="p-2 overflow-y-scroll h-full">
-            {messages.map((msg, index) => (
-              <div key={index} className="p-2">
-                <div className="flex justify-end">
-                  <div className="max-w-6xl p-3 text-white bg-blue-500 rounded-3xl">
-                    {msg.query}
+              <ResetButton handleClick={resetMessages} />
+            </div>
+            <div className="p-2 overflow-y-scroll h-full">
+              {messages.map((msg, index) => (
+                <div key={index} className="p-2">
+                  <div className="flex justify-end">
+                    <div className="max-w-6xl p-3 text-white bg-blue-500 rounded-3xl">
+                      {msg.query}
+                    </div>
                   </div>
+                  {msg.reply && (
+                    <div className="p-3 inline-block max-w-2/3 bg-stone-200 rounded-3xl">
+                      {index === messages.length - 1 && isLoading ? (
+                        <Loading />
+                      ) : index === messages.length - 1 && justAsked ? (
+                        <Typewriter
+                          text={messages[messages.length - 1].reply}
+                          delay={5}
+                          setJustAsked={setJustAsked}
+                        />
+                      ) : (
+                        <div
+                          className="prose prose-invert max-w-none"
+                          dangerouslySetInnerHTML={{ __html: msg.reply }}
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
-                {msg.reply && (
-                  <div className="p-3 inline-block max-w-2/3 bg-stone-200 rounded-3xl">
-                    {index === messages.length - 1 && isLoading ? (
-                      <Loading />
-                    ) : index === messages.length - 1 && justAsked ? (
-                      <Typewriter
-                        text={messages[messages.length - 1].reply}
-                        delay={5}
-                        setJustAsked={setJustAsked}
-                      />
-                    ) : (
-                      <div
-                        className="prose prose-invert max-w-none"
-                        dangerouslySetInnerHTML={{ __html: msg.reply }}
-                      />
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="w-full p-2 border-t border-stone-300 flex items-center gap-2 justify-center">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white placeholder:text-gray-500"
-            />
-            <button
-              onClick={handlePrompt}
-              className="px-2 py-2 bg-blue-500 text-white rounded-lg"
-            >
-              <IoIosSend className="" />
-            </button>
+              ))}
+            </div>
+            <div className="w-full p-2 border-t border-stone-300 flex items-center gap-2 justify-center">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message..."
+                className="w-full p-2 border border-gray-300 rounded-lg bg-white placeholder:text-gray-500"
+              />
+              <button
+                onClick={handlePrompt}
+                className="px-2 py-2 bg-blue-500 text-white rounded-lg"
+              >
+                <IoIosSend className="" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

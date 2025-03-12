@@ -17,8 +17,14 @@ export default function Playground() {
   };
 
   return (
-    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
-      <Navbar id={id} name={name} api_key={api_key} azure_index={azure_index} messages_used={messages_used}/>
+    <div className="fixed inset-4 rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
+      <Navbar
+        id={id}
+        name={name}
+        api_key={api_key}
+        azure_index={azure_index}
+        messages_used={messages_used}
+      />
       {isActive("/chat") ? (
         <Outlet />
       ) : (
@@ -49,7 +55,14 @@ export default function Playground() {
               <button
                 onClick={() =>
                   navigate("/playground/chat", {
-                    state: { id, name, api_key, azure_index, prompt ,messages_used},
+                    state: {
+                      id,
+                      name,
+                      api_key,
+                      azure_index,
+                      prompt,
+                      messages_used,
+                    },
                   })
                 }
                 className="h-[40px] w-[42px] text-white rounded-full bg-blue-500 flex items-center justify-center"
