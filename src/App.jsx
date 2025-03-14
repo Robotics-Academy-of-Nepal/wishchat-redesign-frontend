@@ -13,7 +13,8 @@ import Chat from "./Components/Playground/Chat";
 import CreateOrganization from "./Components/SignIn/CreateOrganization";
 
 import Deploy from "./Components/Deploy/Deploy";
-import DeployForm from "./Components/Deploy/DeployForm";
+import WhatsappDeployForm from "./Components/Deploy/WhatsappDeployForm";
+import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
 import "./App.css";
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
           <Route path="chat" element={<Chat />} />
         </Route>
         <Route path="/deploy" element={<Deploy />}>
-          <Route path="form" element={<DeployForm />} />
+          <Route path="whatsappForm" element={<WhatsappDeployForm />} />
+          <Route path="messengerForm" element={<MessengerDeployForm />} />
         </Route>
         <Route path="/build" element={<Build />} />
         <Route path="/login" element={<Login />} />

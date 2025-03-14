@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import bg from "../../assets/dashboard.png";
-import logo from "../../assets/wishchat-logo.png";
+import logo from "/Chatbot.png";
 import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
 import Loading from "../Loading";
@@ -31,24 +31,17 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   };
   return (
     <div
-      className="flex flex-col items-center hover:scale-105 transiition duration-75 overflow-hidden h-80"
+      className="flex flex-col items-center gap-6 h-80"
       onClick={handleNavigate}
     >
-      <div
-        className="h-[270px] w-full flex justify-center items-center overflow-hidden rounded-3xl relative transition-shadow duration-300 cursor-pointer"
-        style={{
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="h-[270px] w-full flex justify-center items-center rounded-3xl relative transition-shadow duration-300 cursor-pointer">
         <img
           src={logo}
-          className="h-[120px] w-[120px] z-10"
+          className="hover:brightness-50 transition duration-700"
           alt="Chatbot Logo"
         />
       </div>
-      <h2 className="font-semibold text-lg mt-2">{name}</h2>
+      <h2 className="text-2xl">{name}</h2>
     </div>
   );
 };
@@ -138,7 +131,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-center mb-8">
             <h1 className="font-semibold text-3xl">My Chatbots</h1>
             <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-300"
+              className="bg-blue-500 text-white py-2 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-300"
               onClick={() => setShowForm(true)}
             >
               New Chatbot

@@ -3,6 +3,7 @@ import uploadIcon from "../../assets/uploadIcon.png";
 import { useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
 import { IoTrashOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 import axios from "axios";
 
 const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
@@ -111,7 +112,13 @@ const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
   };
 
   return (
-    <div className="w-full px-8 flex flex-col items-center gap-10 mt-2">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="w-full px-8 flex flex-col items-center gap-10 mt-2"
+    >
+      {/* <div className="w-full px-8 flex flex-col items-center gap-10 mt-2"> */}
       <input
         type="file"
         id="fileUpload"
@@ -230,7 +237,8 @@ const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
           </>
         )}
       </button>
-    </div>
+      {/* </div> */}
+    </motion.div>
   );
 };
 

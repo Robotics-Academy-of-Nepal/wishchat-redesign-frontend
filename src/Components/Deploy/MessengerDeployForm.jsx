@@ -2,27 +2,28 @@ import { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-const DeployForm = () => {
+const MessengerDeployForm = () => {
   const location = useLocation();
   const { id } = location.state || {};
   console.log("deploy state:", location.state);
 
-  const [whatsapp_token, setWhatsappToken] = useState("");
-  const [whatsapp_id, setWhatsappId] = useState("");
-  const [whatsapp_url, setWhatsappUrl] = useState("");
+  const [messenger_token, setMessengerToken] = useState("");
+  const [messenger_id, setMessengerId] = useState("");
+  const [messenger_url, setMessengerUrl] = useState("");
 
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     let newErrors = {};
-    if (!whatsapp_id.trim()) newErrors.whatsapp_id = "WhatsApp ID is required.";
-    if (!whatsapp_token.trim())
-      newErrors.whatsapp_token = "WhatsApp Token is required.";
-    else if (whatsapp_token.length < 20)
-      newErrors.whatsapp_token = "Token must be at least 20 characters.";
+    if (!messenger_id.trim())
+      newErrors.messenger_id = "Messenger ID is required.";
+    if (!messenger_token.trim())
+      newErrors.messenger_token = "Messenger Token is required.";
+    else if (messenger_token.length < 20)
+      newErrors.messenger_token = "Token must be at least 20 characters.";
 
-    if (!whatsapp_url.trim()) {
-      newErrors.whatsapp_url = "WhatsApp URL is required.";
+    if (!messenger_url.trim()) {
+      newErrors.messenger_url = "Messenger URL is required.";
     }
 
     setErrors(newErrors);
@@ -31,25 +32,25 @@ const DeployForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "whatsapp_id") setWhatsappId(value);
-    if (name === "whatsapp_token") setWhatsappToken(value);
-    if (name === "whatsapp_url") setWhatsappUrl(value);
+    if (name === "messenger_id") setMessengerId(value);
+    if (name === "messenger_token") setMessengerToken(value);
+    if (name === "messenger_url") setMessengerUrl(value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log(whatsapp_id, whatsapp_token, whatsapp_url);
+    console.log(messenger_id, messenger_token, messenger_url);
     const token = localStorage.getItem("token");
 
     axios
       .post(
         `${import.meta.env.VITE_API_URL}api/credentials/`,
         {
-          whatsapp_url,
-          whatsapp_token,
-          whatsapp_id,
+          messenger_url,
+          messenger_token,
+          messenger_id,
           chatbot_id: id,
         },
         {
@@ -75,42 +76,42 @@ const DeployForm = () => {
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col gap-2">
-            <label htmlFor="whatsapp_id">WhatsApp ID:</label>
+            <label htmlFor="messenger_id">Messenger ID:</label>
             <input
-              name="whatsapp_id"
+              name="messenger_id"
               className="border border-stone-300 p-2 rounded-lg"
-              value={whatsapp_id}
+              value={messenger_id}
               onChange={handleChange}
             />
-            {errors.whatsapp_id && (
-              <p className="text-red-500">{errors.whatsapp_id}</p>
+            {errors.messenger_id && (
+              <p className="text-red-500">{errors.messenger_id}</p>
             )}
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="whatsapp_token">WhatsApp Token:</label>
+            <label htmlFor="messenger_token">Messenger Token:</label>
             <textarea
-              name="whatsapp_token"
+              name="messenger_token"
               className="border border-stone-300 p-2 rounded-lg"
               rows={4}
-              value={whatsapp_token}
+              value={messenger_token}
               onChange={handleChange}
             />
-            {errors.whatsapp_token && (
-              <p className="text-red-500 text-sm">{errors.whatsapp_token}</p>
+            {errors.messenger_token && (
+              <p className="text-red-500 text-sm">{errors.messenger_token}</p>
             )}
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="whatsapp_url">WhatsApp URL:</label>
+            <label htmlFor="messenger_url">Messenger URL:</label>
             <input
-              name="whatsapp_url"
+              name="messenger_url"
               className="border border-stone-300 p-2 rounded-lg"
-              value={whatsapp_url}
+              value={messenger_url}
               onChange={handleChange}
             />
-            {errors.whatsapp_url && (
-              <p className="text-red-500 text-sm">{errors.whatsapp_url}</p>
+            {errors.messenger_url && (
+              <p className="text-red-500 text-sm">{errors.messenger_url}</p>
             )}
           </div>
 
@@ -134,4 +135,4 @@ const DeployForm = () => {
   );
 };
 
-export default DeployForm;
+export default MessengerDeployForm;

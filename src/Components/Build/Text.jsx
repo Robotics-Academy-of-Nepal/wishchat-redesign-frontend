@@ -2,6 +2,7 @@ import { LuArrowRight } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { motion } from "framer-motion";
 const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
@@ -72,7 +73,12 @@ const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
     }
   };
   return (
-    <div className="w-full px- flex flex-col items-center gap-3 justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="w-full px- flex flex-col items-center gap-3 justify-center"
+    >
       <div className="w-full flex flex-col gap-4 p-6 items-center rounded-2xl bg-white">
         <p className="font- text-2xl">Text Input</p>
         <textarea
@@ -127,7 +133,7 @@ const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
           </>
         )}
       </button>
-    </div>
+    </motion.div>
   );
 };
 

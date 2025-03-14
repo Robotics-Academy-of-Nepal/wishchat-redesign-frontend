@@ -79,61 +79,6 @@ const Teammates = () => {
 
         const data = await response.json();
         if (response.ok) {
-          // const teammates = [
-
-          //   {
-          //     email: "khatrinikace@gmail.com",
-          //     first_name: "Nikace",
-          //     id: 7,
-          //     is_active: true,
-          //     is_owner: false,
-          //     is_staff: false,
-          //     is_superuser: false,
-          //     last_name: "Khatri",
-          //     organization: { id: 2, name: "sabin organization" },
-          //     phone_number: "",
-          //     username: "khatrinikace",
-          //   },
-          //   {
-          //     email: "aakritip512@gmail.com",
-          //     first_name: "Aakriti",
-          //     id: 8,
-          //     is_active: true,
-          //     is_owner: false,
-          //     is_staff: false,
-          //     is_superuser: false,
-          //     last_name: "Rai",
-          //     organization: { id: 2, name: "sabin organization" },
-          //     phone_number: "",
-          //     username: "aakritip512",
-          //   },
-          //    {
-          //     email: "sabin11ds@gmail.com",
-          //     first_name: "Sabin",
-          //     id: 2,
-          //     is_active: true,
-          //     is_owner: true,
-          //     is_staff: false,
-          //     is_superuser: false,
-          //     last_name: "",
-          //     organization: { id: 2, name: "sabin organization" },
-          //     phone_number: "",
-          //     username: "sabin11ds",
-          //   },
-          //   {
-          //     email: "shtshikhar12@gmail.com",
-          //     first_name: "Shikhar",
-          //     id: 9,
-          //     is_active: true,
-          //     is_owner: false,
-          //     is_staff: false,
-          //     is_superuser: false,
-          //     last_name: "Shrestha",
-          //     organization: { id: 2, name: "sabin organization" },
-          //     phone_number: "",
-          //     username: "shtshikhar12",
-          //   },
-          // ];
           console.log("response data:", data);
           const sortedTeammates = data.sort((a, b) => b.is_owner - a.is_owner);
           console.log("sorted:", sortedTeammates);
@@ -158,7 +103,7 @@ const Teammates = () => {
         <button
           type="button"
           onClick={() => setInvitePopUp((prev) => !prev)}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700"
+          className="bg-blue-500 text-white py-2 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-700"
         >
           Invite
         </button>
@@ -178,7 +123,7 @@ const Teammates = () => {
             {members.map((member) => (
               <div
                 key={member.id}
-                className="p-6 bg-white shadow-md rounded-xl flex flex-col items-start space-y-3"
+                className="p-6 bg-white hover:scale-105 duration-300 transition shadow-md rounded-xl flex flex-col items-start space-y-3"
               >
                 <div className="text-lg font-semibold text-gray-800">
                   {`${member.first_name} ${member.last_name}`}

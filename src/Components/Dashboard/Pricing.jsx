@@ -1,28 +1,5 @@
-import plan from "../pricing/images/Plans.png";
-import basic from "../pricing/images/Basic Plan.png";
-import basicmessage from "../pricing/images/basicmessage.png";
-import month from "../pricing/images/Group 22.png";
-import getstarted from "../pricing/images/Group 26.png";
-import enterprise from "../pricing/images/Group 29.png";
 import { LuArrowRight } from "react-icons/lu";
 import { motion } from "framer-motion";
-
-const PricingCard = () => {
-  return (
-    <div className="flex flex-col items-center p-6 py-[40px] w-full max-w-sm border-2 gap-[80px] rounded-4xl border-gray-300 shadow-lg">
-      <div className="flex flex-col items-start gap-5 w-full">
-        <img src={basic} alt="Basic Plan" />
-        <img src={basicmessage} alt="Basic Plan Message" />
-      </div>
-      <div className="flex flex-col ps-2 gap-6 items-start justify-center w-full mt-6">
-        <img src={month} alt="Monthly Plan" className="h-10 ps-2" />
-        <button>
-          <img src={getstarted} alt="Get Started" className="h-14" />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export default function Pricing() {
   const pricing = [
@@ -94,19 +71,6 @@ export default function Pricing() {
         })}
       </motion.div>
 
-      {/* Enterprise Plan */}
-      {/* <div className="mt-12 px-4">
-        <div className="border-2 py-9 flex flex-col md:flex-row items-center justify-between rounded-3xl p-6 border-gray-300 shadow-lg">
-          <img
-            src={enterprise}
-            alt="Enterprise Plan"
-            className="h-20 mb-4 md:mb-0"
-          />
-          <button>
-            <img src={getstarted} alt="Get Started" className="h-14" />
-          </button>
-        </div>
-      </div> */}
       <div className="shadow-lg rounded-3xl items-center mt-12 p-6 bg-gray-100 text-gray-800">
         <p className="text-xl font-semibold">Enterprise Plan</p>
         <div className="w-full flex justify-between my-2">

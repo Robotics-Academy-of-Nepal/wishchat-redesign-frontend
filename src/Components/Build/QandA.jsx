@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const QandA = ({ id, name, azure_index, QA, setQA }) => {
   const navigate = useNavigate();
@@ -82,7 +83,12 @@ const QandA = ({ id, name, azure_index, QA, setQA }) => {
     }
   };
   return (
-    <div className="w-full flex flex-col items-center gap-3 justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="w-full flex flex-col items-center gap-3 justify-center"
+    >
       <div className="w-full flex flex-col gap-4 p-6 items-center rounded-2xl bg-white">
         <div className="text-center">
           <p className="font- text-2xl">{"Q&A"} </p>
@@ -170,7 +176,7 @@ const QandA = ({ id, name, azure_index, QA, setQA }) => {
           </>
         )}
       </button>
-    </div>
+    </motion.div>
   );
 };
 
