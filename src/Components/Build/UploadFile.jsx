@@ -6,7 +6,15 @@ import { IoTrashOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
+const UploadFile = ({
+  id,
+  name,
+  api_key,
+  azure_index,
+  messages_used,
+  Files,
+  setFiles,
+}) => {
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -92,7 +100,7 @@ const UploadFile = ({ id, name, azure_index, Files, setFiles }) => {
 
         azure_index = data.consolidated_index;
         navigate("/playground", {
-          state: { id, name, azure_index },
+          state: { id, name, api_key, azure_index, messages_used },
         });
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);

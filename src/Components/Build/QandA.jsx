@@ -5,7 +5,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const QandA = ({ id, name, azure_index, QA, setQA }) => {
+const QandA = ({
+  id,
+  name,
+  api_key,
+  azure_index,
+  messages_used,
+  QA,
+  setQA,
+}) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -67,7 +75,7 @@ const QandA = ({ id, name, azure_index, QA, setQA }) => {
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
         azure_index = response.data.consolidated_index;
         navigate("/playground", {
-          state: { id, name, azure_index },
+          state: { id, name, api_key, azure_index, messages_used },
         });
       }
       console.log(response.data);

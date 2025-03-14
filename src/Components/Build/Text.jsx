@@ -3,7 +3,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
+const Text = ({
+  id,
+  name,
+  api_key,
+  azure_index,
+  messages_used,
+  textContent,
+  setTextContent,
+}) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -57,7 +65,7 @@ const Text = ({ id, name, azure_index, textContent, setTextContent }) => {
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
         azure_index = response.data.consolidated_index;
         navigate("/playground", {
-          state: { id, name, azure_index },
+          state: { id, name, api_key, azure_index, messages_used },
         });
       }
       clearInterval(progressInterval);

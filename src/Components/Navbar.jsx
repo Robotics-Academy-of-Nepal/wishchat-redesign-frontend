@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "/Logo.png";
+import logo from "../assets/wishchat-logo.png";
+// import logo from "../assets/wishchat-logo.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
@@ -22,12 +23,12 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-inherit px-6 py-2 ">
+    <div className="flex items-center justify-between bg-inherit px-6">
       <div className="flex items-center justify-start h-full">
-        <img src={logo} />
+        <img src={logo} className="h-28 w-28" />
       </div>
 
-      <div className="flex items-center justify-center gap-12 py-3 font-sans text-lg">
+      <div className="flex items-center justify-center gap-12 font-sans text-lg">
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
         </Link>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import bg from "../../assets/dashboard.png";
-import logo from "/Chatbot.png";
+import bots from "../../assets/Chatbot.png";
+// import logo from "/Chatbot.png";
 import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
 import Loading from "../Loading";
@@ -36,7 +36,7 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
     >
       <div className="h-[270px] w-full flex justify-center items-center rounded-3xl relative transition-shadow duration-300 cursor-pointer">
         <img
-          src={logo}
+          src={bots}
           className="hover:brightness-50 transition duration-700"
           alt="Chatbot Logo"
         />
@@ -121,7 +121,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col bg-gradient-to-br from-white to-indigo-300">
+    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col bg-gradient-to-br from-white to-indigo-300 ">
       <Navbar />
 
       {isActive("/teammates") || isActive("/pricing") ? (
@@ -145,7 +145,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
             >
               {chatbots.map(
                 ({

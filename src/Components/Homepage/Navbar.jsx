@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import logo from "/Logo.png";
+import logo from "../../assets/wishchat-logo.png";
 import { LuArrowRight } from "react-icons/lu";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-between px-6 py-2">
+    <div className="flex items-center justify-between px-6">
       <div className="flex items-start justify-start h-full">
-        <img src={logo} />
+        <img src={logo} className="h-28 w-28" />
       </div>
 
-      <div className="flex items-center justify-center gap-12 py-3 text-lg">
+      <div className="flex items-center justify-center gap-12 text-lg">
         <button className="hover:text-blue-400">Home</button>
         <button className="hover:text-blue-400">Features</button>
         <button className="hover:text-blue-400">Tutorials</button>

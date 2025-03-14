@@ -1,21 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
+import ResponsePopup from "./ResponsePopup";
 const MessengerDeployForm = () => {
   const location = useLocation();
   const { id } = location.state || {};
   console.log("deploy state:", location.state);
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const [messenger_token, setMessengerToken] = useState("");
-  const [messenger_id, setMessengerId] = useState("");
+  const [messenger_page_id, setMessengerId] = useState("");
   const [messenger_url, setMessengerUrl] = useState("");
+  const [fetchedResponse, setFetchedResponse] = useState({});
 
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     let newErrors = {};
-    if (!messenger_id.trim())
+    if (!messenger_page_id.trim())
       newErrors.messenger_id = "Messenger ID is required.";
     if (!messenger_token.trim())
       newErrors.messenger_token = "Messenger Token is required.";
@@ -41,16 +43,16 @@ const MessengerDeployForm = () => {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log(messenger_id, messenger_token, messenger_url);
+    console.log(messenger_page_id, messenger_token, messenger_url);
     const token = localStorage.getItem("token");
 
     axios
       .post(
-        `${import.meta.env.VITE_API_URL}api/credentials/`,
+        `${import.meta.env.VITE_API_URL}api/messenger-credentials/`,
         {
           messenger_url,
           messenger_token,
-          messenger_id,
+          messenger_page_id,
           chatbot_id: id,
         },
         {
@@ -61,6 +63,9 @@ const MessengerDeployForm = () => {
       )
       .then((response) => {
         console.log("form res:", response);
+        console.log("data:", response.data);
+        setFetchedResponse(response.data);
+        setShowPopUp(true);
       })
       .catch((error) => {
         console.error("form error:", error);
@@ -70,6 +75,12 @@ const MessengerDeployForm = () => {
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
       <div className="w-full md:w-2/3">
+        {showPopUp && (
+          <ResponsePopup
+            setShowPopUp={setShowPopUp}
+            fetchedResponse={fetchedResponse}
+          />
+        )}
         <h3 className="text-3xl font-medium text-center">Enter Details</h3>
         <form
           className="bg-white rounded-xl p-6 flex flex-col gap-6 mt-4 shadow-lg"
@@ -80,7 +91,7 @@ const MessengerDeployForm = () => {
             <input
               name="messenger_id"
               className="border border-stone-300 p-2 rounded-lg"
-              value={messenger_id}
+              value={messenger_page_id}
               onChange={handleChange}
             />
             {errors.messenger_id && (

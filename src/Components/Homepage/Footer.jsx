@@ -1,14 +1,14 @@
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import { CiLinkedin } from "react-icons/ci";
-import logo from "/Logo.png";
+import logo from "../../assets/wishchat-logo.png";
 const Footer = () => {
   return (
-    <div className="md:flex-row md:flex sm:flex-col sm:gap-[50px] justify-evenly py-14 border-t-2 border-gray-500 mx-6">
+    <div className="md:flex-row md:flex sm:flex-col sm:gap-[50px] justify-evenly py-12 border-t-2 border-gray-500 mx-6">
       {/* Company Info */}
       <div className="flex flex-col gap-2 items-center justify-center md:justify-start md:items-start">
         <div className="gap-2 items-start flex justify-start flex-col">
-          <img src={logo} className="scale-150" />
+          <img src={logo} className="h-[150px] w-[150px]" />
           <h1>
             Your go to platform for seamless
             <br />
@@ -32,7 +32,7 @@ const Footer = () => {
       <div className="flex gap-28">
         <div className="flex flex-col gap-2.5 items-center justify-center md:justify-start md:items-start">
           <h1 className="font-bold text-xl">Useful Links</h1>
-          <div className="flex flex-col space-y-0.5 text-lg">
+          <div className="flex flex-col space-y-0.5 text-md">
             <a href="#">Home</a>
             <a href="#">Chatbot</a>
             <a href="#">Build</a>
@@ -43,7 +43,7 @@ const Footer = () => {
         {/* Contact Info */}
         <div className="flex flex-col gap-3 items-center justify-center md:justify-start md:items-start">
           <h1 className="font-bold text-xl">Get in Touch</h1>
-          <div className="flex flex-col gap-0.5 ">
+          <div className="flex flex-col gap-0.5 text-md">
             <h1>Kupandol, Lalitpur</h1>
             <h1>Wishchat@gmail.com</h1>
             <h1>123-456-789</h1>

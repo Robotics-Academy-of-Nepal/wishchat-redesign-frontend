@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import logo from "../../assets/wishchat-logo.png";
+// import logo from "../../assets/wishchat-logo.png";
 
 // These component imports would need to be adjusted based on your project structure
 const Button = ({ children, type, variant, onClick, disabled, className }) => {

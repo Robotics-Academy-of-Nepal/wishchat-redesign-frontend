@@ -238,7 +238,9 @@ const Build = () => {
             <UploadFile
               id={id}
               name={name}
+              api_key={api_key}
               azure_index={azure_index}
+              messages_used={messages_used}
               Files={Files}
               setFiles={setFiles}
             />
@@ -247,7 +249,9 @@ const Build = () => {
             <QandA
               id={id}
               name={name}
+              api_key={api_key}
               azure_index={azure_index}
+              messages_used={messages_used}
               QA={QA}
               setQA={setQA}
             />
@@ -256,7 +260,9 @@ const Build = () => {
             <Text
               id={id}
               name={name}
+              api_key={api_key}
               azure_index={azure_index}
+              messages_used={messages_used}
               textContent={textContent}
               setTextContent={setTextContent}
             />
