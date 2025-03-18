@@ -125,11 +125,11 @@ const Teammates = () => {
                 key={member.id}
                 className="p-6 bg-white hover:scale-105 duration-300 transition shadow-md rounded-xl flex flex-col items-start space-y-3"
               >
-                <div className="text-lg font-semibold text-gray-800">
+                <div className="text-lg font-semibold text-gray-800 overflow-hidden text-ellipsis w-full">
                   {`${member.first_name} ${member.last_name}`}
                 </div>
-                <div className="text-sm text-gray-600">{member.email}</div>
-                <div className="text-sm text-gray-600">{member.username}</div>
+                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">{member.email}</div>
+                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">{member.username}</div>
 
                 {is_owner && (
                   <button

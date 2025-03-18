@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
 
@@ -18,6 +19,29 @@ import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
 import "./App.css";
 
 function App() {
+  useEffect(() => {
+    window.chatWidgetConfig = {
+      backgroundColor: '#fafafa',
+      headerBackgroundColor: '#111827',
+      footerBackgroundColor: '#111827',
+      sendButtonColor: '#111827',
+
+      closeButtonColor: '#fafafa',
+      headerTextColor: '#fafafa',
+      sendTextColor: '#fafafa',
+      headerText: 'Chat',
+      placeholderText: 'Type your query...',
+      
+      Key: '4d006dcbd4b441769e9638aa0caf7381',
+    };
+    import("./chatWidget.js")
+      .then((module) => {
+        console.log("chatWidget loaded successfully");
+      })
+      .catch((error) => {
+        console.error("Error loading chatWidget.js", error);
+      });
+  }, []);
   return (
     <Router>
       <Routes>

@@ -24,12 +24,12 @@ export default function Homepage() {
             </button>
           </div>
 
-          <div className="flex justify-center items-center text-center text-7xl font-medium">
+          <div className="flex justify-center items-center text-center text-5xl sm:text-7xl font-medium">
             Elevate Conversations with
             <br /> smart AI
           </div>
 
-          <div className="flex justify-center items-center font-normal text-center text-2xl">
+          <div className="flex justify-center items-center font-normal text-center text-xl sm:text-2xl">
             The power of AI -powered Chatbot the click of your <br />
             mouse.
           </div>

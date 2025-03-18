@@ -1,0 +1,256 @@
+(function () {
+  // Inject the CSS
+  const style = document.createElement("style");
+
+  const config = window.chatWidgetConfig || {};
+  const {
+    backgroundColor,
+    headerBackgroundColor,
+    footerBackgroundColor,
+    sendButtonColor,
+    closeButtonColor,
+    headerTextColor,
+    sendTextColor,
+    headerText,
+    placeholderText,
+    Key,
+  } = config;
+  console.log(Key);
+  console.log(backgroundColor);
+
+  style.innerHTML = `
+    .hidden {
+      display: none;
+    }
+    #chat-widget-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      flex-direction: column;
+    }
+    #chat-popup {
+      height: 70vh;
+      max-height: 70vh;
+      transition: all 0.3s;
+      overflow: hidden;
+      background-color: ${backgroundColor}
+    }
+    .loader {
+      width: 40px;
+      aspect-ratio: 2;
+      --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+      background: 
+        var(--_g) 0%   50%,
+        var(--_g) 50%  50%,
+        var(--_g) 100% 50%;
+      background-size: calc(100%/3) 50%;
+      animation: l3 1s infinite linear;
+    }
+    @keyframes l3 {
+        20%{background-position:0%   0%, 50%  50%,100%  50%}
+        40%{background-position:0% 100%, 50%   0%,100%  50%}
+        60%{background-position:0%  50%, 50% 100%,100%   0%}
+        80%{background-position:0%  50%, 50%  50%,100% 100%}
+    }
+    // .loader {
+    //   text-align: left;
+    //   display: flex;
+    //   justify-content: flex-start; 
+    // }
+
+    // .loader span {
+    //   display: inline-block;
+    //   vertical-align: middle;
+    //   width: 10px;
+    //   height: 10px;
+    //   background: black;
+    //   border-radius: 50%;
+    //   animation: loader 0.8s infinite alternate;
+    // }
+
+    // .loader span:nth-of-type(2) {
+    //   animation-delay: 0.2s;
+    // }
+
+    // .loader span:nth-of-type(3) {
+    //   animation-delay: 0.6s;
+    // }
+
+    // @keyframes loader {
+    //   0% {
+    //     opacity: 0.9;
+    //     transform: scale(0.5);
+    //   }
+    //   100% {
+    //     opacity: 0.1;
+    //     transform: scale(1);
+    //   }
+    // }
+
+
+    @media (max-width: 640px) {
+      #chat-popup {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+      }
+    }
+    `;
+
+  document.head.appendChild(style);
+
+  // Create chat widget container
+  const chatWidgetContainer = document.createElement("div");
+  chatWidgetContainer.id = "chat-widget-container";
+  document.body.appendChild(chatWidgetContainer);
+
+  // Inject the HTML
+  chatWidgetContainer.innerHTML = `
+      <div id="chat-bubble" class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer text-3xl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+      </div>
+      <div id="chat-popup" class="absolute bottom-18 right-0 w-96 rounded-md shadow-md flex flex-col transition-all text-sm">
+        <div id="chat-header" class="flex justify-between items-center p-4 text-gray-600 border-b border-gray-500 rounded-t-md">
+          <h3 class="m-0 text-lg">Chat</h3>
+          <button id="close-popup" class="border-none text-black cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto"></div>
+        <div id="chat-input-container" class="p-4 border-t border-gray-600">
+          <div class="flex space-x-4 items-center">
+            <input type="text" id="chat-input" class="flex-1 border border-gray-300 rounded-md px-4 py-2 outline-none w-3/4" placeholder="Type your message...">
+            <button id="chat-submit" class="bg-gray-800 text-white rounded-md px-4 py-2 cursor-pointer">Send</button>
+          </div>
+          <div class="flex text-center text-xs pt-4">
+            <span class="flex-1">Powered by Wishchat</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+  // Add event listeners
+  const chatInput = document.getElementById("chat-input");
+  const chatSubmit = document.getElementById("chat-submit");
+  const chatMessages = document.getElementById("chat-messages");
+  const chatBubble = document.getElementById("chat-bubble");
+  const chatPopup = document.getElementById("chat-popup");
+  const closePopup = document.getElementById("close-popup");
+
+  chatSubmit.addEventListener("click", function () {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    chatInput.value = "";
+
+    onUserRequest(message);
+  });
+
+  chatInput.addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+      chatSubmit.click();
+    }
+  });
+
+  chatBubble.addEventListener("click", function () {
+    togglePopup();
+  });
+
+  closePopup.addEventListener("click", function () {
+    togglePopup();
+  });
+
+  function togglePopup() {
+    chatPopup.classList.toggle("hidden");
+    if (!chatPopup.classList.contains("hidden")) {
+      document.getElementById("chat-input").focus();
+    }
+  }
+  const handlePrompt = async (message) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/query/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": `${Key}`,
+          },
+          body: JSON.stringify({
+            query: message,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Response from backend:", data);
+      return data.response;
+    } catch (error) {
+      console.error("Error sending request:", error);
+      return "Error occurred while processing your request.";
+    }
+  };
+
+  function onUserRequest(message) {
+    // Handle user request here
+    console.log("User request:", message);
+
+    // Display user message
+    const messageElement = document.createElement("div");
+    messageElement.className = "flex justify-end mb-3";
+    messageElement.innerHTML = `
+        <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
+          ${message}
+        </div>
+      `;
+    chatMessages.appendChild(messageElement);
+
+    const chatLoadingDiv = document.createElement("div");
+    chatLoadingDiv.id = "chat-loading";
+    chatLoadingDiv.classList.add("loader");
+    for (let i = 0; i < 3; i++) {
+      const span = document.createElement("span");
+      chatLoadingDiv.appendChild(span);
+    }
+    chatMessages.appendChild(chatLoadingDiv);
+    chatInput.value = "";
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    (async () => {
+      const answer = await handlePrompt(message);
+      reply(answer);
+    })();
+  }
+
+  function reply(message) {
+    const chatMessages = document.getElementById("chat-messages");
+    const replyElement = document.createElement("div");
+    replyElement.className = "flex mb-3";
+    replyElement.innerHTML = `
+        <div class="bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]">
+          ${message}
+        </div>
+      `;
+    const chatLoadingDiv = document.getElementById("chat-loading");
+    if (chatLoadingDiv) {
+      chatLoadingDiv.remove();
+    }
+    chatMessages.appendChild(replyElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+})();

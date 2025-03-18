@@ -135,12 +135,12 @@ const Chat = () => {
         />
         <div
           className={`w-full h-full flex justify-center rounded-xl ${
-            showSidebar && "hidden lg:flex justify-center"
+            showSidebar && "lg:flex justify-center"
           }`}
         >
           <div
             className={`w-[500px] flex flex-col justify-between rounded-lg bg-white shadow-lg m-2 ${
-              showSidebar && "hidden lg:flex"
+              showSidebar && "lg:flex"
             }`}
           >
             <div className="w-full flex justify-between">

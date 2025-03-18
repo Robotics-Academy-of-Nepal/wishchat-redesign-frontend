@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import bots from "../../assets/Chatbot.png";
+import logo from "../../assets/wishchat-logo.png";
 // import logo from "/Chatbot.png";
 import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
@@ -31,13 +31,12 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   };
   return (
     <div
-      className="flex flex-col items-center gap-6 h-80"
+      className="flex flex-col items-center gap-4 h-80 mt-6"
       onClick={handleNavigate}
     >
-      <div className="h-[270px] w-full flex justify-center items-center rounded-3xl relative transition-shadow duration-300 cursor-pointer">
+      <div className="h-[270px] w-60 flex justify-center items-center rounded-3xl relative cursor-pointer bg-gradient-to-br from-white to-indigo-400 overflow-hidden hover:brightness-75 transition duration-700">
         <img
-          src={bots}
-          className="hover:brightness-50 transition duration-700"
+          src={logo}
           alt="Chatbot Logo"
         />
       </div>
@@ -145,7 +144,8 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              // className="flex flex-wrap gap-4 justify-between"
             >
               {chatbots.map(
                 ({
