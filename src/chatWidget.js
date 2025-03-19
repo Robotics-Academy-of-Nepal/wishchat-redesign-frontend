@@ -4,23 +4,67 @@
 
   const config = window.chatWidgetConfig || {};
   const {
-    backgroundColor,
+    bubbleBgColor,
+    bubbleColor,
+
+    chatBackgroundColor,
+    chatBorder,
     headerBackgroundColor,
-    footerBackgroundColor,
-    sendButtonColor,
-    closeButtonColor,
     headerTextColor,
+
+    footerBackgroundColor,
+
+    sendButtonColor,
     sendTextColor,
+
     headerText,
+    inputBorderColor,
     placeholderText,
+    inputTextColor,
+    inputBgColor,
+
     Key,
+
+    FAQs,
   } = config;
-  console.log(Key);
-  console.log(backgroundColor);
+console.log(FAQs);
+  console.log(config);
+
+  function getFooterWatermarkColor(hex, factor = 0.4) {
+    // Convert hex to RGB
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+
+    // Calculate brightness using perceived luminance formula
+    let brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+
+    // Adjust color: if bright, darken; if dark, lighten
+    if (brightness > 0.5) {
+      r = Math.floor(r * (1 - factor));
+      g = Math.floor(g * (1 - factor));
+      b = Math.floor(b * (1 - factor));
+    } else {
+      r = Math.min(255, Math.floor(r + (255 - r) * factor));
+      g = Math.min(255, Math.floor(g + (255 - g) * factor));
+      b = Math.min(255, Math.floor(b + (255 - b) * factor));
+    }
+
+    // Convert back to hex
+    return `#${r.toString(16).padStart(2, "0")}${g
+      .toString(16)
+      .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+  }
+
+  const watermarkColor = getFooterWatermarkColor(footerBackgroundColor);
+  console.log(watermarkColor);
 
   style.innerHTML = `
     .hidden {
       display: none;
+    }
+    #watermark{
+      color:${watermarkColor};
     }
     #chat-widget-container {
       position: fixed;
@@ -28,12 +72,40 @@
       right: 20px;
       flex-direction: column;
     }
+    #chat-messages{
+      border-top: 1px solid ${chatBorder};
+      border-bottom: 1px solid ${chatBorder};
+    }
     #chat-popup {
       height: 70vh;
       max-height: 70vh;
       transition: all 0.3s;
       overflow: hidden;
-      background-color: ${backgroundColor}
+      background-color: ${chatBackgroundColor};
+    }
+    #chat-header{
+    background-color:${headerBackgroundColor};
+    color:${headerTextColor};
+    }
+    #chat-input-container{
+    background-color:${footerBackgroundColor};
+    }
+    #chat-submit {
+    color:${sendTextColor};
+    background-color:${sendButtonColor};
+    }
+    #chat-bubble{
+    background-color:${bubbleBgColor};
+    color:${bubbleColor}
+    }
+    #chat-input{
+    background-color:${inputBgColor};
+    color:${inputTextColor};
+    border: 1px solid ${inputBorderColor};
+    }
+    #chat-input::placeholder {
+      color: ${inputTextColor};
+      opacity: 0.7;
     }
     .loader {
       width: 40px;
@@ -111,28 +183,31 @@
 
   // Inject the HTML
   chatWidgetContainer.innerHTML = `
-      <div id="chat-bubble" class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer text-3xl">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <div id="chat-bubble" class="w-16 h-16 rounded-full flex items-center justify-center cursor-pointer text-3xl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
       </div>
       <div id="chat-popup" class="absolute bottom-18 right-0 w-96 rounded-md shadow-md flex flex-col transition-all text-sm">
-        <div id="chat-header" class="flex justify-between items-center p-4 text-gray-600 border-b border-gray-500 rounded-t-md">
-          <h3 class="m-0 text-lg">Chat</h3>
-          <button id="close-popup" class="border-none text-black cursor-pointer">
+        <div id="chat-header" class="flex justify-between items-center p-4 rounded-t-md">
+          <h3 class="m-0 text-lg">${headerText}</h3>
+          <button id="close-popup" class="border-none cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         <div id="chat-messages" class="flex-1 p-4 overflow-y-auto"></div>
-        <div id="chat-input-container" class="p-4 border-t border-gray-600">
+        <div id="chat-questions" class="flex overflow-x-auto space-x-2 p-4">
+
+        </div>
+        <div id="chat-input-container" class="p-4">
           <div class="flex space-x-4 items-center">
-            <input type="text" id="chat-input" class="flex-1 border border-gray-300 rounded-md px-4 py-2 outline-none w-3/4" placeholder="Type your message...">
-            <button id="chat-submit" class="bg-gray-800 text-white rounded-md px-4 py-2 cursor-pointer">Send</button>
+            <input type="text" id="chat-input" class="flex-1 border border-gray-300 rounded-md px-4 py-2 outline-none w-3/4" placeholder="${placeholderText}">
+            <button id="chat-submit" class="rounded-md px-4 py-2 cursor-pointer">Send</button>
           </div>
           <div class="flex text-center text-xs pt-4">
-            <span class="flex-1">Powered by Wishchat</span>
+            <span class="flex-1" id="watermark">Powered by Wishchat</span>
           </div>
         </div>
       </div>
@@ -145,7 +220,44 @@
   const chatBubble = document.getElementById("chat-bubble");
   const chatPopup = document.getElementById("chat-popup");
   const closePopup = document.getElementById("close-popup");
-
+  const chatQuestions = document.getElementById("chat-questions");
+  if (FAQs) {
+    FAQs.forEach((faq) => {
+      const questionBtn = document.createElement("button");
+      questionBtn.className =
+        "bg-gray-200 px-2 py-2 rounded-md whitespace-nowrap flex-shrink-0 text-xs text-black";
+      questionBtn.textContent = faq.question;
+      chatQuestions.appendChild(questionBtn);
+      questionBtn.addEventListener("click", () => {
+        handleFAQ(faq.question, faq.answer);
+      });
+    });
+  }else{
+    chatQuestions.remove()
+  }
+  function handleFAQ(question, answer) {
+    const messageElement = document.createElement("div");
+    messageElement.className = "flex justify-end mb-3";
+    messageElement.innerHTML = `
+      <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
+        ${question}
+      </div>
+    `;
+    chatMessages.appendChild(messageElement);
+    const replyElement = document.createElement("div");
+    replyElement.className = "flex mb-3";
+    replyElement.innerHTML = `
+        <div class="bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]">
+          ${answer}
+        </div>
+      `;
+    const chatLoadingDiv = document.getElementById("chat-loading");
+    if (chatLoadingDiv) {
+      chatLoadingDiv.remove();
+    }
+    chatMessages.appendChild(replyElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
   chatSubmit.addEventListener("click", function () {
     const message = chatInput.value.trim();
     if (!message) return;
@@ -238,7 +350,7 @@
   }
 
   function reply(message) {
-    const chatMessages = document.getElementById("chat-messages");
+    // const chatMessages = document.getElementById("chat-messages");
     const replyElement = document.createElement("div");
     replyElement.className = "flex mb-3";
     replyElement.innerHTML = `

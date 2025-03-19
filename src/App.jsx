@@ -17,22 +17,88 @@ import Deploy from "./Components/Deploy/Deploy";
 import WhatsappDeployForm from "./Components/Deploy/WhatsappDeployForm";
 import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
 import "./App.css";
+const wishChatFAQs = [
+  {
+    question: "What is WishChat?",
+    answer:
+      "WishChat is a customizable chat widget that can be embedded into websites to enable real-time conversations between users and support agents or AI-powered bots.",
+  },
+  {
+    question: "How do I integrate WishChat into my website?",
+    answer:
+      "Simply copy and paste the provided JavaScript snippet into your website’s <body> or <head> section. The chat widget will automatically appear on your site.",
+  },
+  {
+    question: "Can I customize the chat widget's appearance?",
+    answer:
+      "Yes! You can customize the chat bubble color, background, text color, input fields, and more using simple configuration settings.",
+  },
+  {
+    question: "Does WishChat support AI-based chat responses?",
+    answer:
+      "Yes, WishChat can integrate with AI-powered chatbots to provide automated responses, making it an excellent solution for handling common queries.",
+  },
+  {
+    question: "Is there an option to store chat history?",
+    answer:
+      "Yes, chat history can be stored depending on your integration. You can configure it to save messages on your server or a cloud-based database.",
+  },
+  {
+    question: "What happens if no agent is available?",
+    answer:
+      "If no live agent is online, the chatbot (if enabled) will handle queries. You can also set up an 'offline mode' where users can leave their messages to be answered later.",
+  },
+  {
+    question: "Is WishChat mobile-friendly?",
+    answer:
+      "Yes! The chat widget is fully responsive and works smoothly on desktops, tablets, and mobile devices.",
+  },
+  {
+    question: "How secure is WishChat?",
+    answer:
+      "WishChat uses end-to-end encryption for messages and follows strict security protocols to protect user data.",
+  },
+  {
+    question: "Can I integrate WishChat with third-party CRM or support tools?",
+    answer:
+      "Yes, WishChat supports integrations with tools like Zendesk, HubSpot, Slack, and email notifications for better workflow automation.",
+  },
+  {
+    question: "Is there a free version of WishChat?",
+    answer:
+      "Yes, we offer a free plan with basic features. For advanced customization, integrations, and analytics, you can upgrade to a premium plan.",
+  },
+  {
+    question: "How can I contact support?",
+    answer:
+      "You can reach our support team via email, live chat on our website, or through the WishChat dashboard.",
+  },
+];
 
 function App() {
   useEffect(() => {
     window.chatWidgetConfig = {
-      backgroundColor: '#fafafa',
-      headerBackgroundColor: '#111827',
-      footerBackgroundColor: '#111827',
-      sendButtonColor: '#111827',
+      bubbleBgColor: "#111827",
+      bubbleColor: "#fafafa",
 
-      closeButtonColor: '#fafafa',
-      headerTextColor: '#fafafa',
-      sendTextColor: '#fafafa',
-      headerText: 'Chat',
-      placeholderText: 'Type your query...',
-      
-      Key: '4d006dcbd4b441769e9638aa0caf7381',
+      chatBackgroundColor: "#fafafa",
+      chatBorder: "#e5e7eb",
+      headerBackgroundColor: "#111827",
+      headerTextColor: "#fafafa",
+
+      footerBackgroundColor: "#fafafa",
+
+      sendButtonColor: "#111827",
+      sendTextColor: "#fafafa",
+
+      headerText: "Chat",
+      inputBorderColor: "#d1d5dc",
+      placeholderText: "Type your query...",
+      inputTextColor: "#111827",
+      inputBgColor: "#fafafa",
+      Key: "4d006dcbd4b441769e9638aa0caf7381",
+
+      FAQs: wishChatFAQs,
     };
     import("./chatWidget.js")
       .then((module) => {
