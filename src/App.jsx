@@ -17,6 +17,7 @@ import Deploy from "./Components/Deploy/Deploy";
 import WhatsappDeployForm from "./Components/Deploy/WhatsappDeployForm";
 import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
 import "./App.css";
+import WidgetColorForm from "./Components/Deploy/CustomColorForm.jsx";
 const wishChatFAQs = [
   {
     question: "What is WishChat?",
@@ -122,6 +123,7 @@ function App() {
         <Route path="/deploy" element={<Deploy />}>
           <Route path="whatsappForm" element={<WhatsappDeployForm />} />
           <Route path="messengerForm" element={<MessengerDeployForm />} />
+          <Route path="widgetColorForm" element={<WidgetColorForm />} />
         </Route>
         <Route path="/build" element={<Build />} />
         <Route path="/login" element={<Login />} />
