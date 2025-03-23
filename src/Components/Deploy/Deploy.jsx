@@ -76,10 +76,10 @@ const Deploy = () => {
                   </div>
                 </button>
               </Link>
-              <Link
+              {/* <Link
                 to={"/deploy/widgetColorForm"}
                 state={{ id, name, api_key, azure_index, messages_used }}
-              >
+              > */}
                 <Link
                 to={"/deploy/websiteForm"}
                 state={{ id, name, api_key, azure_index, messages_used }}
@@ -91,7 +91,7 @@ const Deploy = () => {
                     </div>
                   </button>
               </Link>
-              </Link>
+              {/* </Link> */}
               <button className="flex gap-4 items-center hover:bg-white transition-colors duration-500 py-2 px-4 text-blue-500 rounded-full border-2 border-blue-500">
                 Websites
                 <div className="h-[23px] w-[23px] flex items-center justify-center bg-blue-500 rounded-full text-white">

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { LuArrowRight } from "react-icons/lu";
 import axios from "axios";
-import { div } from "framer-motion/client";
+import WebsitePopup from "./WebsitePopup";
 const CustomColorForm = () => {
   const location = useLocation();
   const { id } = location.state || {};
   const token = localStorage.getItem("token");
   console.log("color state:", location.state);
+  const [showPopUp, setShowPopUp] = useState(false);
+
   const [colors, setColors] = useState({
     headerText: "Chat",
     placeholderText: "Type your query...",
@@ -89,6 +92,9 @@ const CustomColorForm = () => {
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
+      {showPopUp && (
+        <WebsitePopup id={id} token={token} setShowPopUp={setShowPopUp} />
+      )}
       <form className="w-full md:w-2/3 space-y-4" onSubmit={handleSubmit}>
         <h3 className="text-3xl font-medium text-center">Customize Colors</h3>
         <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
@@ -143,15 +149,21 @@ const CustomColorForm = () => {
           <div className="flex gap-4">
             <button
               type="submit"
-              className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white transition-colors duration-700 rounded-full py-2 px-4"
+              className="bg-blue-500 text-white hover:text-blue-500 hover:bg-white transition-colors duration-700 rounded-full py-2 px-4 border border-blue-500"
             >
               Submit
             </button>
             <button
               type="button"
-              className="rounded-full py-2 px-4 border border-stone-400"
+              className="flex items-center gap-1 rounded-full py-2 px-4 border border-stone-400 text-gray-800 hover:text-white hover:bg-gray-400 duration-500 transition-all"
+              onClick={()=>setShowPopUp(true)}
             >
-              Cancel
+              {"Next"}
+              <div
+                className={`h-[15px] w-[15px] rounded-full flex items-center justify-center`}
+              >
+                <LuArrowRight className="h-5 w-5" />
+              </div>
             </button>
           </div>
         </div>

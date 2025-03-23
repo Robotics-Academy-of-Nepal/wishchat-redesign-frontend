@@ -34,8 +34,8 @@
 
     FAQs,
   } = config;
-  console.log(FAQs);
-  console.log(config);
+  // console.log(FAQs);
+  // console.log(config);
 
   function getFooterWatermarkColor(hex, factor = 0.4) {
     // Convert hex to RGB
@@ -64,7 +64,6 @@
   }
 
   const watermarkColor = getFooterWatermarkColor(footerBackgroundColor);
-  console.log(watermarkColor);
 
   style.innerHTML = `
     .hidden {
