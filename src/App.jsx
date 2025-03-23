@@ -16,6 +16,7 @@ import CreateOrganization from "./Components/SignIn/CreateOrganization";
 import Deploy from "./Components/Deploy/Deploy";
 import WhatsappDeployForm from "./Components/Deploy/WhatsappDeployForm";
 import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
+import WebsiteForm from "./Components/Deploy/WebsiteForm.jsx";
 import "./App.css";
 const wishChatFAQs = [
   {
@@ -122,6 +123,7 @@ function App() {
         <Route path="/deploy" element={<Deploy />}>
           <Route path="whatsappForm" element={<WhatsappDeployForm />} />
           <Route path="messengerForm" element={<MessengerDeployForm />} />
+          <Route path="websiteForm" element={<WebsiteForm />} />
         </Route>
         <Route path="/build" element={<Build />} />
         <Route path="/login" element={<Login />} />

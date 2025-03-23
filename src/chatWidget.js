@@ -23,11 +23,18 @@
     inputTextColor,
     inputBgColor,
 
+    questionTextColor,
+    questionBackgroundColor,
+    answerTextColor,
+    answerBackgroundColor,
+    faqTextColor,
+    faqBackgroundColor,
+    faqSectionBackgroundColor,
     Key,
 
     FAQs,
   } = config;
-console.log(FAQs);
+  console.log(FAQs);
   console.log(config);
 
   function getFooterWatermarkColor(hex, factor = 0.4) {
@@ -84,28 +91,51 @@ console.log(FAQs);
       background-color: ${chatBackgroundColor};
     }
     #chat-header{
-    background-color:${headerBackgroundColor};
-    color:${headerTextColor};
+      background-color:${headerBackgroundColor};
+      color:${headerTextColor};
     }
     #chat-input-container{
-    background-color:${footerBackgroundColor};
+      background-color:${footerBackgroundColor};
     }
     #chat-submit {
-    color:${sendTextColor};
-    background-color:${sendButtonColor};
+      color:${sendTextColor};
+      background-color:${sendButtonColor};
     }
     #chat-bubble{
-    background-color:${bubbleBgColor};
-    color:${bubbleColor}
+      background-color:${bubbleBgColor};
+      color:${bubbleColor};
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.875rem;
+    }
+    #chat-button{
+      height: 2.5rem;
+      width: 2.5rem;
     }
     #chat-input{
-    background-color:${inputBgColor};
-    color:${inputTextColor};
-    border: 1px solid ${inputBorderColor};
+      background-color:${inputBgColor};
+      color:${inputTextColor};
+      border: 1px solid ${inputBorderColor};
+      outline: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      flex: 1;
+      width: 75%;
     }
     #chat-input::placeholder {
       color: ${inputTextColor};
       opacity: 0.7;
+    }
+
+    #chat-submit {
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
     }
     .loader {
       width: 40px;
@@ -158,6 +188,13 @@ console.log(FAQs);
     //     transform: scale(1);
     //   }
     // }
+.customDiv {
+  background-color: #1f2937;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  max-width: 70%;
+}
 
 
     @media (max-width: 640px) {
@@ -183,12 +220,14 @@ console.log(FAQs);
 
   // Inject the HTML
   chatWidgetContainer.innerHTML = `
-      <div id="chat-bubble" class="w-16 h-16 rounded-full flex items-center justify-center cursor-pointer text-3xl">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <div id="chat-bubble">
+        <svg xmlns="http://www.w3.org/2000/svg" id="chat-button" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
       </div>
-      <div id="chat-popup" class="absolute bottom-18 right-0 w-96 rounded-md shadow-md flex flex-col transition-all text-sm">
+
+      <div id="chat-popup" class="absolute bottom-18 right-0 w-96 rounded-md shadow-md flex flex-col transition-all text-sm hidden">
+        
         <div id="chat-header" class="flex justify-between items-center p-4 rounded-t-md">
           <h3 class="m-0 text-lg">${headerText}</h3>
           <button id="close-popup" class="border-none cursor-pointer">
@@ -197,19 +236,22 @@ console.log(FAQs);
             </svg>
           </button>
         </div>
+        
         <div id="chat-messages" class="flex-1 p-4 overflow-y-auto"></div>
+        
         <div id="chat-questions" class="flex overflow-x-auto space-x-2 p-4">
-
         </div>
+
         <div id="chat-input-container" class="p-4">
           <div class="flex space-x-4 items-center">
-            <input type="text" id="chat-input" class="flex-1 border border-gray-300 rounded-md px-4 py-2 outline-none w-3/4" placeholder="${placeholderText}">
-            <button id="chat-submit" class="rounded-md px-4 py-2 cursor-pointer">Send</button>
+            <input type="text" id="chat-input" placeholder="${placeholderText}">
+            <button id="chat-submit">Send</button>
           </div>
           <div class="flex text-center text-xs pt-4">
             <span class="flex-1" id="watermark">Powered by Wishchat</span>
           </div>
         </div>
+
       </div>
     `;
 
@@ -232,8 +274,8 @@ console.log(FAQs);
         handleFAQ(faq.question, faq.answer);
       });
     });
-  }else{
-    chatQuestions.remove()
+  } else {
+    chatQuestions.remove();
   }
   function handleFAQ(question, answer) {
     const messageElement = document.createElement("div");
@@ -350,19 +392,32 @@ console.log(FAQs);
   }
 
   function reply(message) {
-    // const chatMessages = document.getElementById("chat-messages");
     const replyElement = document.createElement("div");
     replyElement.className = "flex mb-3";
-    replyElement.innerHTML = `
-        <div class="bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]">
-          ${message}
-        </div>
-      `;
+    
+    const messageContainer = document.createElement("div");
+    messageContainer.className = "bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]";
+    replyElement.appendChild(messageContainer);
+  
     const chatLoadingDiv = document.getElementById("chat-loading");
     if (chatLoadingDiv) {
       chatLoadingDiv.remove();
     }
+  
     chatMessages.appendChild(replyElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+    let index = 0;
+
+    function typeWriter() {
+      if (index < message.length) {
+        messageContainer.innerHTML = message.substring(0, index + 1);
+        index++;
+        setTimeout(typeWriter, 5);
+      }
+    }
+    
+    typeWriter();
   }
+  
 })();
