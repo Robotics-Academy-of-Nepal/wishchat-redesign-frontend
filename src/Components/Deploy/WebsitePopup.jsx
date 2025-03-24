@@ -1,63 +1,88 @@
 import { useState, useEffect } from "react";
 import CopyToClipboard from "./CopyToClipboard";
 import axios from "axios";
-const WebsitePopup = ({ id, token, setShowPopUp }) => {
+const WebsitePopup = ({ id, token, api_key, setShowPopUp }) => {
   const [fetchedResponse, setFetchedResponse] = useState(null);
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/colors/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("fetch res:", response);
-        console.log("data:", response.data);
-        const { id, created_at, updated_at, ...requiredFields } = response.data;
-        setFetchedResponse(requiredFields);
-        console.log(updatedFields);
-      })
-      .catch((error) => {
-        console.error("form error:", error);
-      });
+    const fetchData = async () => {
+      try {
+        const [colorsResponse, faqsResponse] = await Promise.all([
+          axios.get(
+            `${import.meta.env.VITE_API_URL}auth/chatbots/${id}/colors/`,
+            {
+              headers: { Authorization: `Token ${token}` },
+            }
+          ),
+          axios.get(
+            `${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`,
+            {
+              headers: { Authorization: `Token ${token}` },
+            }
+          ),
+        ]);
 
-    axios
-      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("fetch res:", response);
-        console.log("fetch data:", response.data);
-        const formattedData = response.data.map((item) => ({
+        // Extract required fields from colors response
+        const {
+          id: _,
+          created_at,
+          updated_at,
+          ...requiredFields
+        } = colorsResponse.data;
+
+        // Format FAQs response
+        const formattedFAQs = faqsResponse.data.map((item) => ({
           id: item.id,
           question: item.question,
           answer: item.answer,
         }));
 
-        setFetchedResponse((prev) => ({
-          ...prev,
-          FAQs: formattedData,
-        }));
-      })
-      .catch((error) => {
-        console.error("form error:", error);
-      });
-  }, [token, id, setFetchedResponse]);
+        // Update state in one go
+        setFetchedResponse({
+          ...requiredFields,
+          FAQs: formattedFAQs,
+          Key: api_key,
+        });
+
+        console.log("Final Fetched Data:", {
+          ...requiredFields,
+          FAQs: formattedFAQs,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token, id, api_key]);
+
   return (
     <div className="fixed inset-0 left-0 top-0 h-screen w-full z-30 flex justify-center items-center bg-black/50">
       <div className="p-6 bg-white flex flex-col items-center justify-center space-y-4 rounded-xl shadow-xl m-2 w-full md:w-2/3">
         <h3 className="text-2xl font-semibold">Script</h3>
         <div className="w-full flex justify-start flex-col">
-          <div className="flex w-full gap-2">
+          <div className="flex w-full gap-2 items-start">
             <p className="px-2 py-3 border border-stone-400 rounded-xl w-full text-wrap overflow-x-scroll">
-              {fetchedResponse && JSON.stringify(fetchedResponse)}
+              {fetchedResponse &&
+                `<script>
+                window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
+                </script>
+                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@87d4659/chatWidget.js" defer></script>
+                `}
             </p>
-            {/* <CopyToClipboard text={fetchedResponse?.webhookurl || ""} /> */}
+            {fetchedResponse && (
+              <CopyToClipboard
+                text={`<script>
+                window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
+                </script>
+                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@87d4659/chatWidget.js" defer></script>
+                `}
+              />
+            )}
           </div>
         </div>
-        {/* <p className="text-sm text-yellow-600">{fetchedResponse.message}</p> */}
+        <p className="text-sm text-yellow-600">
+          Copy the script and paste it to your website.
+        </p>
         <button
           onClick={() => setShowPopUp(false)}
           className="rounded-3xl bg-blue-500 text-white px-4 py-2 border border-white hover:bg-white hover:text-blue-500 hover:border-stone-400 hover:border"
