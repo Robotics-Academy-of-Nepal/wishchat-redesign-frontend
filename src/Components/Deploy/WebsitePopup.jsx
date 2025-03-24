@@ -13,9 +13,33 @@ const WebsitePopup = ({ id, token, setShowPopUp }) => {
       .then((response) => {
         console.log("fetch res:", response);
         console.log("data:", response.data);
-        const { id, created_at, updated_at, ...updatedFields } = response.data;
-        setFetchedResponse(updatedFields);
+        const { id, created_at, updated_at, ...requiredFields } = response.data;
+        setFetchedResponse(requiredFields);
         console.log(updatedFields);
+      })
+      .catch((error) => {
+        console.error("form error:", error);
+      });
+
+    axios
+      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("fetch res:", response);
+        console.log("fetch data:", response.data);
+        const formattedData = response.data.map((item) => ({
+          id: item.id,
+          question: item.question,
+          answer: item.answer,
+        }));
+
+        setFetchedResponse((prev) => ({
+          ...prev,
+          FAQs: formattedData,
+        }));
       })
       .catch((error) => {
         console.error("form error:", error);
@@ -28,7 +52,7 @@ const WebsitePopup = ({ id, token, setShowPopUp }) => {
         <div className="w-full flex justify-start flex-col">
           <div className="flex w-full gap-2">
             <p className="px-2 py-3 border border-stone-400 rounded-xl w-full text-wrap overflow-x-scroll">
-              {/* {fetchedResponse && fetchedResponse} */}
+              {fetchedResponse && JSON.stringify(fetchedResponse)}
             </p>
             {/* <CopyToClipboard text={fetchedResponse?.webhookurl || ""} /> */}
           </div>

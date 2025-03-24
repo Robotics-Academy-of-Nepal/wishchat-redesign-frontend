@@ -82,8 +82,8 @@ const CustomColorForm = () => {
       .then((response) => {
         console.log("fetch res:", response);
         console.log("data:", response.data);
-        const { id, created_at, updated_at, ...updatedFields } = response.data;
-        setColors(updatedFields);
+        const { id, created_at, updated_at, ...requiredFields } = response.data;
+        setColors(requiredFields);
       })
       .catch((error) => {
         console.error("form error:", error);
