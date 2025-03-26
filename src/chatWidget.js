@@ -1,41 +1,38 @@
 (function () {
   // Inject the CSS
   const style = document.createElement("style");
-
   const config = window.chatWidgetConfig || {};
   const {
-    bubbleBgColor,
-    bubbleColor,
+    bubbleBgColor = "#1E3A8A",
+    bubbleColor = "#FFFFFF",
 
-    chatBackgroundColor,
-    chatBorder,
-    headerBackgroundColor,
-    headerTextColor,
+    chatBackgroundColor = "#F0F4F8",
+    chatBorder = "#C6D1E1",
+    headerBackgroundColor = "#3B82F6",
+    headerTextColor = "#FFFFFF",
 
-    footerBackgroundColor,
+    footerBackgroundColor = "#1E3A8A",
 
-    sendButtonColor,
-    sendTextColor,
+    sendButtonColor = "#2563EB",
+    sendTextColor = "#FFFFFF",
 
-    headerText,
-    inputBorderColor,
-    placeholderText,
-    inputTextColor,
-    inputBgColor,
+    headerText = "Chat with us",
+    inputBorderColor = "#3B82F6",
+    placeholderText = "Type your message here...",
+    inputTextColor = "#1F2937",
+    inputBgColor = "#E0E7FF",
 
-    questionTextColor,
-    questionBackgroundColor,
-    answerTextColor,
-    answerBackgroundColor,
-    faqTextColor,
-    faqBackgroundColor,
-    faqSectionBackgroundColor,
+    questionTextColor = "#ffffff",
+    questionBackgroundColor = "#2d3748",
+    answerTextColor = "#000000",
+    answerBackgroundColor = "#e5e7eb",
+    faqTextColor = "#000000",
+    faqBackgroundColor = "#e5e7eb",
+    faqSectionBackgroundColor = "#000000",
     Key,
 
     FAQs,
   } = config;
-  // console.log(FAQs);
-  // console.log(config);
 
   function getFooterWatermarkColor(hex, factor = 0.4) {
     // Convert hex to RGB
@@ -117,6 +114,7 @@
       overflow-y: auto;
     }
     #chat-questions {
+      background-color:${faqSectionBackgroundColor};
       display: flex;
       overflow-x: auto;
       gap: 0.5rem;
@@ -192,13 +190,38 @@
     }
     
     #faq-button{
-      background-color: #e5e7eb;
+      background-color: ${faqBackgroundColor};
       padding: 0.5rem 0.5rem;
       border-radius: 0.375rem;
+      border:none;
       white-space: nowrap;
       flex-shrink: 0;
       font-size: 0.75rem;
-      color: #000000;
+      color: ${faqTextColor};
+    }
+    
+    #question{
+      display:flex;
+      justify-content: flex-end;
+      margin-bottom:0.75rem;
+    }
+    #question div{
+      background-color:${questionBackgroundColor} ;
+      color: ${questionTextColor};
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      max-width: 70%;
+    }
+    #answer{
+      margin-bottom:0.75rem;
+      display:flex;
+    }
+    #answer div{
+      max-width:70%;
+      border-radius:0.5rem;
+      padding:0.5rem 1rem;
+      color:${answerTextColor};
+      background-color: ${answerBackgroundColor};
     }
     .loader {
       width: 40px;
@@ -282,59 +305,6 @@
   const chatPopup = document.getElementById("chat-popup");
   const closePopup = document.getElementById("close-popup");
   const chatQuestions = document.getElementById("chat-questions");
-  if (FAQs) {
-    FAQs.forEach((faq) => {
-      const questionBtn = document.createElement("button");
-      questionBtn.id="faq-button"
-      questionBtn.textContent = faq.question;
-      chatQuestions.appendChild(questionBtn);
-      questionBtn.addEventListener("click", () => {
-        handleFAQ(faq.question, faq.answer);
-      });
-    });
-  } else {
-    chatQuestions.remove();
-  }
-  function handleFAQ(question, answer) {
-    const messageElement = document.createElement("div");
-    messageElement.className = "flex justify-end mb-3";
-    messageElement.innerHTML = `
-      <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
-        ${question}
-      </div>
-    `;
-    chatMessages.appendChild(messageElement);
-    const replyElement = document.createElement("div");
-    replyElement.className = "flex mb-3";
-    replyElement.innerHTML = `
-        <div class="bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]">
-          ${answer}
-        </div>
-      `;
-    const chatLoadingDiv = document.getElementById("chat-loading");
-    if (chatLoadingDiv) {
-      chatLoadingDiv.remove();
-    }
-    chatMessages.appendChild(replyElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-  chatSubmit.addEventListener("click", function () {
-    const message = chatInput.value.trim();
-    if (!message) return;
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    chatInput.value = "";
-
-    onUserRequest(message);
-  });
-
-  chatInput.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-      chatSubmit.click();
-    }
-  });
-
   chatBubble.addEventListener("click", function () {
     console.log("ChatBubble clicked!!");
     console.log("before bubble:", chatPopup.classList);
@@ -355,6 +325,51 @@
       document.getElementById("chat-input").focus();
     }
   }
+
+  if (FAQs) {
+    FAQs.forEach((faq) => {
+      const questionBtn = document.createElement("button");
+      questionBtn.id = "faq-button";
+      questionBtn.textContent = faq.question;
+      chatQuestions.appendChild(questionBtn);
+      questionBtn.addEventListener("click", () => {
+        handleFAQ(faq.question, faq.answer);
+      });
+    });
+  } else {
+    chatQuestions.remove();
+  }
+  function handleFAQ(question, answer) {
+    const questionElement = document.createElement("div");
+    questionElement.id = "question";
+
+    questionElement.innerHTML = `
+      <div>
+        ${question}
+      </div>
+    `;
+    chatMessages.appendChild(questionElement);
+    reply(answer);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  chatSubmit.addEventListener("click", function () {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    chatInput.value = "";
+
+    onUserRequest(message);
+  });
+
+  chatInput.addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+      chatSubmit.click();
+    }
+  });
+
   const handlePrompt = async (message) => {
     try {
       const response = await fetch(
@@ -389,14 +404,14 @@
     console.log("User request:", message);
 
     // Display user message
-    const messageElement = document.createElement("div");
-    messageElement.className = "flex justify-end mb-3";
-    messageElement.innerHTML = `
-        <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
+    const questionElement = document.createElement("div");
+    questionElement.id = "question";
+    questionElement.innerHTML = `
+        <div>
           ${message}
         </div>
       `;
-    chatMessages.appendChild(messageElement);
+    chatMessages.appendChild(questionElement);
 
     const chatLoadingDiv = document.createElement("div");
     chatLoadingDiv.id = "chat-loading";
@@ -416,20 +431,17 @@
   }
 
   function reply(message) {
-    const replyElement = document.createElement("div");
-    replyElement.className = "flex mb-3";
-
+    const answerElement = document.createElement("div");
+    answerElement.id = "answer";
     const messageContainer = document.createElement("div");
-    messageContainer.className =
-      "bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]";
-    replyElement.appendChild(messageContainer);
+    answerElement.appendChild(messageContainer);
 
     const chatLoadingDiv = document.getElementById("chat-loading");
     if (chatLoadingDiv) {
       chatLoadingDiv.remove();
     }
 
-    chatMessages.appendChild(replyElement);
+    chatMessages.appendChild(answerElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     let index = 0;
