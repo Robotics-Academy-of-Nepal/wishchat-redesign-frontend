@@ -49,12 +49,16 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
         ) : (
           <span className="cursor-not-allowed text-gray-500">Playground</span>
         )}
-        <Link
-          to="/deploy"
-          state={{ id, name, api_key, azure_index, messages_used }}
-        >
-          <button className="hover:text-blue-400">Deploy</button>
-        </Link>
+        {azure_index ? (
+          <Link
+            to="/deploy"
+            state={{ id, name, api_key, azure_index, messages_used }}
+          >
+            <button className="hover:text-blue-400">Deploy</button>
+          </Link>
+        ) : (
+          <span className="cursor-not-allowed text-gray-500">Deploy</span>
+        )}
         <Link
           to="/build"
           state={{ id, name, api_key, azure_index, messages_used }}

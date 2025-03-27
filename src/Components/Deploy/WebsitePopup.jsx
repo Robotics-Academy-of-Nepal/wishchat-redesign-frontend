@@ -66,7 +66,7 @@ const WebsitePopup = ({ id, token, api_key, setShowPopUp }) => {
                 `<script>
                 window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
                 </script>
-                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@87d4659/chatWidget.js" defer></script>
+                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
                 `}
             </p>
             {fetchedResponse && (
@@ -74,7 +74,7 @@ const WebsitePopup = ({ id, token, api_key, setShowPopUp }) => {
                 text={`<script>
                 window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
                 </script>
-                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@87d4659/chatWidget.js" defer></script>
+                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
                 `}
               />
             )}

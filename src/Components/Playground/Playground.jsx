@@ -15,6 +15,25 @@ export default function Playground() {
   const handleInputChange = (event) => {
     setPrompt(event.target.value);
   };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        setPrompt((prev) => prev + "\n");
+      } else {
+        event.preventDefault();
+        navigate("/playground/chat", {
+          state: {
+            id,
+            name,
+            api_key,
+            azure_index,
+            prompt,
+            messages_used,
+          },
+        });
+      }
+    }
+  };
 
   return (
     <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-gradient-to-br bg-gradient-radial from-white to-indigo-300">
@@ -28,7 +47,7 @@ export default function Playground() {
       {isActive("/chat") ? (
         <Outlet />
       ) : (
-        <div className="h-full mx-[20px] rounded-3xl flex flex-col gap-[120px] pb-36">
+        <div className="h-full mx-[20px] rounded-3xl flex flex-col gap-[120px]">
           <div className="ml-[150px] mt-[120px] flex flex-col gap-8">
             <h1 className="font-medium text-5xl">
               Hi there,
@@ -43,12 +62,16 @@ export default function Playground() {
           </div>
 
           <div className="px-[150px]">
-            <div className="bg-white w-full h-[50px] gap-2 rounded-4xl flex px-4 py-3 items-center justify-center">
-              <input
+            <div className="bg-white w-full mb-36 gap-2 rounded-4xl flex px-2 items-center justify-center">
+              <textarea
                 type="text"
                 value={prompt}
-                onChange={handleInputChange}
-                className="w-full h-[50px] placeholder:font-medium placeholder-black px-3 rounded-lg focus:outline-none"
+                onChange={(e) => {
+                  handleInputChange(e);
+                  e.target.style.height = e.target.value ? `${Math.min(e.target.scrollHeight, 200)}px` : "3rem";
+                }}
+                onKeyDown={handleKeyPress}
+                className="w-full h-[3rem] p-2 placeholder:font-medium placeholder-black rounded-lg focus:outline-none"
                 placeholder="Type Whatever you want...."
               />
 

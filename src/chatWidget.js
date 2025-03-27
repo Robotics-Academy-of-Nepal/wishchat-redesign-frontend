@@ -28,7 +28,7 @@
     answerBackgroundColor = "#e5e7eb",
     faqTextColor = "#000000",
     faqBackgroundColor = "#e5e7eb",
-    faqSectionBackgroundColor = "#000000",
+    faqSectionBackgroundColor = "#ffffff",
     Key,
 
     FAQs,
@@ -270,7 +270,7 @@
         </svg>
       </div>
 
-      <div id="chat-popup" >
+      <div id="chat-popup" class="hidden">
         
         <div id="chat-header" >
           <h3>${headerText}</h3>

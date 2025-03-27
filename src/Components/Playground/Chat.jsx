@@ -114,7 +114,15 @@ const Chat = () => {
         setLoading(false);
       });
   };
-
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        setInput((prev) => prev + "\n");
+      } else {
+        handlePrompt();
+      }
+    }
+  };
   return (
     <div
       className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl m-6 p-2`}
@@ -184,9 +192,17 @@ const Chat = () => {
             <div className="w-full p-2 border-t border-stone-300 flex items-center gap-2 justify-center">
               <textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${Math.min(
+                    e.target.scrollHeight,
+                    200
+                  )}px`;
+                }}
+                onKeyDown={handleKeyPress}
                 placeholder="Type a message..."
-                className="w-full p-2 border border-gray-300 rounded-lg bg-white placeholder:text-gray-500"
+                className="w-full h-16 p-2 border border-gray-300 rounded-lg bg-white placeholder:text-gray-500"
               />
               <button
                 onClick={handlePrompt}
