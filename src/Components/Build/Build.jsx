@@ -13,10 +13,12 @@ const Build = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { id, name, api_key, azure_index, messages_used } =
     location.state || {};
+  const [textId, setTextId] = useState();
   const [textContent, setTextContent] = useState("");
+  const [QAId, setQAId] = useState();
   const [QA, setQA] = useState([{ Q: "", A: "" }]);
   const [Files, setFiles] = useState([]);
-
+  const [NoOfFiles, setNoOfFiles] = useState(0);
   console.log("build state:", location.state);
   const parseQA = (content) => {
     const result = {};
@@ -112,7 +114,8 @@ const Build = () => {
           );
           console.log("response: ", response);
           if (response.data.documents.length && response.status == 200) {
-            console.log(response.data.documents);
+            console.log("Documents:", response.data.documents);
+            setNoOfFiles(response.data.documents.length);
             const newFiles = response.data.documents
               .filter(
                 (file) =>
@@ -131,6 +134,7 @@ const Build = () => {
             );
 
             if (foundQandA) {
+              setQAId(foundQandA.id);
               axios
                 .get(
                   `${import.meta.env.VITE_API_URL}api/get/${id}/${
@@ -157,6 +161,7 @@ const Build = () => {
             );
 
             if (foundText) {
+              setTextId(foundText.id);
               axios
                 .get(
                   `${import.meta.env.VITE_API_URL}api/get/${id}/${
@@ -254,6 +259,9 @@ const Build = () => {
               messages_used={messages_used}
               QA={QA}
               setQA={setQA}
+              NoOfFiles={NoOfFiles}
+              setNoOfFiles={setNoOfFiles}
+              QAId={QAId}
             />
           )}
           {selectedIndex === 2 && (
@@ -265,6 +273,9 @@ const Build = () => {
               messages_used={messages_used}
               textContent={textContent}
               setTextContent={setTextContent}
+              NoOfFiles={NoOfFiles}
+              setNoOfFiles={setNoOfFiles}
+              textId={textId}
             />
           )}
           {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}

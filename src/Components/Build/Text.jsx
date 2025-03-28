@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { IoTrashOutline } from "react-icons/io5";
 const Text = ({
   id,
   name,
@@ -11,12 +12,14 @@ const Text = ({
   messages_used,
   textContent,
   setTextContent,
+  NoOfFiles,
+  setNoOfFiles,
+  textId,
 }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
   const textName = `Text-${id}`;
-
   const simulateProgress = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -80,6 +83,27 @@ const Text = ({
       setProgress(0);
     }
   };
+  const deleteText = () => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found");
+    console.log("token", token);
+    console.log(textId);
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${textId}/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setNoOfFiles((prev) => prev - 1);
+        setTextContent("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -105,6 +129,16 @@ const Text = ({
             )}px`;
           }}
         ></textarea>
+        {textId && (
+          <button
+            title="Delete Text File"
+            className="text-red-600 hover:text-red-800 flex items-center gap-1 "
+            onClick={() => deleteText()}
+          >
+            <IoTrashOutline className="h-5 w-5" />
+            Delete
+          </button>
+        )}
       </div>
       {isTraining && (
         <div className="w-full max-w-lg mt-4">
@@ -122,9 +156,11 @@ const Text = ({
       <button
         onClick={handleUpload}
         className={`flex items-center justify-evenly p-4 gap-2 ${
-          isTraining ? "bg-blue-400" : "bg-blue-500"
+          isTraining || textContent == "" || NoOfFiles >= 3
+            ? "bg-blue-400 cursor-not-allowed"
+            : "bg-blue-500"
         } h-14 rounded-full text-white text-2xl font-light`}
-        disabled={isTraining}
+        disabled={isTraining || textContent == "" || NoOfFiles >= 3}
       >
         {isTraining ? (
           "Training in Progress..."
@@ -133,7 +169,8 @@ const Text = ({
             {"Train Chatbot"}
             <div
               className={`h-[30px] w-[30px] ${
-                isTraining && "opacity-50 cursor-not-allowed"
+                (isTraining || textContent == "" || NoOfFiles >= 3) &&
+                "opacity-50 "
               } text-blue-500 bg-white rounded-full flex items-center justify-center`}
             >
               <LuArrowRight className="h-5 w-5" />

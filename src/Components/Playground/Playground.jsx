@@ -68,10 +68,11 @@ export default function Playground() {
                 value={prompt}
                 onChange={(e) => {
                   handleInputChange(e);
-                  e.target.style.height = e.target.value ? `${Math.min(e.target.scrollHeight, 200)}px` : "3rem";
+                  e.target.style.height="3rem";
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
                 }}
                 onKeyDown={handleKeyPress}
-                className="w-full h-[3rem] p-2 placeholder:font-medium placeholder-black rounded-lg focus:outline-none"
+                className="w-full p-2 h-[3rem] overflow-hidden placeholder:font-medium placeholder-black rounded-lg focus:outline-none"
                 placeholder="Type Whatever you want...."
               />
 

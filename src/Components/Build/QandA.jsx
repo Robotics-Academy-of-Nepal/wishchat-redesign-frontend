@@ -13,6 +13,9 @@ const QandA = ({
   messages_used,
   QA,
   setQA,
+  NoOfFiles,
+  setNoOfFiles,
+  QAId,
 }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
@@ -31,9 +34,11 @@ const QandA = ({
     }, 200);
     return interval;
   };
+
   const addQA = () => {
     setQA((prev) => [...prev, { Q: "", A: "" }]);
   };
+
   const removeQA = (index) => {
     setQA((prev) => prev.filter((_, i) => i !== index));
   };
@@ -90,6 +95,27 @@ const QandA = ({
       setIsTraining(false);
     }
   };
+  const deleteQA = () => {
+    console.log("deleting...");
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found");
+    console.log(QAId);
+    console.log("TOKEN:", token);
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${QAId}/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setNoOfFiles((prev) => prev - 1);
+        setQA([{ Q: "", A: "" }]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -134,6 +160,7 @@ const QandA = ({
                 <button
                   className="text-red-600 hover:text-red-800 flex items-center gap-1 "
                   onClick={() => removeQA(index)}
+                  title="Remove this QA"
                 >
                   <IoTrashOutline className="h-5 w-5" />
                   Remove
@@ -145,9 +172,24 @@ const QandA = ({
         <button
           className="mt-3 px-4 py-2 text-blue-500 rounded-lg "
           onClick={addQA}
+          title="Add more QA"
         >
           + Add More
         </button>
+        {
+          QAId && (
+            //  <div className="w-full flex justify-end">
+            <button
+              title="Delete QA File"
+              className="text-red-600 hover:text-red-800 flex items-center gap-1 "
+              onClick={() => deleteQA()}
+            >
+              <IoTrashOutline className="h-5 w-5" />
+              Delete
+            </button>
+          )
+          // </div>
+        }
       </div>
       {isTraining && (
         <div className="w-full max-w-lg mt-4">
@@ -165,9 +207,17 @@ const QandA = ({
       <button
         onClick={handleUpload}
         className={`flex items-center justify-evenly p-4 gap-2 ${
-          isTraining ? "bg-blue-400" : "bg-blue-500"
+          isTraining ||
+          JSON.stringify(QA) === JSON.stringify([{ Q: "", A: "" }]) ||
+          NoOfFiles >= 3
+            ? "bg-blue-400 cursor-not-allowed"
+            : "bg-blue-500"
         } h-14 rounded-full text-white text-2xl font-light`}
-        disabled={isTraining}
+        disabled={
+          isTraining ||
+          JSON.stringify(QA) === JSON.stringify([{ Q: "", A: "" }]) ||
+          NoOfFiles >= 3
+        }
       >
         {isTraining ? (
           "Training in Progress..."
@@ -176,7 +226,10 @@ const QandA = ({
             {"Train Chatbot"}
             <div
               className={`h-[30px] w-[30px] ${
-                isTraining && "opacity-50 cursor-not-allowed"
+                (isTraining ||
+                  JSON.stringify(QA) === JSON.stringify([{ Q: "", A: "" }]) ||
+                  NoOfFiles >= 3) &&
+                "opacity-50"
               } text-blue-500 bg-white rounded-full flex items-center justify-center`}
             >
               <LuArrowRight className="h-5 w-5" />
