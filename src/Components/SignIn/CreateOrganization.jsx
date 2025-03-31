@@ -23,40 +23,47 @@ const CreateOrganization = () => {
       });
   };
   return (
-    <div className="fixed inset-4 rounded-[50px] bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-xl shadow-lg w-96">
-        <h2 className="font-bold text-2xl mb-4">Create Organization</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+    // <div className="fixed inset-4 rounded-[50px] bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center">
+    <div className="fixed inset-0 rounded-[50px] gradient- flex justify-center items-center">
+      <div className="bg-radial from-blue-300 to-white py-10 flex flex-col space-y-4 items-center rounded-xl lg:w-5/12">
+          <h2 className="font-bold text-5xl">Create Organization</h2>
+          <p className="text-sm text-center text-gray-500 font-semibold">
+            Create an orgainzation to collaborate with your teammates now.
+          </p>
+        <form onSubmit={handleSubmit} className="w-full px-2">
+          <div className="mb-4 bg-white shadow-xl p-4 rounded-lg flex flex-col space-y-2">
+            <label className="block text-gray-700 font-bold">
               Organization
             </label>
             <input
-              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:ring-2 focus:ring-blue-500"
               name="name"
               type="text"
-              placeholder="Enter chatbot name"
+              placeholder="Enter organization name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
+            <p className="text-xs text-gray-500">
+              This name will not be public and doesn&apos;t need to be unique.
+            </p>
           </div>
-          <div className="flex justify-end space-x-3">
-            {/* <button
+          {/* <div className="flex justify-end space-x-3"> */}
+          {/* <button
               type="button"
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full"
               //   onClick={onCancel}
             >
               Cancel
             </button> */}
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-              onClick={handleSubmit}
-            >
-              Create
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            onClick={handleSubmit}
+          >
+            Create Organization
+          </button>
+          {/* </div> */}
         </form>
       </div>
     </div>

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
 import axios from "axios";
-import WebsitePopup from "./WebsitePopup";
 const CustomColorForm = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { id, api_key } = location.state || {};
   const token = localStorage.getItem("token");
   console.log("color state:", location.state);
-  const [showPopUp, setShowPopUp] = useState(false);
 
   const [colors, setColors] = useState({
     headerText: "Chat",
@@ -92,14 +91,7 @@ const CustomColorForm = () => {
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
-      {showPopUp && (
-        <WebsitePopup
-          id={id}
-          token={token}
-          api_key={api_key}
-          setShowPopUp={setShowPopUp}
-        />
-      )}
+      
       <form className="w-full md:w-2/3 space-y-4" onSubmit={handleSubmit}>
         <h3 className="text-3xl font-medium text-center">Customize Colors</h3>
         <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
@@ -161,7 +153,11 @@ const CustomColorForm = () => {
             <button
               type="button"
               className="flex items-center gap-1 rounded-full py-2 px-4 border border-stone-400 text-gray-800 hover:text-white hover:bg-gray-400 duration-500 transition-all"
-              onClick={() => setShowPopUp(true)}
+              onClick={() => {
+                navigate("/deploy/websiteDomainForm/", {
+                  state: location.state,
+                });
+              }}
             >
               {"Next"}
               <div

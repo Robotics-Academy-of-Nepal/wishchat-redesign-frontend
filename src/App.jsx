@@ -19,6 +19,8 @@ import MessengerDeployForm from "./Components/Deploy/MessengerDeployForm";
 import WebsiteForm from "./Components/Deploy/WebsiteForm.jsx";
 import "./App.css";
 import WidgetColorForm from "./Components/Deploy/CustomColorForm.jsx";
+import ChatbotSpecificFeatures from "./Components/ChatbotSpecificFeatures.jsx";
+import WebsiteDomainForm from "./Components/Deploy/WebsiteDomainForm.jsx";
 const wishChatFAQs = [
   {
     question: "What is WishChat?",
@@ -118,6 +120,7 @@ function App() {
           <Route path="pricing" element={<Pricing />} />
           <Route path="teammates" element={<Teammates />} />
         </Route>
+        <Route path="/chatbot" element={<ChatbotSpecificFeatures />}></Route>
         <Route path="/playground" element={<Playground />}>
           <Route path="chat" element={<Chat />} />
         </Route>
@@ -125,6 +128,7 @@ function App() {
           <Route path="whatsappForm" element={<WhatsappDeployForm />} />
           <Route path="messengerForm" element={<MessengerDeployForm />} />
           <Route path="widgetColorForm" element={<WidgetColorForm />} />
+          <Route path="websiteDomainForm" element={<WebsiteDomainForm />} />
           <Route path="websiteForm" element={<WebsiteForm />} />
         </Route>
         <Route path="/build" element={<Build />} />

@@ -16,6 +16,7 @@ const QandA = ({
   NoOfFiles,
   setNoOfFiles,
   QAId,
+  setQAId,
 }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
@@ -111,6 +112,7 @@ const QandA = ({
         console.log(response);
         setNoOfFiles((prev) => prev - 1);
         setQA([{ Q: "", A: "" }]);
+        setQAId(null);
       })
       .catch((error) => {
         console.log(error);

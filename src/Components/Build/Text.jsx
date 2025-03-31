@@ -15,6 +15,7 @@ const Text = ({
   NoOfFiles,
   setNoOfFiles,
   textId,
+  setTextId,
 }) => {
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
@@ -98,6 +99,7 @@ const Text = ({
         console.log(response);
         setNoOfFiles((prev) => prev - 1);
         setTextContent("");
+        setTextId(null);
       })
       .catch((error) => {
         console.log(error);
@@ -119,16 +121,13 @@ const Text = ({
           value={textContent}
           onChange={(e) => {
             setTextContent(e.target.value);
-          }}
-          onInput={(e) => {
-            e.target.style.height = "200px";
-            const newHeight = e.target.scrollHeight;
+            e.target.style.height = "292px";
             e.target.style.height = `${Math.min(
-              Math.max(newHeight, 200),
+              e.target.scrollHeight,
               1200
             )}px`;
           }}
-        ></textarea>
+        />
         {textId && (
           <button
             title="Delete Text File"

@@ -192,7 +192,7 @@ const Build = () => {
   }, [azure_index, id]);
 
   return (
-    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-gradient-to-br bg-gradient-radial  from-white to-indigo-300">
+    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-radial-[at_10%_25%] from-white from-20% to-indigo-300">
       <Navbar
         id={id}
         name={name}
@@ -248,6 +248,8 @@ const Build = () => {
               messages_used={messages_used}
               Files={Files}
               setFiles={setFiles}
+              NoOfFiles={NoOfFiles}
+              setNoOfFiles={setNoOfFiles}
             />
           )}
           {selectedIndex === 1 && (
@@ -262,6 +264,7 @@ const Build = () => {
               NoOfFiles={NoOfFiles}
               setNoOfFiles={setNoOfFiles}
               QAId={QAId}
+              setQAId={setQAId}
             />
           )}
           {selectedIndex === 2 && (
@@ -276,6 +279,7 @@ const Build = () => {
               NoOfFiles={NoOfFiles}
               setNoOfFiles={setNoOfFiles}
               textId={textId}
+              setTextId={setTextId}
             />
           )}
           {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}

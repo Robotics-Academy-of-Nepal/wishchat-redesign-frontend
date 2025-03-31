@@ -120,7 +120,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col bg-gradient-to-br from-white to-indigo-300 ">
+    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col bg-radial-[at_0%_0%] from-white from-20% to-indigo-300 ">
       <Navbar />
 
       {isActive("/teammates") || isActive("/pricing") ? (

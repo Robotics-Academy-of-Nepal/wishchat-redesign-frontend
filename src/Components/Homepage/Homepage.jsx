@@ -10,7 +10,7 @@ export default function Homepage() {
     <div className="flex flex-col gap-[70px]">
       {/* Hero Section */}
 
-      <div className="m-4 rounded-4xl flex flex-col gap-[20px] pb-[50px] bg-gradient-to-br from-white to-indigo-300 ">
+      <div className="m-4 rounded-4xl flex flex-col gap-[20px] pb-[50px] bg-radial-[at_0%_0%] from-white from-20% to-indigo-300 ">
         {/* Navigation Bar */}
         <Navbar />
 

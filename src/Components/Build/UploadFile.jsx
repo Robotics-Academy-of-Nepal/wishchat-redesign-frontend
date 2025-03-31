@@ -14,6 +14,8 @@ const UploadFile = ({
   messages_used,
   Files,
   setFiles,
+  NoOfFiles,
+  setNoOfFiles,
 }) => {
   const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -42,8 +44,9 @@ const UploadFile = ({
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log("deleteFile response:", response);
         setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
+        setNoOfFiles((prev) => prev - 1);
       })
       .catch((error) => {
         console.log(error);
@@ -225,9 +228,11 @@ const UploadFile = ({
       <button
         onClick={handleTrain}
         className={`flex items-center justify-evenly p-4 gap-2 ${
-          selectedFiles.length > 0 || isTraining ? "bg-blue-500" : "bg-blue-400 cursor-not-allowed"
+          selectedFiles.length === 0 || isTraining || NoOfFiles >= 3
+            ? "bg-blue-400 cursor-not-allowed"
+            : "bg-blue-500"
         } h-14 rounded-full text-white text-2xl font-light`}
-        disabled={selectedFiles.length === 0 || isTraining}
+        disabled={selectedFiles.length === 0 || isTraining || NoOfFiles >= 3}
       >
         {isTraining ? (
           "Training in Progress..."
@@ -236,7 +241,7 @@ const UploadFile = ({
             {"Train Chatbot"}
             <div
               className={`h-[30px] w-[30px] ${
-                (isTraining || selectedFiles.length === 0) &&
+                (isTraining || selectedFiles.length === 0 || NoOfFiles >= 3) &&
                 "opacity-50 "
               } text-blue-500 bg-white rounded-full flex items-center justify-center`}
             >
