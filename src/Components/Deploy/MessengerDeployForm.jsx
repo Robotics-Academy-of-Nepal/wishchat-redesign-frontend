@@ -2,9 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import ResponsePopup from "./ResponsePopup";
+import { useChatbot } from "../../context/ChatbotContext";
 const MessengerDeployForm = () => {
   const location = useLocation();
-  const { id } = location.state || {};
+
+  const { chatbotData } = useChatbot();
+  const { id } = chatbotData;
   console.log("deploy state:", location.state);
   const [showPopUp, setShowPopUp] = useState(false);
 

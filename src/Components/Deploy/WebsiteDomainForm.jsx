@@ -3,30 +3,34 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import WebsitePopup from "./WebsitePopup";
 import { LuArrowRight } from "react-icons/lu";
+import { useChatbot } from "../../context/ChatbotContext";
 
 const WebsiteDomainForm = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const location = useLocation();
-  const { id, api_key } = location.state || {};
+
+  const { chatbotData } = useChatbot();
+  const { id, api_key } = chatbotData;
   const [domain, setDomain] = useState("");
   console.log("domain state:", location.state);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}auth/${id}/colors/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("fetch res:", response);
-        console.log("data:", response.data);
-      })
-      .catch((error) => {
-        console.error("form error:", error);
-      });
-  }, [token, id]);
+  // no need to fetch the domain of the chatbot is already sent in dashboard
+  //   useEffect(() => {
+  //     axios
+  //       .get(`${import.meta.env.VITE_API_URL}auth/${id}/colors/`, {
+  //         headers: {
+  //           Authorization: `Token ${token}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         console.log("fetch res:", response);
+  //         console.log("data:", response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("form error:", error);
+  //       });
+  //   }, [token, id]);
   const handleSubmit = (e) => {
     e.preventDefault();
 

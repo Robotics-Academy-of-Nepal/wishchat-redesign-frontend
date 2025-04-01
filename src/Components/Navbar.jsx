@@ -1,12 +1,14 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/wishchat-logo.png";
-// import logo from "../assets/wishchat-logo.png";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
-  console.log("navbar props:", id, name, api_key, azure_index, messages_used);
+import { useChatbot } from "../context/ChatbotContext";
+const Navbar = () => {
+  // console.log("navbar props:", id, name, api_key, azure_index, messages_used);
+  const { chatbotData } = useChatbot();
+  const { id, name, api_key, azure_index, messages_used } = chatbotData;
   const navigate = useNavigate();
   const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -42,7 +44,6 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
                 ? "/playground/chat"
                 : "/playground"
             }`}
-            state={{ id, name, api_key, azure_index, messages_used }}
           >
             <button className="hover:text-blue-400">Playground</button>
           </Link>
@@ -52,7 +53,6 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
         {azure_index ? (
           <Link
             to="/deploy"
-            state={{ id, name, api_key, azure_index, messages_used }}
           >
             <button className="hover:text-blue-400">Deploy</button>
           </Link>
@@ -61,9 +61,13 @@ const Navbar = ({ id, name, api_key, azure_index, messages_used }) => {
         )}
         <Link
           to="/build"
-          state={{ id, name, api_key, azure_index, messages_used }}
         >
           <button className="hover:text-blue-400">Build</button>
+        </Link>
+        <Link
+          to="/chatbotSettings"
+        >
+          <button className="hover:text-blue-400">Settings</button>
         </Link>
       </div>
 

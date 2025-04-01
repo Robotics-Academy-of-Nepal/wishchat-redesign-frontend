@@ -8,6 +8,7 @@ import { IoIosSend } from "react-icons/io";
 import ChatSidebar from "./ChatSidebar";
 import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
 import ResetButton from "./ResetButton";
+import { useChatbot } from "../../context/ChatbotContext";
 
 const Chat = () => {
   const location = useLocation();
@@ -18,7 +19,11 @@ const Chat = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [systemPrompt, setSystemPrompt] = useState("");
   const token = localStorage.getItem("token");
-  const { id, prompt, api_key } = location.state || {};
+
+  const { chatbotData } = useChatbot();
+  const { id, api_key } = chatbotData;
+
+  const { prompt } = location.state || {};
   const [temperature, setTemperature] = useState(0.7);
 
   console.log("chat_state:", location.state);
@@ -77,7 +82,6 @@ const Chat = () => {
     axios
       .post(
         `${import.meta.env.VITE_API_URL}api/query/`,
-        // { query: input, chatbot_id: id },
         { query: input, temperature: temperature },
         {
           headers: {
@@ -152,12 +156,6 @@ const Chat = () => {
             }`}
           >
             <div className="w-full flex justify-between">
-              {/* <div
-              className="flex items-center justify-center rounded-xl p-2 m-2 bg-blue-500 font-bold text-white"
-              onClick={() => setMessages([])}
-            >
-              <FaArrowsRotate className="h-5 w-5 hover:rotate-180 transition-transform duration-700" />
-            </div> */}
               <ResetButton handleClick={resetMessages} />
             </div>
             <div className="p-2 overflow-y-scroll h-full">

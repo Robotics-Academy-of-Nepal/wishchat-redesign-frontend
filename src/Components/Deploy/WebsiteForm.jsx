@@ -4,10 +4,13 @@ import { useLocation } from "react-router-dom";
 import { IoTrashOutline } from "react-icons/io5";
 import { LuArrowRight } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { useChatbot } from "../../context/ChatbotContext";
 const WebsiteForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id } = location.state || {};
+
+  const { chatbotData } = useChatbot();
+  const { id } = chatbotData;
   const chatbotID = id;
   console.log("website faq state:", location.state);
   const token = localStorage.getItem("token");

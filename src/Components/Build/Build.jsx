@@ -7,12 +7,13 @@ import Navbar from "../Navbar";
 // import Uploaded from "./Uploaded";
 // import MainQuestion from "./MainQuestion";
 import axios from "axios";
+import { useChatbot } from "../../context/ChatbotContext";
 
 const Build = () => {
   const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { id, name, api_key, azure_index, messages_used } =
-    location.state || {};
+  const { chatbotData, setChatbotData } = useChatbot();
+  const { id, name, api_key, azure_index, messages_used } = chatbotData;
   const [textId, setTextId] = useState();
   const [textContent, setTextContent] = useState("");
   const [QAId, setQAId] = useState();
@@ -190,103 +191,103 @@ const Build = () => {
       fetchData();
     }
   }, [azure_index, id]);
-
+  const setAzureIndex = (consolidated_index) => {
+    setChatbotData((prev) => ({
+      ...prev,
+      azure_index: consolidated_index,
+    }));
+  };
   return (
-    <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-radial-[at_10%_25%] from-white from-20% to-indigo-300">
-      <Navbar
-        id={id}
-        name={name}
-        api_key={api_key}
-        azure_index={azure_index}
-        messages_used={messages_used}
-      />
-      <div className="w-full flex flex-col items-center pb-14">
-        <div className="flex flex-col items-start gap-8">
-          <div className="mt-[50px] flex flex-col gap-3">
-            <h1 className="font-medium text-6xl">
-              Build Your AI
-              <br />
-              Chatbot
-            </h1>
+    // <div className="fixed inset-4 overflow-auto rounded-4xl flex flex-col bg-radial-[at_10%_25%] from-white from-20% to-indigo-300">
+    //   <Navbar
+    //     id={id}
+    //     name={name}
+    //     api_key={api_key}
+    //     azure_index={azure_index}
+    //     messages_used={messages_used}
+    //   />
+    <div className="w-full flex flex-col items-center pb-14">
+      <div className="flex flex-col items-start gap-8">
+        <div className="mt-[50px] flex flex-col gap-3">
+          <h1 className="font-medium text-6xl">
+            Build Your AI
+            <br />
+            Chatbot
+          </h1>
 
-            <p className="text-2xl">
-              Train your chatbot using files, manual Q&A, or
-              <br />
-              direct text input—all in one place
-            </p>
-          </div>
-
-          <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
-            <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
-              {buttons.map((button, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleClick(index)}
-                  className={`text-lg z-20 relative transition-colors duration-700 
-                  ${selectedIndex === index ? "text-white" : "text-black"}`}
-                >
-                  {button}
-                </button>
-              ))}
-            </div>
-            {/* Shifting div */}
-            <div
-              className="absolute bottom-2 h-12 rounded-full bg-blue-500 transition-all duration-700 ease-in-out z-0"
-              style={{
-                width: `calc(100% / ${buttons.length} - 16px)`,
-                left: `calc(100% / ${buttons.length} * ${selectedIndex} + 7px)`,
-              }}
-            />
-          </div>
-
-          {selectedIndex === 0 && (
-            <UploadFile
-              id={id}
-              name={name}
-              api_key={api_key}
-              azure_index={azure_index}
-              messages_used={messages_used}
-              Files={Files}
-              setFiles={setFiles}
-              NoOfFiles={NoOfFiles}
-              setNoOfFiles={setNoOfFiles}
-            />
-          )}
-          {selectedIndex === 1 && (
-            <QandA
-              id={id}
-              name={name}
-              api_key={api_key}
-              azure_index={azure_index}
-              messages_used={messages_used}
-              QA={QA}
-              setQA={setQA}
-              NoOfFiles={NoOfFiles}
-              setNoOfFiles={setNoOfFiles}
-              QAId={QAId}
-              setQAId={setQAId}
-            />
-          )}
-          {selectedIndex === 2 && (
-            <Text
-              id={id}
-              name={name}
-              api_key={api_key}
-              azure_index={azure_index}
-              messages_used={messages_used}
-              textContent={textContent}
-              setTextContent={setTextContent}
-              NoOfFiles={NoOfFiles}
-              setNoOfFiles={setNoOfFiles}
-              textId={textId}
-              setTextId={setTextId}
-            />
-          )}
-          {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
-        {selectedIndex === 4 && <MainQuestion />} */}
+          <p className="text-2xl">
+            Train your chatbot using files, manual Q&A, or
+            <br />
+            direct text input—all in one place
+          </p>
         </div>
+
+        <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
+          <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
+            {buttons.map((button, index) => (
+              <button
+                key={index}
+                onClick={() => handleClick(index)}
+                className={`text-lg z-20 relative transition-colors duration-700 
+                  ${selectedIndex === index ? "text-white" : "text-black"}`}
+              >
+                {button}
+              </button>
+            ))}
+          </div>
+          {/* Shifting div */}
+          <div
+            className="absolute bottom-2 h-12 rounded-full bg-blue-500 transition-all duration-700 ease-in-out z-0"
+            style={{
+              width: `calc(100% / ${buttons.length} - 16px)`,
+              left: `calc(100% / ${buttons.length} * ${selectedIndex} + 7px)`,
+            }}
+          />
+        </div>
+
+        {selectedIndex === 0 && (
+          <UploadFile
+            id={id}
+            setAzureIndex={setAzureIndex}
+            name={name}
+            api_key={api_key}
+            azure_index={azure_index}
+            messages_used={messages_used}
+            Files={Files}
+            setFiles={setFiles}
+            NoOfFiles={NoOfFiles}
+            setNoOfFiles={setNoOfFiles}
+          />
+        )}
+        {selectedIndex === 1 && (
+          <QandA
+            id={id}
+            setAzureIndex={setAzureIndex}
+            QA={QA}
+            setQA={setQA}
+            NoOfFiles={NoOfFiles}
+            setNoOfFiles={setNoOfFiles}
+            QAId={QAId}
+            setQAId={setQAId}
+          />
+        )}
+        {selectedIndex === 2 && (
+          <Text
+            id={id}
+            setAzureIndex={setAzureIndex}
+            textContent={textContent}
+            setTextContent={setTextContent}
+            NoOfFiles={NoOfFiles}
+            setNoOfFiles={setNoOfFiles}
+            textId={textId}
+            setTextId={setTextId}
+          />
+        )}
+        {/* {selectedIndex === 3 && azure_index && <Uploaded id={id} name={name} />}
+        {selectedIndex === 4 && <MainQuestion />} */}
       </div>
     </div>
+    // </div>
   );
 };
 

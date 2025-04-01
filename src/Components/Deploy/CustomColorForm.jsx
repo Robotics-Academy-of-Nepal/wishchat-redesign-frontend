@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LuArrowRight } from "react-icons/lu";
 import axios from "axios";
+import { useChatbot } from "../../context/ChatbotContext";
 const CustomColorForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id, api_key } = location.state || {};
+  const { chatbotData } = useChatbot();
+  const { id } = chatbotData;
   const token = localStorage.getItem("token");
   console.log("color state:", location.state);
 
@@ -91,7 +93,6 @@ const CustomColorForm = () => {
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
-      
       <form className="w-full md:w-2/3 space-y-4" onSubmit={handleSubmit}>
         <h3 className="text-3xl font-medium text-center">Customize Colors</h3>
         <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">

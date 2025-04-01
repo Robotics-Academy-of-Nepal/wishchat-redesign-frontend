@@ -1,5 +1,5 @@
 import { LuArrowRight } from "react-icons/lu";
-import Navbar from "../Navbar";
+// import Navbar from "../Navbar";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -7,9 +7,7 @@ export default function Playground() {
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname.includes(path);
-  const { id, name, api_key, azure_index, messages_used } =
-    location.state ?? {};
-  console.log("Playground state:", location.state);
+
   const [prompt, setPrompt] = useState("");
 
   const handleInputChange = (event) => {
@@ -21,29 +19,21 @@ export default function Playground() {
         setPrompt((prev) => prev + "\n");
       } else {
         event.preventDefault();
-        navigate("/playground/chat", {
-          state: {
-            id,
-            name,
-            api_key,
-            azure_index,
-            prompt,
-            messages_used,
-          },
-        });
+        navigate("/playground/chat", { state: { prompt: prompt } });
       }
     }
   };
 
   return (
-    <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
-      <Navbar
-        id={id}
-        name={name}
-        api_key={api_key}
-        azure_index={azure_index}
-        messages_used={messages_used}
-      />
+    // <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
+    //  <Navbar
+    //     id={id}
+    //     name={name}
+    //     api_key={api_key}
+    //     azure_index={azure_index}
+    //     messages_used={messages_used}
+    //   />
+    <>
       {isActive("/chat") ? (
         <Outlet />
       ) : (
@@ -68,8 +58,11 @@ export default function Playground() {
                 value={prompt}
                 onChange={(e) => {
                   handleInputChange(e);
-                  e.target.style.height="3rem";
-                  e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+                  e.target.style.height = "3rem";
+                  e.target.style.height = `${Math.min(
+                    e.target.scrollHeight,
+                    200
+                  )}px`;
                 }}
                 onKeyDown={handleKeyPress}
                 className="w-full p-2 h-[3rem] overflow-hidden placeholder:font-medium placeholder-black rounded-lg focus:outline-none"
@@ -78,16 +71,7 @@ export default function Playground() {
 
               <button
                 onClick={() =>
-                  navigate("/playground/chat", {
-                    state: {
-                      id,
-                      name,
-                      api_key,
-                      azure_index,
-                      prompt,
-                      messages_used,
-                    },
-                  })
+                  navigate("/playground/chat", { state: { prompt: prompt } })
                 }
                 className="h-[40px] w-[42px] text-white rounded-full bg-blue-500 flex items-center justify-center"
               >
@@ -97,6 +81,7 @@ export default function Playground() {
           </div>
         </div>
       )}
-    </div>
+    </>
+    //</div>
   );
 }

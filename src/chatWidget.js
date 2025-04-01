@@ -1,68 +1,97 @@
-(function () {
+(async function () {
   // Inject the CSS
-  const style = document.createElement("style");
-  const config = window.chatWidgetConfig || {};
-  const {
-    bubbleBgColor = "#1E3A8A",
-    bubbleColor = "#FFFFFF",
+  try {
+    const style = document.createElement("style");
+    const initialFetch = async () => {
+      const domain = window.location.hostname;
+      console.log("Current Domain:", domain);
+      try {
+        const response = await fetch(
+          `https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbot/public-info/`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Domain-Name": `${domain}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log("Response from backend:", data);
+        console.log(data.chatbot);
+        return data.chatbot;
+      } catch (error) {
+        console.error("Error sending request:", error);
+        console.log("Error occurred while processing your request.");
+        return {};
+      }
+    };
+    let config = await initialFetch();
 
-    chatBackgroundColor = "#F0F4F8",
-    chatBorder = "#C6D1E1",
-    headerBackgroundColor = "#3B82F6",
-    headerTextColor = "#FFFFFF",
+    // const config = window.chatWidgetConfig || {};
+    console.log("config:", config);
+    const { api_key = "", faqs = [], can_send_message = false } = config;
+    const {
+      bubbleBgColor = "#1E3A8A",
+      bubbleColor = "#FFFFFF",
 
-    footerBackgroundColor = "#1E3A8A",
+      chatBackgroundColor = "#F0F4F8",
+      chatBorder = "#C6D1E1",
+      headerBackgroundColor = "#3B82F6",
+      headerTextColor = "#FFFFFF",
 
-    sendButtonColor = "#2563EB",
-    sendTextColor = "#FFFFFF",
+      footerBackgroundColor = "#1E3A8A",
 
-    headerText = "Chat with us",
-    inputBorderColor = "#3B82F6",
-    placeholderText = "Type your message here...",
-    inputTextColor = "#1F2937",
-    inputBgColor = "#E0E7FF",
+      sendButtonColor = "#2563EB",
+      sendTextColor = "#FFFFFF",
 
-    questionTextColor = "#ffffff",
-    questionBackgroundColor = "#2d3748",
-    answerTextColor = "#000000",
-    answerBackgroundColor = "#e5e7eb",
-    faqTextColor = "#000000",
-    faqBackgroundColor = "#e5e7eb",
-    faqSectionBackgroundColor = "#ffffff",
-    Key,
+      headerText = "Chat with us",
+      inputBorderColor = "#3B82F6",
+      placeholderText = "Type your message here...",
+      inputTextColor = "#1F2937",
+      inputBgColor = "#E0E7FF",
 
-    FAQs,
-  } = config;
+      questionTextColor = "#ffffff",
+      questionBackgroundColor = "#2d3748",
+      answerTextColor = "#000000",
+      answerBackgroundColor = "#e5e7eb",
+      faqTextColor = "#000000",
+      faqBackgroundColor = "#e5e7eb",
+      faqSectionBackgroundColor = "#ffffff",
+    } = config.colors;
+    
+    function getFooterWatermarkColor(hex, factor = 0.4) {
+      // Convert hex to RGB
+      let r = parseInt(hex.substring(1, 3), 16);
+      let g = parseInt(hex.substring(3, 5), 16);
+      let b = parseInt(hex.substring(5, 7), 16);
 
-  function getFooterWatermarkColor(hex, factor = 0.4) {
-    // Convert hex to RGB
-    let r = parseInt(hex.substring(1, 3), 16);
-    let g = parseInt(hex.substring(3, 5), 16);
-    let b = parseInt(hex.substring(5, 7), 16);
+      // Calculate brightness using perceived luminance formula
+      let brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-    // Calculate brightness using perceived luminance formula
-    let brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+      // Adjust color: if bright, darken; if dark, lighten
+      if (brightness > 0.5) {
+        r = Math.floor(r * (1 - factor));
+        g = Math.floor(g * (1 - factor));
+        b = Math.floor(b * (1 - factor));
+      } else {
+        r = Math.min(255, Math.floor(r + (255 - r) * factor));
+        g = Math.min(255, Math.floor(g + (255 - g) * factor));
+        b = Math.min(255, Math.floor(b + (255 - b) * factor));
+      }
 
-    // Adjust color: if bright, darken; if dark, lighten
-    if (brightness > 0.5) {
-      r = Math.floor(r * (1 - factor));
-      g = Math.floor(g * (1 - factor));
-      b = Math.floor(b * (1 - factor));
-    } else {
-      r = Math.min(255, Math.floor(r + (255 - r) * factor));
-      g = Math.min(255, Math.floor(g + (255 - g) * factor));
-      b = Math.min(255, Math.floor(b + (255 - b) * factor));
+      // Convert back to hex
+      return `#${r.toString(16).padStart(2, "0")}${g
+        .toString(16)
+        .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
     }
 
-    // Convert back to hex
-    return `#${r.toString(16).padStart(2, "0")}${g
-      .toString(16)
-      .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-  }
+    const watermarkColor = getFooterWatermarkColor(footerBackgroundColor);
 
-  const watermarkColor = getFooterWatermarkColor(footerBackgroundColor);
-
-  style.innerHTML = `
+    style.innerHTML = `
     .hidden {
       display: none !important;
     }
@@ -255,15 +284,15 @@
     }
     `;
 
-  document.head.appendChild(style);
+    document.head.appendChild(style);
 
-  // Create chat widget container
-  const chatWidgetContainer = document.createElement("div");
-  chatWidgetContainer.id = "chat-widget-container";
-  document.body.appendChild(chatWidgetContainer);
+    // Create chat widget container
+    const chatWidgetContainer = document.createElement("div");
+    chatWidgetContainer.id = "chat-widget-container";
+    document.body.appendChild(chatWidgetContainer);
 
-  // Inject the HTML
-  chatWidgetContainer.innerHTML = `
+    // Inject the HTML
+    chatWidgetContainer.innerHTML = `
       <div id="chat-bubble">
         <svg xmlns="http://www.w3.org/2000/svg" id="chat-button" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -297,163 +326,174 @@
       </div>
     `;
 
-  // Add event listeners
-  const chatInput = document.getElementById("chat-input");
-  const chatSubmit = document.getElementById("chat-submit");
-  const chatMessages = document.getElementById("chat-messages");
-  const chatBubble = document.getElementById("chat-bubble");
-  const chatPopup = document.getElementById("chat-popup");
-  const closePopup = document.getElementById("close-popup");
-  const chatQuestions = document.getElementById("chat-questions");
-  chatBubble.addEventListener("click", function () {
-    console.log("ChatBubble clicked!!");
-    console.log("before bubble:", chatPopup.classList);
-    togglePopup();
-    console.log("after bubble:", chatPopup.classList);
-  });
-
-  closePopup.addEventListener("click", function () {
-    console.log("close button clicked!!");
-    console.log("Before close button:", chatPopup.classList);
-    togglePopup();
-    console.log("After close button:", chatPopup.classList);
-  });
-
-  function togglePopup() {
-    chatPopup.classList.toggle("hidden");
-    if (!chatPopup.classList.contains("hidden")) {
-      document.getElementById("chat-input").focus();
-    }
-  }
-
-  if (FAQs) {
-    FAQs.forEach((faq) => {
-      const questionBtn = document.createElement("button");
-      questionBtn.id = "faq-button";
-      questionBtn.textContent = faq.question;
-      chatQuestions.appendChild(questionBtn);
-      questionBtn.addEventListener("click", () => {
-        handleFAQ(faq.question, faq.answer);
-      });
+    // Add event listeners
+    const chatInput = document.getElementById("chat-input");
+    const chatSubmit = document.getElementById("chat-submit");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatBubble = document.getElementById("chat-bubble");
+    const chatPopup = document.getElementById("chat-popup");
+    const closePopup = document.getElementById("close-popup");
+    const chatQuestions = document.getElementById("chat-questions");
+    chatBubble.addEventListener("click", function () {
+      console.log("ChatBubble clicked!!");
+      console.log("before bubble:", chatPopup.classList);
+      togglePopup();
+      console.log("after bubble:", chatPopup.classList);
     });
-  } else {
-    chatQuestions.remove();
-  }
-  function handleFAQ(question, answer) {
-    const questionElement = document.createElement("div");
-    questionElement.id = "question";
 
-    questionElement.innerHTML = `
+    closePopup.addEventListener("click", function () {
+      console.log("close button clicked!!");
+      console.log("Before close button:", chatPopup.classList);
+      togglePopup();
+      console.log("After close button:", chatPopup.classList);
+    });
+
+    function togglePopup() {
+      chatPopup.classList.toggle("hidden");
+      if (!chatPopup.classList.contains("hidden")) {
+        document.getElementById("chat-input").focus();
+      }
+    }
+
+    if (faqs) {
+      faqs.forEach((faq) => {
+        const questionBtn = document.createElement("button");
+        questionBtn.id = "faq-button";
+        questionBtn.textContent = faq.question;
+        chatQuestions.appendChild(questionBtn);
+        questionBtn.addEventListener("click", () => {
+          handleFAQ(faq.question, faq.answer);
+        });
+      });
+    } else {
+      chatQuestions.remove();
+    }
+    function handleFAQ(question, answer) {
+      const questionElement = document.createElement("div");
+      questionElement.id = "question";
+
+      questionElement.innerHTML = `
       <div>
         ${question}
       </div>
     `;
-    chatMessages.appendChild(questionElement);
-    reply(answer);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  chatSubmit.addEventListener("click", function () {
-    const message = chatInput.value.trim();
-    if (!message) return;
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    chatInput.value = "";
-
-    onUserRequest(message);
-  });
-
-  chatInput.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-      chatSubmit.click();
+      chatMessages.appendChild(questionElement);
+      reply(answer);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-  });
 
-  const handlePrompt = async (message) => {
-    try {
-      const response = await fetch(
-        `https://kfwsdw58-8000.inc1.devtunnels.ms/api/query/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": `${Key}`,
-          },
-          body: JSON.stringify({
-            query: message,
-          }),
-        }
-      );
+    chatSubmit.addEventListener("click", function () {
+      const message = chatInput.value.trim();
+      if (!message) return;
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      chatInput.value = "";
+
+      onUserRequest(message);
+    });
+
+    chatInput.addEventListener("keyup", function (event) {
+      if (event.key === "Enter") {
+        chatSubmit.click();
       }
+    });
 
-      const data = await response.json();
-      console.log("Response from backend:", data);
-      return data.response;
-    } catch (error) {
-      console.error("Error sending request:", error);
-      return "Error occurred while processing your request.";
-    }
-  };
+    const handlePrompt = async (message) => {
+      try {
+        const response = await fetch(
+          `https://kfwsdw58-8000.inc1.devtunnels.ms/api/query/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-API-KEY": `${api_key}`,
+            },
+            body: JSON.stringify({
+              query: message,
+            }),
+          }
+        );
 
-  function onUserRequest(message) {
-    // Handle user request here
-    console.log("User request:", message);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
 
-    // Display user message
-    const questionElement = document.createElement("div");
-    questionElement.id = "question";
-    questionElement.innerHTML = `
+        const data = await response.json();
+        console.log("Response from backend:", data);
+        return data.response;
+      } catch (error) {
+        console.error("Error sending request:", error);
+        return "Error occurred while processing your request.";
+      }
+    };
+
+    function onUserRequest(message) {
+      // Handle user request here
+      console.log("User request:", message);
+
+      // Display user message
+      const questionElement = document.createElement("div");
+      questionElement.id = "question";
+      questionElement.innerHTML = `
         <div>
           ${message}
         </div>
       `;
-    chatMessages.appendChild(questionElement);
+      chatMessages.appendChild(questionElement);
 
-    const chatLoadingDiv = document.createElement("div");
-    chatLoadingDiv.id = "chat-loading";
-    chatLoadingDiv.classList.add("loader");
-    for (let i = 0; i < 3; i++) {
-      const span = document.createElement("span");
-      chatLoadingDiv.appendChild(span);
-    }
-    chatMessages.appendChild(chatLoadingDiv);
-    chatInput.value = "";
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    (async () => {
-      const answer = await handlePrompt(message);
-      reply(answer);
-    })();
-  }
-
-  function reply(message) {
-    const answerElement = document.createElement("div");
-    answerElement.id = "answer";
-    const messageContainer = document.createElement("div");
-    answerElement.appendChild(messageContainer);
-
-    const chatLoadingDiv = document.getElementById("chat-loading");
-    if (chatLoadingDiv) {
-      chatLoadingDiv.remove();
-    }
-
-    chatMessages.appendChild(answerElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    let index = 0;
-
-    function typeWriter() {
-      if (index < message.length) {
-        messageContainer.innerHTML = message.substring(0, index + 1);
-        index++;
-        setTimeout(typeWriter, 5);
+      const chatLoadingDiv = document.createElement("div");
+      chatLoadingDiv.id = "chat-loading";
+      chatLoadingDiv.classList.add("loader");
+      for (let i = 0; i < 3; i++) {
+        const span = document.createElement("span");
+        chatLoadingDiv.appendChild(span);
       }
+      chatMessages.appendChild(chatLoadingDiv);
+      chatInput.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      (async () => {
+        const answer = await handlePrompt(message);
+        reply(answer);
+      })();
     }
 
-    typeWriter();
+    function reply(message) {
+      let reply = message;
+      if (!can_send_message) {
+        reply =
+          "Your free trial has expired or you've reached your message limit. Please upgrade to continue using the chatbot.";
+      }
+
+      const answerElement = document.createElement("div");
+      answerElement.id = "answer";
+      const messageContainer = document.createElement("div");
+      answerElement.appendChild(messageContainer);
+
+      const chatLoadingDiv = document.getElementById("chat-loading");
+      if (chatLoadingDiv) {
+        chatLoadingDiv.remove();
+      }
+
+      chatMessages.appendChild(answerElement);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      let index = 0;
+
+      console.log(reply);
+      console.log(can_send_message);
+      function typeWriter() {
+        if (index < reply.length) {
+          messageContainer.innerHTML = reply.substring(0, index + 1);
+          index++;
+          setTimeout(typeWriter, 5);
+        }
+      }
+
+      typeWriter();
+    }
+  } catch (error) {
+    console.error("Error in chat widget:", error);
   }
 })();

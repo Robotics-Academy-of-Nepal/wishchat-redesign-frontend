@@ -8,10 +8,7 @@ import axios from "axios";
 
 const UploadFile = ({
   id,
-  name,
-  api_key,
-  azure_index,
-  messages_used,
+  setAzureIndex,
   Files,
   setFiles,
   NoOfFiles,
@@ -100,11 +97,8 @@ const UploadFile = ({
         console.log("trainresponse:", data);
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
         console.log(data.consolidated_index); // Access the parsed data
-
-        azure_index = data.consolidated_index;
-        navigate("/playground", {
-          state: { id, name, api_key, azure_index, messages_used },
-        });
+        setAzureIndex(data.consolidated_index);
+        navigate("/playground");
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

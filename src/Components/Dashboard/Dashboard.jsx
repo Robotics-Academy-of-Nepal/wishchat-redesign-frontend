@@ -2,32 +2,49 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import logo from "../../assets/wishchat-logo.png";
-// import logo from "/Chatbot.png";
 import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
 import Loading from "../Loading";
+import { useChatbot } from "../../context/ChatbotContext";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
 const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   const navigate = useNavigate();
   console.log("dashboard destructure:", id, name, api_key, azure_index);
+  const { setChatbotData } = useChatbot();
+
   const handleNavigate = () => {
     if (azure_index) {
+      setChatbotData({ id, name, api_key, azure_index, messages_used });
+
       if (messages_used > 0) {
-        navigate("/playground/chat", {
-          state: { id, name, api_key, azure_index, prompt: "", messages_used },
-        });
+        navigate("/playground/chat");
       } else {
-        navigate("/playground", {
-          state: { id, name, api_key, azure_index, messages_used },
-        });
+        navigate("/playground");
       }
     } else {
-      navigate("/build", {
-        state: { id, name, api_key, azure_index, messages_used },
-      });
+      navigate("/build");
     }
+    // const handleNavigate = () => {
+    //   if (azure_index) {
+    //     if (messages_used > 0) {
+    //       navigate("/chatbot/playground/chat", {
+    //         state: { id, name, api_key, azure_index, prompt: "", messages_used },
+    //       });
+    //     } else {
+    //       navigate("/chatbot/playground", {
+    //         state: { id, name, api_key, azure_index, messages_used },
+    //       });
+    //     }
+    //   } else {
+    //     navigate("/chatbot/build", {
+    //       state: { id, name, api_key, azure_index, messages_used },
+    //     });
+    //   }
+    // navigate("/chatbot", {
+    //   state: { id, name, api_key, azure_index, prompt: "", messages_used },
+    // });
   };
   return (
     <div
@@ -35,10 +52,7 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
       onClick={handleNavigate}
     >
       <div className="h-[270px] w-60 flex justify-center items-start rounded-3xl cursor-pointer bg-gradient-to-br from-white to-indigo-400 overflow-hidden hover:brightness-75 transition duration-700">
-        <img
-          src={logo}
-          alt="Chatbot Logo"
-        />
+        <img src={logo} alt="Chatbot Logo" />
       </div>
       <h2 className="text-2xl">{name}</h2>
     </div>

@@ -7,10 +7,7 @@ import { motion } from "framer-motion";
 
 const QandA = ({
   id,
-  name,
-  api_key,
-  azure_index,
-  messages_used,
+  setAzureIndex,
   QA,
   setQA,
   NoOfFiles,
@@ -79,10 +76,8 @@ const QandA = ({
       );
       if (response.status == 200) {
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
-        azure_index = response.data.consolidated_index;
-        navigate("/playground", {
-          state: { id, name, api_key, azure_index, messages_used },
-        });
+        setAzureIndex(response.data.consolidated_index);
+        navigate("/playground");
       }
       console.log(response.data);
       clearInterval(progressInterval);

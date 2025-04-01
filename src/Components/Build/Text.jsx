@@ -6,10 +6,7 @@ import { motion } from "framer-motion";
 import { IoTrashOutline } from "react-icons/io5";
 const Text = ({
   id,
-  name,
-  api_key,
-  azure_index,
-  messages_used,
+  setAzureIndex,
   textContent,
   setTextContent,
   NoOfFiles,
@@ -67,10 +64,9 @@ const Text = ({
       console.log(response.data);
       if (response.status == 200) {
         localStorage.setItem("has_active_chatbot", JSON.stringify(true));
-        azure_index = response.data.consolidated_index;
-        navigate("/playground", {
-          state: { id, name, api_key, azure_index, messages_used },
-        });
+
+        setAzureIndex(response.data.consolidated_index);
+        navigate("/playground");
       }
       clearInterval(progressInterval);
       setProgress(100);
