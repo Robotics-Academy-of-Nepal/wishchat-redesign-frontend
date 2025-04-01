@@ -7,9 +7,8 @@ const CustomColorForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { chatbotData } = useChatbot();
-  const { id } = chatbotData;
+  const { chatbot_id } = chatbotData;
   const token = localStorage.getItem("token");
-  console.log("color state:", location.state);
 
   const [colors, setColors] = useState({
     headerText: "Chat",
@@ -56,7 +55,7 @@ const CustomColorForm = () => {
 
     axios
       .post(
-        `${import.meta.env.VITE_API_URL}auth/chatbots/${id}/colors/`,
+        `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/colors/`,
         colors,
         {
           headers: {
@@ -75,7 +74,7 @@ const CustomColorForm = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/colors/`, {
+      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/colors/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -89,7 +88,7 @@ const CustomColorForm = () => {
       .catch((error) => {
         console.error("form error:", error);
       });
-  }, [token, id]);
+  }, [token, chatbot_id]);
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
@@ -155,9 +154,7 @@ const CustomColorForm = () => {
               type="button"
               className="flex items-center gap-1 rounded-full py-2 px-4 border border-stone-400 text-gray-800 hover:text-white hover:bg-gray-400 duration-500 transition-all"
               onClick={() => {
-                navigate("/deploy/websiteDomainForm/", {
-                  state: location.state,
-                });
+                navigate("/deploy/websiteDomainForm/");
               }}
             >
               {"Next"}

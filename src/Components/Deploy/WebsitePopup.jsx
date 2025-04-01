@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import CopyToClipboard from "./CopyToClipboard";
 import axios from "axios";
-const WebsitePopup = ({ id, token, api_key, setShowPopUp }) => {
+const WebsitePopup = ({ chatbot_id, token, api_key, setShowPopUp }) => {
   const [fetchedResponse, setFetchedResponse] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [colorsResponse, faqsResponse] = await Promise.all([
           axios.get(
-            `${import.meta.env.VITE_API_URL}auth/chatbots/${id}/colors/`,
+            `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/colors/`,
             {
               headers: { Authorization: `Token ${token}` },
             }
           ),
           axios.get(
-            `${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`,
+            `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/faqs/`,
             {
               headers: { Authorization: `Token ${token}` },
             }
@@ -53,7 +53,7 @@ const WebsitePopup = ({ id, token, api_key, setShowPopUp }) => {
     };
 
     fetchData();
-  }, [token, id, api_key]);
+  }, [token, chatbot_id, api_key]);
 
   return (
     <div className="fixed inset-0 left-0 top-0 h-screen w-full z-30 flex justify-center items-center bg-black/50">

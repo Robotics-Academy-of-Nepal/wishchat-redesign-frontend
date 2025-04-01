@@ -11,13 +11,30 @@ const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 // ChatbotCard component
 const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   const navigate = useNavigate();
-  console.log("dashboard destructure:", id, name, api_key, azure_index);
-  const { setChatbotData } = useChatbot();
+  const { chatbotData, setChatbotData } = useChatbot();
 
   const handleNavigate = () => {
-    if (azure_index) {
-      setChatbotData({ id, name, api_key, azure_index, messages_used });
+    setChatbotData({
+      chatbot_id: id,
+      chatbot_name: name,
+      api_key,
+      azure_index,
+      messages_used,
+    });
+    
+    localStorage.setItem(
+      "chatbotData",
+      JSON.stringify({
+        chatbot_id: id,
+        chatbot_name: name,
+        api_key,
+        azure_index,
+        messages_used,
+      })
+    );
+    console.log("chatbotdata:", chatbotData);
 
+    if (azure_index) {
       if (messages_used > 0) {
         navigate("/playground/chat");
       } else {
@@ -26,25 +43,6 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
     } else {
       navigate("/build");
     }
-    // const handleNavigate = () => {
-    //   if (azure_index) {
-    //     if (messages_used > 0) {
-    //       navigate("/chatbot/playground/chat", {
-    //         state: { id, name, api_key, azure_index, prompt: "", messages_used },
-    //       });
-    //     } else {
-    //       navigate("/chatbot/playground", {
-    //         state: { id, name, api_key, azure_index, messages_used },
-    //       });
-    //     }
-    //   } else {
-    //     navigate("/chatbot/build", {
-    //       state: { id, name, api_key, azure_index, messages_used },
-    //     });
-    //   }
-    // navigate("/chatbot", {
-    //   state: { id, name, api_key, azure_index, prompt: "", messages_used },
-    // });
   };
   return (
     <div

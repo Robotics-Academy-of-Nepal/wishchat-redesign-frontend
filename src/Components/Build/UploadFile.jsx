@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 
 const UploadFile = ({
-  id,
+  chatbot_id,
   setAzureIndex,
   Files,
   setFiles,
@@ -35,7 +35,7 @@ const UploadFile = ({
     if (!token) throw new Error("No token found");
     console.log(fileId);
     axios
-      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${fileId}/`, {
+      .delete(`${import.meta.env.VITE_API_URL}api/delete/${chatbot_id}/${fileId}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -85,7 +85,7 @@ const UploadFile = ({
       }
       // console.log(formData);
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/upload/${id}/`,
+        `${import.meta.env.VITE_API_URL}api/upload/${chatbot_id}/`,
         {
           method: "POST",
           headers: { Authorization: `Token ${token}` },

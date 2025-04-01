@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import UploadFile from "./UploadFile";
 import QandA from "./QandA";
 import Text from "./Text";
@@ -10,17 +9,15 @@ import axios from "axios";
 import { useChatbot } from "../../context/ChatbotContext";
 
 const Build = () => {
-  const location = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { chatbotData, setChatbotData } = useChatbot();
-  const { id, name, api_key, azure_index, messages_used } = chatbotData;
+  const { chatbot_id, api_key, azure_index, messages_used } = chatbotData;
   const [textId, setTextId] = useState();
   const [textContent, setTextContent] = useState("");
   const [QAId, setQAId] = useState();
   const [QA, setQA] = useState([{ Q: "", A: "" }]);
   const [Files, setFiles] = useState([]);
   const [NoOfFiles, setNoOfFiles] = useState(0);
-  console.log("build state:", location.state);
   const parseQA = (content) => {
     const result = {};
     let qaPositions = [];
@@ -106,7 +103,7 @@ const Build = () => {
 
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}api/list/${id}/`,
+            `${import.meta.env.VITE_API_URL}api/list/${chatbot_id}/`,
             {
               headers: {
                 Authorization: `Token ${token}`,
@@ -120,8 +117,8 @@ const Build = () => {
             const newFiles = response.data.documents
               .filter(
                 (file) =>
-                  file.filename !== `Q&A-${id}` &&
-                  file.filename !== `Text-${id}`
+                  file.filename !== `Q&A-${chatbot_id}` &&
+                  file.filename !== `Text-${chatbot_id}`
               )
               .map((file) => ({
                 name: `${file.filename}`,
@@ -131,14 +128,14 @@ const Build = () => {
             setFiles(newFiles);
 
             const foundQandA = response.data.documents.find(
-              (file) => file.filename === `Q&A-${id}`
+              (file) => file.filename === `Q&A-${chatbot_id}`
             );
 
             if (foundQandA) {
               setQAId(foundQandA.id);
               axios
                 .get(
-                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
+                  `${import.meta.env.VITE_API_URL}api/get/${chatbot_id}/${
                     foundQandA.id
                   }/`,
                   {
@@ -158,14 +155,14 @@ const Build = () => {
             }
 
             const foundText = response.data.documents.find(
-              (file) => file.filename === `Text-${id}`
+              (file) => file.filename === `Text-${chatbot_id}`
             );
 
             if (foundText) {
               setTextId(foundText.id);
               axios
                 .get(
-                  `${import.meta.env.VITE_API_URL}api/get/${id}/${
+                  `${import.meta.env.VITE_API_URL}api/get/${chatbot_id}/${
                     foundText.id
                   }/`,
                   {
@@ -190,7 +187,7 @@ const Build = () => {
 
       fetchData();
     }
-  }, [azure_index, id]);
+  }, [azure_index, chatbot_id]);
   const setAzureIndex = (consolidated_index) => {
     setChatbotData((prev) => ({
       ...prev,
@@ -247,7 +244,7 @@ const Build = () => {
 
         {selectedIndex === 0 && (
           <UploadFile
-            id={id}
+            chatbot_id={chatbot_id}
             setAzureIndex={setAzureIndex}
             name={name}
             api_key={api_key}
@@ -261,7 +258,7 @@ const Build = () => {
         )}
         {selectedIndex === 1 && (
           <QandA
-            id={id}
+            chatbot_id={chatbot_id}
             setAzureIndex={setAzureIndex}
             QA={QA}
             setQA={setQA}
@@ -273,7 +270,7 @@ const Build = () => {
         )}
         {selectedIndex === 2 && (
           <Text
-            id={id}
+            chatbot_id={chatbot_id}
             setAzureIndex={setAzureIndex}
             textContent={textContent}
             setTextContent={setTextContent}

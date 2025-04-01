@@ -1,14 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import ResponsePopup from "./ResponsePopup";
 import { useChatbot } from "../../context/ChatbotContext";
 const MessengerDeployForm = () => {
-  const location = useLocation();
 
   const { chatbotData } = useChatbot();
-  const { id } = chatbotData;
-  console.log("deploy state:", location.state);
+  const { chatbot_id } = chatbotData;
   const [showPopUp, setShowPopUp] = useState(false);
 
   const [messenger_token, setMessengerToken] = useState("");
@@ -56,7 +53,7 @@ const MessengerDeployForm = () => {
           messenger_url,
           messenger_token,
           messenger_page_id,
-          chatbot_id: id,
+          chatbot_id: chatbot_id,
         },
         {
           headers: {

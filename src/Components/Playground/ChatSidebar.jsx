@@ -8,9 +8,8 @@ const ChatSidebar = ({
   setTemperature,
   systemPrompt,
   setSystemPrompt,
-  id,
+  chatbot_id,
 }) => {
-  console.log(id);
   const token = localStorage.getItem("token");
 
   const resetSidebar = () => {
@@ -24,7 +23,7 @@ const ChatSidebar = ({
     axios
       .post(
         `${import.meta.env.VITE_API_URL}api/system-prompt/`,
-        { chatbot_id: id, prompt: systemPrompt },
+        { chatbot_id: chatbot_id, prompt: systemPrompt },
         {
           headers: {
             Authorization: `Token ${token}`,

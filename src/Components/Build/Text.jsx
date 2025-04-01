@@ -5,7 +5,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { IoTrashOutline } from "react-icons/io5";
 const Text = ({
-  id,
+  chatbot_id,
   setAzureIndex,
   textContent,
   setTextContent,
@@ -17,7 +17,7 @@ const Text = ({
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
-  const textName = `Text-${id}`;
+  const textName = `Text-${chatbot_id}`;
   const simulateProgress = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -52,7 +52,7 @@ const Text = ({
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}api/upload/${id}/`,
+        `${import.meta.env.VITE_API_URL}api/upload/${chatbot_id}/`,
         formData,
         {
           headers: {
@@ -86,11 +86,14 @@ const Text = ({
     console.log("token", token);
     console.log(textId);
     axios
-      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${textId}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .delete(
+        `${import.meta.env.VITE_API_URL}api/delete/${chatbot_id}/${textId}/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         setNoOfFiles((prev) => prev - 1);

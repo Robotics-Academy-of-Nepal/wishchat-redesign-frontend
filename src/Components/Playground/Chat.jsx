@@ -21,12 +21,11 @@ const Chat = () => {
   const token = localStorage.getItem("token");
 
   const { chatbotData } = useChatbot();
-  const { id, api_key } = chatbotData;
+  const { chatbot_id, api_key } = chatbotData;
 
   const { prompt } = location.state || {};
   const [temperature, setTemperature] = useState(0.7);
 
-  console.log("chat_state:", location.state);
   const resetMessages = () => {
     setMessages([]);
   };
@@ -69,7 +68,7 @@ const Chat = () => {
           );
         });
     }
-  }, [id, prompt, token, api_key]);
+  }, [chatbot_id, prompt, token, api_key]);
   const handlePrompt = () => {
     setLoading(true);
     setJustAsked(true);
@@ -138,7 +137,7 @@ const Chat = () => {
         setTemperature={setTemperature}
         systemPrompt={systemPrompt}
         setSystemPrompt={setSystemPrompt}
-        id={id}
+        chatbot_id={chatbot_id}
       />
       <div className="w-full h-full flex flex-col lg:flex-row justify-between overflow-hidden rounded-xl">
         <TbLayoutSidebarLeftExpandFilled

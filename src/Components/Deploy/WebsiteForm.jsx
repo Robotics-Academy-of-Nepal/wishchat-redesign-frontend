@@ -10,9 +10,7 @@ const WebsiteForm = () => {
   const location = useLocation();
 
   const { chatbotData } = useChatbot();
-  const { id } = chatbotData;
-  const chatbotID = id;
-  console.log("website faq state:", location.state);
+  const { chatbot_id } = chatbotData;
   const token = localStorage.getItem("token");
 
   const [FetchedQA, setFetchedQA] = useState([{ question: "", answer: "" }]);
@@ -23,11 +21,15 @@ const WebsiteForm = () => {
     e.preventDefault();
     console.log(QA);
     axios
-      .post(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`, QA, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .post(
+        `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/faqs/`,
+        QA,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log("form res:", response);
         console.log("data:", response.data);
@@ -49,7 +51,7 @@ const WebsiteForm = () => {
         .delete(
           `${
             import.meta.env.VITE_API_URL
-          }auth/chatbots/${chatbotID}/faqs/${id}/`,
+          }auth/chatbots/${chatbot_id}/faqs/${id}/`,
           {
             headers: {
               Authorization: `Token ${token}`,
@@ -70,15 +72,15 @@ const WebsiteForm = () => {
   };
   const updateQA = (obj, index) => {
     console.log("update calledddd");
-    console.log(chatbotID, obj.id);
+    console.log(chatbot_id, obj.id);
     console.log(
-      `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbotID}/faqs/${
+      `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/faqs/${
         obj.id
       }/`
     );
     axios
       .put(
-        `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbotID}/faqs/${
+        `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/faqs/${
           obj.id
         }/`,
         FetchedQA[index],
@@ -96,9 +98,9 @@ const WebsiteForm = () => {
       });
   };
   useEffect(() => {
-    console.log("initialfetch:", id);
+    console.log("initialfetch:", chatbot_id);
     axios
-      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${id}/faqs/`, {
+      .get(`${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/faqs/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -118,7 +120,7 @@ const WebsiteForm = () => {
       .catch((error) => {
         console.error("form error:", error);
       });
-  }, [id, setFetchedQA, token]);
+  }, [chatbot_id, setFetchedQA, token]);
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
@@ -241,9 +243,7 @@ const WebsiteForm = () => {
             </button>
             <button
               onClick={() => {
-                navigate("/deploy/widgetColorForm/", {
-                  state: location.state,
-                });
+                navigate("/deploy/widgetColorForm/");
               }}
               className="flex rounded-full items-center gap-1 py-2 px-4 border border-stone-400 text-gray-800 hover:bg-gray-400 hover:text-white duration-700 duration transition-all"
               type="button"

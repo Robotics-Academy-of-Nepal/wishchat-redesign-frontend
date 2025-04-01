@@ -1,16 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import ResponsePopup from "./ResponsePopup";
 import { useChatbot } from "../../context/ChatbotContext";
 const WhatsappDeployForm = () => {
-  const location = useLocation();
   const [showPopUp, setShowPopUp] = useState(false);
   const [fetchedResponse, setFetchedResponse] = useState({});
 
   const { chatbotData } = useChatbot();
-  const { id } = chatbotData;
-  console.log("deploy state:", location.state);
+  const { chatbot_id } = chatbotData;
 
   const [whatsapp_token, setWhatsappToken] = useState("");
   const [whatsapp_id, setWhatsappId] = useState("");
@@ -55,7 +52,7 @@ const WhatsappDeployForm = () => {
           whatsapp_url,
           whatsapp_token,
           whatsapp_id,
-          chatbot_id: id,
+          chatbot_id: chatbot_id,
         },
         {
           headers: {

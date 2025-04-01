@@ -4,8 +4,8 @@ const ChatbotContext = createContext();
 // Provider component
 export const ChatbotProvider = ({ children }) => {
   const [chatbotData, setChatbotData] = useState({
-    id: null,
-    name: "",
+    chatbot_id: null,
+    chatbot_name: "",
     api_key: "",
     azure_index: null,
     messages_used: 0,

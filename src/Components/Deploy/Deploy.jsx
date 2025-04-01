@@ -2,12 +2,9 @@ import Navbar from "../Navbar";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuArrowRight } from "react-icons/lu";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useChatbot } from "../../context/ChatbotContext";
 
 const Deploy = () => {
   const location = useLocation();
-  const { chatbotData } = useChatbot();
-  const { id, name, api_key, azure_index, messages_used } = chatbotData;
 
   const isActive = (path) => location.pathname.includes(path);
 

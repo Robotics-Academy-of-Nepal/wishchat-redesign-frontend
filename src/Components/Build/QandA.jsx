@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const QandA = ({
-  id,
+  chatbot_id,
   setAzureIndex,
   QA,
   setQA,
@@ -18,7 +18,7 @@ const QandA = ({
   const navigate = useNavigate();
   const [isTraining, setIsTraining] = useState(false);
   const [progress, setProgress] = useState(0);
-  const QAName = `Q&A-${id}`;
+  const QAName = `Q&A-${chatbot_id}`;
   const simulateProgress = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -65,7 +65,7 @@ const QandA = ({
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}api/upload/${id}/`,
+        `${import.meta.env.VITE_API_URL}api/upload/${chatbot_id}/`,
         formData,
         {
           headers: {
@@ -98,7 +98,7 @@ const QandA = ({
     console.log(QAId);
     console.log("TOKEN:", token);
     axios
-      .delete(`${import.meta.env.VITE_API_URL}api/delete/${id}/${QAId}/`, {
+      .delete(`${import.meta.env.VITE_API_URL}api/delete/${chatbot_id}/${QAId}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },

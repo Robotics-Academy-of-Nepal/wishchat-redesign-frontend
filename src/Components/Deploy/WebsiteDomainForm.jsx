@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import WebsitePopup from "./WebsitePopup";
 import { LuArrowRight } from "react-icons/lu";
@@ -7,12 +6,10 @@ import { useChatbot } from "../../context/ChatbotContext";
 
 const WebsiteDomainForm = () => {
   const [showPopUp, setShowPopUp] = useState(false);
-  const location = useLocation();
 
   const { chatbotData } = useChatbot();
-  const { id, api_key } = chatbotData;
+  const { chatbot_id, api_key } = chatbotData;
   const [domain, setDomain] = useState("");
-  console.log("domain state:", location.state);
   const token = localStorage.getItem("token");
 
   // no need to fetch the domain of the chatbot is already sent in dashboard
@@ -43,7 +40,7 @@ const WebsiteDomainForm = () => {
 
     axios
       .post(
-        `${import.meta.env.VITE_API_URL}auth/${id}/add/domain/`,
+        `${import.meta.env.VITE_API_URL}auth/${chatbot_id}/add/domain/`,
         { domain_name: domain },
         {
           headers: {
@@ -65,7 +62,7 @@ const WebsiteDomainForm = () => {
     <div className="rounded-2xl flex items-center justify-center p-6">
       {showPopUp && (
         <WebsitePopup
-          id={id}
+          id={chatbot_id}
           token={token}
           api_key={api_key}
           setShowPopUp={setShowPopUp}
