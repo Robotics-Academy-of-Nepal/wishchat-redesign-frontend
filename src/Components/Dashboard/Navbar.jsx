@@ -21,12 +21,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center sticky justify-between bg-inherit px-4">
+    <nav className="flex w-full items-center sticky justify-between bg-inherit px-4">
       <div className="flex items-start justify-start">
         <img src={logo} className="h-28 w-28" />
       </div>
 
-      <div className="flex items-center justify-center gap-12 py-3 font-sans text-lg">
+      <div className="flex items-center justify-center gap-12 py-3">
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
         </Link>
@@ -76,7 +76,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </nav>
   );
 };
 

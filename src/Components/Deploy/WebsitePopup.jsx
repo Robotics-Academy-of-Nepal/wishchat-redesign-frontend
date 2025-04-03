@@ -8,7 +8,9 @@ const WebsitePopup = ({ chatbot_id, token, api_key, setShowPopUp }) => {
       try {
         const [colorsResponse, faqsResponse] = await Promise.all([
           axios.get(
-            `${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/colors/`,
+            `${
+              import.meta.env.VITE_API_URL
+            }auth/chatbots/${chatbot_id}/colors/`,
             {
               headers: { Authorization: `Token ${token}` },
             }
@@ -63,17 +65,16 @@ const WebsitePopup = ({ chatbot_id, token, api_key, setShowPopUp }) => {
           <div className="flex w-full gap-2 items-start">
             <p className="px-2 py-3 border border-stone-400 rounded-xl w-full text-wrap overflow-x-scroll">
               {fetchedResponse &&
-                `<script>
-                window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
-                </script>
-                <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
+                // `<script>
+                // window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
+                // </script>
+                // <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
+                `<script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
                 `}
             </p>
             {fetchedResponse && (
               <CopyToClipboard
-                text={`<script>
-                window.chatWidgetConfig = ${JSON.stringify(fetchedResponse)};
-                </script>
+                text={`
                 <script src="https://cdn.jsdelivr.net/gh/jATM0S/testDeliver@ad44987/chatWidget.js" defer></script>
                 `}
               />

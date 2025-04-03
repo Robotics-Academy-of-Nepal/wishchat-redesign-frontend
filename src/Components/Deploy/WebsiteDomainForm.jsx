@@ -62,7 +62,7 @@ const WebsiteDomainForm = () => {
     <div className="rounded-2xl flex items-center justify-center p-6">
       {showPopUp && (
         <WebsitePopup
-          id={chatbot_id}
+          chatbot_id={chatbot_id}
           token={token}
           api_key={api_key}
           setShowPopUp={setShowPopUp}

@@ -8,23 +8,14 @@ const ChatbotSpecificFeatures = () => {
   const navigate = useNavigate();
   // console.log("chatbotspecific trigerred");
   useEffect(() => {
-    if (chatbotData.chatbot_id == null) {
+    if (JSON.parse(localStorage.getItem("chatbotData")) == null) {
+      navigate("/dashboard");
+    } else if (chatbotData.chatbot_id == null)
       setChatbotData(JSON.parse(localStorage.getItem("chatbotData")));
-    }
-
-    // console.log("after setting localstorage:", chatbotData);
-    // if (
-    //   JSON.stringify(chatbotData) ==
-    //   JSON.stringify({
-    //     chatbot_id: null,
-    //     chatbot_name: "",
-    //     api_key: "",
-    //     azure_index: null,
-    //     messages_used: 0,
-    //   })
-    // ) {
-    //   navigate("/dashboard");
-    // }
+    console.log(
+      "parsedlocalstorage:",
+      JSON.parse(localStorage.getItem("chatbotData"))
+    );
   }, []);
   return (
     <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">

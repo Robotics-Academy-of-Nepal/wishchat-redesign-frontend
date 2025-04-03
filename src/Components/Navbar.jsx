@@ -30,7 +30,7 @@ const Navbar = () => {
         <img src={logo} className="h-28 w-28" />
       </div>
 
-      <div className="flex items-center justify-center gap-12 font-sans text-lg">
+      <div className="flex items-center justify-center gap-12">
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
         </Link>

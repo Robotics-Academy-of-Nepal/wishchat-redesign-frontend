@@ -1,12 +1,3 @@
-// useEffect(() => {
-//   import("./chatWidget.js")
-//     .then((module) => {
-//       console.log("chatWidget loaded successfully");
-//     })
-//     .catch((error) => {
-//       console.error("Error loading chatWidget.js", error);
-//     });
-// }, []);
 import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
@@ -28,8 +19,19 @@ import ChatbotSpecificFeatures from "./Components/ChatbotSpecificFeatures.jsx";
 import WebsiteDomainForm from "./Components/Deploy/WebsiteDomainForm.jsx";
 import ChatbotSettings from "./Components/ChatbotSettings/ChatbotSettings.jsx";
 import { ChatbotProvider } from "./context/ChatbotContext";
-
+import ChatbotDetail from "./Components/ChatbotSettings/ChatbotDetail.jsx";
+import Payment from "./Components/ChatbotSettings/Payment.jsx";
+import ChatbotAnalysis from "./Components/ChatbotSettings/ChatbotAnalysis.jsx";
 function App() {
+  // useEffect(() => {
+  //   import("./chatWidget.js")
+  //     .then((module) => {
+  //       console.log("chatWidget loaded successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error loading chatWidget.js", error);
+  //     });
+  // }, []);
   return (
     <Router>
       <Routes>
@@ -68,7 +70,11 @@ function App() {
             <Route path="websiteForm" element={<WebsiteForm />} />
           </Route>
 
-          <Route path="/chatbotSettings" element={<ChatbotSettings />} />
+          <Route path="/chatbotSettings" element={<ChatbotSettings />}>
+            <Route path="chatbot-detail" element={<ChatbotDetail />}></Route>
+            <Route path="analysis" element={<ChatbotAnalysis />}></Route>
+            <Route path="payment" element={<Payment />}></Route>
+          </Route>
           <Route path="/build" element={<Build />} />
         </Route>
 

@@ -9,27 +9,30 @@ import { useChatbot } from "../../context/ChatbotContext";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
 // ChatbotCard component
-const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
+const ChatbotCard = ({
+  azure_index,
+  messages_used,
+  chatbot_name,
+  ...props
+}) => {
   const navigate = useNavigate();
   const { chatbotData, setChatbotData } = useChatbot();
 
   const handleNavigate = () => {
     setChatbotData({
-      chatbot_id: id,
-      chatbot_name: name,
-      api_key,
+      chatbot_name,
       azure_index,
       messages_used,
+      ...props,
     });
-    
+
     localStorage.setItem(
       "chatbotData",
       JSON.stringify({
-        chatbot_id: id,
-        chatbot_name: name,
-        api_key,
+        chatbot_name,
         azure_index,
         messages_used,
+        ...props,
       })
     );
     console.log("chatbotdata:", chatbotData);
@@ -46,13 +49,13 @@ const ChatbotCard = ({ id, name, api_key, azure_index, messages_used }) => {
   };
   return (
     <div
-      className="flex flex-col items-center gap-4 h-80 mt-6"
+      className="flex flex-col items-center gap-4 h-80"
       onClick={handleNavigate}
     >
       <div className="h-[270px] w-60 flex justify-center items-start rounded-3xl cursor-pointer bg-gradient-to-br from-white to-indigo-400 overflow-hidden hover:brightness-75 transition duration-700">
         <img src={logo} alt="Chatbot Logo" />
       </div>
-      <h2 className="text-2xl">{name}</h2>
+      <h2 className="text-xl">{chatbot_name}</h2>
     </div>
   );
 };
@@ -132,15 +135,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col bg-radial-[at_0%_0%] from-white from-20% to-indigo-300 ">
+    <div className="fixed inset-4 rounded-4xl overflow-auto flex flex-col items-center bg-radial-[at_0%_0%] from-white from-20% to-indigo-300 ">
       <Navbar />
 
       {isActive("/teammates") || isActive("/pricing") ? (
         <Outlet />
       ) : (
-        <div className=" p-10">
+        <div className="flex flex-col justify-center max-w-[1400px] p-10">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="font-semibold text-3xl">My Chatbots</h1>
+            <h1 className="font-semibold text-2xl">My Chatbots</h1>
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-300"
               onClick={() => setShowForm(true)}
@@ -165,15 +168,35 @@ export default function Dashboard() {
                   name,
                   azure_index_name,
                   api_key,
-                  quota: { messages_used },
+                  quota: {
+                    messages_used,
+                    message_limit,
+                    is_trial_valid,
+                    trial_end_date,
+                    trial_start_date,
+                    is_subscription_valid,
+                    subscription_end_date,
+                    last_reset,
+                  },
+                  created_at,
+                  updated_at,
                 }) => (
                   <ChatbotCard
                     key={id}
-                    id={id}
+                    chatbot_id={id}
                     api_key={api_key}
-                    name={name}
+                    chatbot_name={name}
                     azure_index={azure_index_name}
                     messages_used={messages_used}
+                    message_limit={message_limit}
+                    is_trial_valid={is_trial_valid}
+                    trial_end_date={trial_end_date}
+                    trial_start_date={trial_start_date}
+                    is_subscription_valid={is_subscription_valid}
+                    subscription_end_date={subscription_end_date}
+                    subscription_start_date_at={updated_at}
+                    last_reset={last_reset}
+                    created_at={created_at}
                   />
                 )
               )}
