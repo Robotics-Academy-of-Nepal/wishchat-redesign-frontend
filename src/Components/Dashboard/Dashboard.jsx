@@ -141,7 +141,7 @@ export default function Dashboard() {
       {isActive("/teammates") || isActive("/pricing") ? (
         <Outlet />
       ) : (
-        <div className="flex flex-col justify-center max-w-[1400px] p-10">
+        <div className="flex flex-col justify-center max-w-[1200px] sm:min-w-[640px] md:min-w-[768px] lg:min-w-[1024px] xl:min-w-[1200px] p-10">
           <div className="flex justify-between items-center mb-8">
             <h1 className="font-semibold text-2xl">My Chatbots</h1>
             <button

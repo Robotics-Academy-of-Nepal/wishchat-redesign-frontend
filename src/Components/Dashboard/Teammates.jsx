@@ -97,7 +97,7 @@ const Teammates = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col p-10">
+    <div className="flex flex-col justify-center max-w-[1200px] sm:min-w-[640px] md:min-w-[768px] lg:min-w-[1024px] xl:min-w-[1200px] p-10">
       <div className="flex justify-between items-center mb-8">
         <h1 className="font-semibold text-3xl">Teammates</h1>
         <button
@@ -108,7 +108,6 @@ const Teammates = () => {
           Invite
         </button>
       </div>
-
       {loading ? (
         <Loading />
       ) : (
@@ -128,8 +127,12 @@ const Teammates = () => {
                 <div className="text-lg font-semibold text-gray-800 overflow-hidden text-ellipsis w-full">
                   {`${member.first_name} ${member.last_name}`}
                 </div>
-                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">{member.email}</div>
-                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">{member.username}</div>
+                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">
+                  {member.email}
+                </div>
+                <div className="text-sm text-gray-600 overflow-hidden text-ellipsis w-full">
+                  {member.username}
+                </div>
 
                 {is_owner && (
                   <button
@@ -145,7 +148,6 @@ const Teammates = () => {
           </div>
         </motion.div>
       )}
-
       {invitePopUp && (
         <AnimatePresence>
           <motion.div

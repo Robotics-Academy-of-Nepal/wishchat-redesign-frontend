@@ -65,7 +65,7 @@ const Navbar = () => {
           <button className="hover:text-blue-400">Build</button>
         </Link>
         <Link
-          to="/chatbotSettings"
+          to="/chatbotSettings/chatbot-details"
         >
           <button className="hover:text-blue-400">Settings</button>
         </Link>

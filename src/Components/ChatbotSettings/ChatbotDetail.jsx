@@ -1,7 +1,50 @@
-import { useChatbot } from "../../context/ChatbotContext";
-
-const ChatbotDetail = () => {
-  const { chatbotData } = useChatbot();
+import { useState } from "react";
+import { IoTrashOutline } from "react-icons/io5";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const PopUp = ({ setPopUpOpen, chatbot_id }) => {
+  const navigate = useNavigate();
+  const deleteChatbot = async () => {
+    const token = localStorage.getItem("token");
+    axios
+      .delete(`${import.meta.env.VITE_API_URL}auth/chatbots/${chatbot_id}/`, {
+        headers: { Authorization: `Token ${token}` },
+      })
+      .then((response) => {
+        console.log(response);
+        setPopUpOpen(false);
+        localStorage.removeItem("chatbotData");
+        navigate("/dashboard");
+      });
+  };
+  return (
+    <div className="fixed top-0 left-0 w-full h-screen bg-black/50 flex items-center justify-center">
+      <div className="bg-white rounded-xl p-8 flex flex-col gap-4">
+        Are you sure you want to delete the this chatbot?
+        <div className="flex gap-4 justify-end">
+          <div
+            onClick={() => {
+              setPopUpOpen(false);
+            }}
+            className="border border-stone-400 hover:text-white hover:bg-stone-400 p-2 rounded-lg inline transition-colors duration-300 select-none"
+          >
+            Cancel
+          </div>
+          <div
+            onClick={deleteChatbot}
+            className="flex border text-red-500 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors duration-300 select-none"
+          >
+            <IoTrashOutline className="h-5 w-5" />
+            Delete
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+const ChatbotDetail = ({ chatbotData }) => {
+  const [popUpOpen, setPopUpOpen] = useState(false);
+  console.log("chatbotdata in chatbot details:", chatbotData);
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -10,17 +53,29 @@ const ChatbotDetail = () => {
       day: "numeric",
     });
   };
-  const usagePercentage =
-    (chatbotData.messages_used / chatbotData.message_limit) * 100;
 
   return (
-    <div className="w-full flex flex-col p-6 px-8 mx-4 bg-white rounded-xl">
+    <div className="w-full flex flex-col p-6 px-8 mx-4 bg-white rounded-xl ">
+      {popUpOpen && (
+        <PopUp
+          setPopUpOpen={setPopUpOpen}
+          chatbot_id={chatbotData.chatbot_id}
+        />
+      )}
       {/* header */}
       <div className="bg-indigo-400 rounded-t-lg p-4 text-white shadow-md">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center  justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold">{chatbotData.chatbot_name}</h1>
             <p className="text-blue-100">ID: {chatbotData.chatbot_id}</p>
+          </div>
+          <div
+            className="bg-white rounded p-2 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white"
+            onClick={() => {
+              setPopUpOpen(true);
+            }}
+          >
+            <IoTrashOutline className="h-5 w-5" />
           </div>
         </div>
       </div>
@@ -121,35 +176,6 @@ const ChatbotDetail = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Usage Statistics */}
-      <div>
-        <h2 className="text-blue-700 text-lg font-semibold mb-4 border-b border-blue-100 pb-2">
-          Message Usage
-        </h2>
-        <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
-          <div className="flex items-center gap-3 mb-3">
-            {/* <MessageSquare className="text-blue-500" size={20} /> */}
-            <div>
-              <p className="text-sm text-gray-600">
-                {chatbotData.messages_used} of {chatbotData.message_limit}{" "}
-                messages used
-              </p>
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-1">
-            <div
-              className="bg-blue-600 h-2.5 rounded-full"
-              style={{ width: `${usagePercentage}%` }}
-            ></div>
-          </div>
-          <p className="text-xs text-right text-gray-500">
-            {usagePercentage.toFixed(2)}% used
-          </p>
         </div>
       </div>
     </div>

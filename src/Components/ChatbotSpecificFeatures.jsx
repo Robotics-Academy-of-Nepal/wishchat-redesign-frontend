@@ -12,13 +12,13 @@ const ChatbotSpecificFeatures = () => {
       navigate("/dashboard");
     } else if (chatbotData.chatbot_id == null)
       setChatbotData(JSON.parse(localStorage.getItem("chatbotData")));
-    console.log(
-      "parsedlocalstorage:",
-      JSON.parse(localStorage.getItem("chatbotData"))
-    );
+    // console.log(
+    //   "parsedlocalstorage:",
+    //   JSON.parse(localStorage.getItem("chatbotData"))
+    // );
   }, []);
   return (
-    <div className="fixed inset-4 rounded-4xl flex flex-col overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
+    <div className="fixed inset-4 rounded-4xl overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
       <Navbar />
       <Outlet />
     </div>

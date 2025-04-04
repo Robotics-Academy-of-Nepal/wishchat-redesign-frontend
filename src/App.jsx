@@ -21,7 +21,7 @@ import ChatbotSettings from "./Components/ChatbotSettings/ChatbotSettings.jsx";
 import { ChatbotProvider } from "./context/ChatbotContext";
 import ChatbotDetail from "./Components/ChatbotSettings/ChatbotDetail.jsx";
 import Payment from "./Components/ChatbotSettings/Payment.jsx";
-import ChatbotAnalysis from "./Components/ChatbotSettings/ChatbotAnalysis.jsx";
+import ChatbotAnalytics from "./Components/ChatbotSettings/ChatbotAnalytics.jsx";
 function App() {
   // useEffect(() => {
   //   import("./chatWidget.js")
@@ -71,8 +71,8 @@ function App() {
           </Route>
 
           <Route path="/chatbotSettings" element={<ChatbotSettings />}>
-            <Route path="chatbot-detail" element={<ChatbotDetail />}></Route>
-            <Route path="analysis" element={<ChatbotAnalysis />}></Route>
+            <Route path="chatbot-details" element={<ChatbotDetail />}></Route>
+            <Route path="analytics" element={<ChatbotAnalytics />}></Route>
             <Route path="payment" element={<Payment />}></Route>
           </Route>
           <Route path="/build" element={<Build />} />
