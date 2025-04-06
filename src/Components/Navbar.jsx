@@ -26,7 +26,10 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between bg-inherit px-6">
-      <div className="flex items-center justify-start h-full">
+      <div
+        className="flex items-center justify-start h-full"
+        onClick={navigate("/")}
+      >
         <img src={logo} className="h-28 w-28" />
       </div>
 
@@ -51,22 +54,16 @@ const Navbar = () => {
           <span className="cursor-not-allowed text-gray-500">Playground</span>
         )}
         {azure_index ? (
-          <Link
-            to="/deploy"
-          >
+          <Link to="/deploy">
             <button className="hover:text-blue-400">Deploy</button>
           </Link>
         ) : (
           <span className="cursor-not-allowed text-gray-500">Deploy</span>
         )}
-        <Link
-          to="/build"
-        >
+        <Link to="/build">
           <button className="hover:text-blue-400">Build</button>
         </Link>
-        <Link
-          to="/chatbotSettings/chatbot-details"
-        >
+        <Link to="/chatbotSettings/chatbot-details">
           <button className="hover:text-blue-400">Settings</button>
         </Link>
       </div>

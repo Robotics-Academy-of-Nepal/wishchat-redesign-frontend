@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <nav className="flex w-full items-center sticky justify-between bg-inherit px-4">
-      <div className="flex items-start justify-start">
+      <div className="flex items-start justify-start" onClick={navigate("/")}>
         <img src={logo} className="h-28 w-28" />
       </div>
 

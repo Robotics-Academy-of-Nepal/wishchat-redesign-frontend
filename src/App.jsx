@@ -22,6 +22,7 @@ import { ChatbotProvider } from "./context/ChatbotContext";
 import ChatbotDetail from "./Components/ChatbotSettings/ChatbotDetail.jsx";
 import Payment from "./Components/ChatbotSettings/Payment.jsx";
 import ChatbotAnalytics from "./Components/ChatbotSettings/ChatbotAnalytics.jsx";
+import PaymentSuccess from "./Components/ChatbotSettings/Payment_Success.jsx";
 function App() {
   // useEffect(() => {
   //   import("./chatWidget.js")
@@ -77,6 +78,9 @@ function App() {
           </Route>
           <Route path="/build" element={<Build />} />
         </Route>
+
+        <Route path="/payment-success/:code" element={<PaymentSuccess/>}/>
+        <Route path="/payment-failure" element={<PaymentSuccess/>}/>
 
         <Route path="/login" element={<Login />} />
         <Route path="/createOrganization" element={<CreateOrganization />} />

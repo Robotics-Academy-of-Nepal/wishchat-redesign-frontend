@@ -143,7 +143,7 @@ export default function Dashboard() {
       ) : (
         <div className="flex flex-col justify-center max-w-[1200px] sm:min-w-[640px] md:min-w-[768px] lg:min-w-[1024px] xl:min-w-[1200px] p-10">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="font-semibold text-2xl">My Chatbots</h1>
+            <h1 className="font-semibold text-3xl">My Chatbots</h1>
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded-full shadow-md hover:bg-white hover:text-blue-500 transition-colors duration-300"
               onClick={() => setShowForm(true)}

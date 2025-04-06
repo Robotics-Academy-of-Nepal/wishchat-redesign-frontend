@@ -7,7 +7,10 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between px-6">
-      <div className="flex items-start justify-start h-full">
+      <div
+        className="flex items-start justify-start h-full"
+        onClick={navigate("/")}
+      >
         <img src={logo} className="h-28 w-28" />
       </div>
 

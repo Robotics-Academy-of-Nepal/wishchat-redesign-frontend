@@ -22,9 +22,9 @@ const ChatbotSettings = () => {
     >
       {/* Sidebar */}
       <aside
-        className={`flex flex-col bg-white shadow-lg transition-all duration-300 ease-in-out ${
+        className={`flex flex-col flex-shrink-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
           sidebarOpen
-            ? "w-72 translate-x-0"
+            ? "w-64 translate-x-0"
             : "w-0 overflow-hidden -translate-x-full"
         }`}
       >

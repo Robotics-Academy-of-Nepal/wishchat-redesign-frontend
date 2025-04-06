@@ -9,20 +9,33 @@ export default function Pricing() {
     {
       title: "Basic Plan",
       messages: "5000 Monthly messages",
-      price: "RS 5000",
+      price: "NPR 5000",
       time: "monthly",
+      features: [
+        "Core AI chatbot functionalities.",
+        "Suitable for small-scale or personal use.",
+      ],
     },
     {
-      title: "Basic Plan",
-      messages: "5000 Monthly messages",
-      price: "RS 5000",
+      title: "Standard Plan",
+      messages: "7000 Monthly messages",
+      price: "NPR 7000",
       time: "monthly",
+      features: [
+        "Everyting in the Basic Plan.",
+        "Enhanced AI capabilities.",
+        "Priority Support.",
+      ],
     },
     {
-      title: "Basic Plan",
-      messages: "5000 Monthly messages",
-      price: "RS 5000",
+      title: "Premium Plan",
+      messages: "10000 Monthly messages",
+      price: "NPR 10000",
       time: "monthly",
+      features: [
+        "Everything in the Standard Plan.",
+        "Ideal for medium-scale business.",
+      ],
     },
   ];
 
@@ -63,7 +76,7 @@ export default function Pricing() {
       >
         <button
           onClick={scrollLeft}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-black text-white rounded-full"
+          className="absolute lg:hidden left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
         >
           &lt;
         </button>
@@ -78,16 +91,24 @@ export default function Pricing() {
                 className="flex-shrink-0 flex snap-start justify-center w-full md:w-1/2 lg:w-full"
                 key={index}
               >
-                <div className=" h-[500px] w-full sm:w-4/5 md:w-full px-6 py-10 bg-white text-gray-800 rounded-3xl shadow-md">
+                <div className=" h-[500px] w-full sm:w-4/5 md:w-full px-6 py-10 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between">
                   <p className="font-semibold text-3xl">{detail.title}</p>
-                  <p className="text-2xl font- mt-2">{detail.messages}</p>
-                  <p className="text-4xl font-semibold mt-28 mb-6">
+                  <p className="text-2xl mt-2">{detail.messages}</p>
+
+                  <div className="text-lg flex flex-col justify-center h-full p-4">
+                    {detail.features.map((feature, index) => {
+                      return <p key={index}>{feature}</p>;
+                    })}
+                  </div>
+
+                  <p className="text-4xl font-semibold mb-6">
                     {detail.price}
                     <sub className="top-2 text-sm font-light">
                       /{detail.time}
                     </sub>
                   </p>
-                  <button className="flex items-center justify-evenly p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-lg font-extralight">
+
+                  <button className="flex items-center justify-center p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-lg font-extralight">
                     Get Started Now
                     <div
                       className={`h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center`}
@@ -103,7 +124,7 @@ export default function Pricing() {
 
         <button
           onClick={scrollRight}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-black text-white rounded-full"
+          className="absolute lg:hidden right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
         >
           &gt;
         </button>
