@@ -2,6 +2,9 @@ import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { FaRegCalendar } from "react-icons/fa6";
+
 const PopUp = ({ setPopUpOpen, chatbot_id }) => {
   const navigate = useNavigate();
   const deleteChatbot = async () => {
@@ -87,7 +90,7 @@ const ChatbotDetail = ({ chatbotData }) => {
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="flex items-center gap-3">
-            {/* <Calendar className="text-blue-500" size={20} /> */}
+            <FaRegCalendar className="text-blue-500" size={20} />
             <div>
               <p className="text-sm text-gray-500">Created On</p>
               <p className="font-medium">
@@ -96,7 +99,7 @@ const ChatbotDetail = ({ chatbotData }) => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {/* <Clock className="text-blue-500" size={20} /> */}
+            <FaRegCalendar className="text-blue-500" size={20} />
             <div>
               <p className="text-sm text-gray-500">Last Reset</p>
               <p className="font-medium">
@@ -131,11 +134,11 @@ const ChatbotDetail = ({ chatbotData }) => {
               <h3 className="font-medium text-blue-800">Trial Status</h3>
               {chatbotData.is_trial_valid ? (
                 <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                  {/* <CheckCircle size={12} /> Active */}
+                  <FaRegCheckCircle /> Active
                 </span>
               ) : (
                 <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                  {/* <XCircle size={12} /> Expired */}
+                  <FaRegCheckCircle /> Expired
                 </span>
               )}
             </div>
@@ -157,18 +160,22 @@ const ChatbotDetail = ({ chatbotData }) => {
               <h3 className="font-medium text-blue-800">Subscription Status</h3>
               {chatbotData.is_subscription_valid ? (
                 <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                  {/* <CheckCircle size={12} /> Active */}
+                  <FaRegCheckCircle /> Active
                 </span>
               ) : (
                 <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                  {/* <XCircle size={12} /> Inactive */}
+                  <FaRegCheckCircle /> Expired
                 </span>
               )}
             </div>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p className="text-gray-500">Start Date</p>
-                <p>{formatDate(chatbotData.subscription_start_date_at)}</p>
+                {chatbotData.last_payment_date ? (
+                  <p>{formatDate(chatbotData.last_payment_date)}</p>
+                ) : (
+                  <p>{formatDate(chatbotData.subscription_start_date_at)}</p>
+                )}
               </div>
               <div>
                 <p className="text-gray-500">End Date</p>

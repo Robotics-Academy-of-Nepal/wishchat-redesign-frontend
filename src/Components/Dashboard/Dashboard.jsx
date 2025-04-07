@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import logo from "../../assets/wishchat-logo.png";
 import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
-import Loading from "../Loading";
+import GridLoading from "../Dashboard/GridLoading";
 import { useChatbot } from "../../context/ChatbotContext";
 const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
 
@@ -141,7 +141,7 @@ export default function Dashboard() {
       {isActive("/teammates") || isActive("/pricing") ? (
         <Outlet />
       ) : (
-        <div className="flex flex-col justify-center max-w-[1200px] sm:min-w-[640px] md:min-w-[768px] lg:min-w-[1024px] xl:min-w-[1200px] p-10">
+        <div className="flex flex-col justify-center max-w-[1200px] w-full  xl:min-w-[1200px] p-10">
           <div className="flex justify-between items-center mb-8">
             <h1 className="font-semibold text-3xl">My Chatbots</h1>
             <button
@@ -153,7 +153,7 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <Loading />
+            <GridLoading />
           ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -176,6 +176,7 @@ export default function Dashboard() {
                     trial_start_date,
                     is_subscription_valid,
                     subscription_end_date,
+                    last_payment_date,
                     last_reset,
                   },
                   created_at,
@@ -195,6 +196,7 @@ export default function Dashboard() {
                     is_subscription_valid={is_subscription_valid}
                     subscription_end_date={subscription_end_date}
                     subscription_start_date_at={updated_at}
+                    last_payment_date={last_payment_date}
                     last_reset={last_reset}
                     created_at={created_at}
                   />

@@ -14,11 +14,14 @@ export default function NewChatbotForm({ onSubmit, onCancel }) {
 
   return (
     <div className="fixed left-0 top-0 w-full h-screen bg-black/50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-xl shadow-lg w-96">
-        <h2 className="font-bold text-2xl mb-4">Create new Chatbot</h2>
+      <div className="bg-radial from-blue-300 to-white p-6 rounded-xl shadow-lg lg:w-5/12">
+        <h2 className="font-bold text-4xl text-center mb-4">Create New Chatbot</h2>
+        <p className="text-sm text-center text-gray-500 font-semibold mb-4">
+          Create an chatbot. Train and integrate to your site.
+        </p>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+          <div className="mb-4 bg-white shadow-lg p-4 rounded-xl">
+            <label className="block text-gray-700 font-bold mb-2">
               Chatbot Name
             </label>
             <input
@@ -31,17 +34,17 @@ export default function NewChatbotForm({ onSubmit, onCancel }) {
               required
             />
           </div>
-          <div className="flex justify-end space-x-3">
+          <div className="flex space-x-3">
             <button
               type="button"
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full"
+              className="border duration-500 transition-colors bg-white border-gray-400  text-gray-500 hover:text-white hover:bg-gray-400 font-bold py-1.5 px-4 rounded-lg"
               onClick={onCancel}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-blue-500 border-blue-500 border transition-colors duration-500 hover:text-blue-500 hover:bg-white text-white font-bold py-1.5 px-4 rounded-lg"
             >
               Create
             </button>

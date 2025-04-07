@@ -4,7 +4,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
 import InvitePopUp from "./InvitePopUp";
 import Loading from "../Loading";
-
+import GridLoading from "./GridLoading";
 const Teammates = () => {
   const [loading, setLoading] = useState(true);
   const [invitePopUp, setInvitePopUp] = useState(false);
@@ -109,7 +109,7 @@ const Teammates = () => {
         </button>
       </div>
       {loading ? (
-        <Loading />
+        <GridLoading />
       ) : (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
