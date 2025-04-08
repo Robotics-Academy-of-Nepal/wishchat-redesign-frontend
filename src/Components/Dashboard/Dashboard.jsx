@@ -49,13 +49,15 @@ const ChatbotCard = ({
   };
   return (
     <div
-      className="flex flex-col items-center gap-4 h-80"
+      className="items-center h-80 rounded-lg overflow-hidden bg-white "
       onClick={handleNavigate}
     >
-      <div className="h-[270px] w-60 flex justify-center items-start rounded-3xl cursor-pointer bg-gradient-to-br from-white to-indigo-400 overflow-hidden hover:brightness-75 transition duration-700">
-        <img src={logo} alt="Chatbot Logo" />
+      <div className="w-full flex flex-col items-center">
+        <div className="w-full flex items-center justify-between h-64 max-w-60 cursor-pointer bg-indigo-300 overflow-hidden hover:brightness-75  duration-700">
+          <img src={logo} alt="Chatbot Logo" />
+        </div>
+        <h2 className="text-xl text-center">{chatbot_name}</h2>
       </div>
-      <h2 className="text-xl">{chatbot_name}</h2>
     </div>
   );
 };
@@ -159,7 +161,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="grid md:grid-cols-3 lg:grid-cols-4 gap-24"
+              className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
               // className="grid md:grid-cols-2 lg:flex flex-wrap gap-14 lg:justify-start"
             >
               {chatbots.map(
