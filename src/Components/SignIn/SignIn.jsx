@@ -115,7 +115,7 @@ const Login = () => {
 
     // Send the Google token and invitation code (if available) to backend
     axios
-      .post("https://kfwsdw58-8000.inc1.devtunnels.ms/auth/google-login/", {
+      .post(`${import.meta.env.VITE_API_URL}auth/google-login/`, {
         auth_token: credentialResponse.credential,
         invitation_code: invitation_code, // Include invitation code from URL path
       })

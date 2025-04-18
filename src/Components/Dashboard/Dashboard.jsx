@@ -6,7 +6,7 @@ import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
 import GridLoading from "../Dashboard/GridLoading";
 import { useChatbot } from "../../context/ChatbotContext";
-const API_URL = "https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbots/";
+const API_URL = `${import.meta.env.VITE_API_URL}auth/chatbots/`;
 
 // ChatbotCard component
 const ChatbotCard = ({
@@ -49,11 +49,11 @@ const ChatbotCard = ({
   };
   return (
     <div
-      className="items-center h-80 rounded-lg overflow-hidden bg-white "
+      className="items-center h-80 rounded-lg overflow-hidden"
       onClick={handleNavigate}
     >
       <div className="w-full flex flex-col items-center">
-        <div className="w-full flex items-center justify-between h-64 max-w-60 cursor-pointer bg-indigo-300 overflow-hidden hover:brightness-75  duration-700">
+        <div className="w-full flex items-center justify-between h-64 max-w-60 cursor-pointer bg-indigo-300 overflow-hidden hover:brightness-75  duration-700 rounded-xl">
           <img src={logo} alt="Chatbot Logo" />
         </div>
         <h2 className="text-xl text-center">{chatbot_name}</h2>

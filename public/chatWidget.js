@@ -7,7 +7,7 @@
       console.log("Current Domain:", domain);
       try {
         const response = await fetch(
-          `https://kfwsdw58-8000.inc1.devtunnels.ms/auth/chatbot/public-info/`,
+          `https://wishchat.goodwish.com.np/auth/chatbot/public-info/`,
           {
             method: "GET",
             headers: {
@@ -401,7 +401,7 @@
     const handlePrompt = async (message) => {
       try {
         const response = await fetch(
-          `https://kfwsdw58-8000.inc1.devtunnels.ms/api/query/`,
+          `https://wishchat.goodwish.com.np/api/query/`,
           {
             method: "POST",
             headers: {
