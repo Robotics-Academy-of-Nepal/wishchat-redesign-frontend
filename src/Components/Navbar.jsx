@@ -27,9 +27,8 @@ const Navbar = () => {
     <div
       className={`${
         showNavbar && "bg-black/50"
-      } flex items-center justify-between px-6 transition-colors duration-300`}
+      } flex items-center justify-between px-6 duration-500 transition-colors`}
     >
-
       {/* logo */}
       <div
         className="flex items-center justify-start h-full"
@@ -38,6 +37,7 @@ const Navbar = () => {
         <img src={logo} className="h-28 w-28" />
       </div>
 
+      {/* navoptions */}
       <div className="lg:flex items-center justify-center gap-12 hidden">
         <Link to="/">
           <button className="hover:text-blue-400">Home</button>
@@ -99,7 +99,45 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-        ></motion.nav>
+        >
+          <div className="flex flex-col items-center pt-6 gap-6 text-xl">
+            <Link to="/">
+              <button className="hover:text-blue-400">Home</button>
+            </Link>
+            <Link to="/dashboard">
+              <button className="hover:text-blue-400">Dashboard</button>
+            </Link>
+            {azure_index ? (
+              <Link
+                to={`${
+                  location.pathname.includes("playground/chat") ||
+                  messages_used > 0
+                    ? "/playground/chat"
+                    : "/playground"
+                }`}
+              >
+                <button className="hover:text-blue-400">Playground</button>
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed text-gray-500">
+                Playground
+              </span>
+            )}
+            {azure_index ? (
+              <Link to="/deploy">
+                <button className="hover:text-blue-400">Deploy</button>
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed text-gray-500">Deploy</span>
+            )}
+            <Link to="/build">
+              <button className="hover:text-blue-400">Build</button>
+            </Link>
+            <Link to="/chatbotSettings/chatbot-details">
+              <button className="hover:text-blue-400">Settings</button>
+            </Link>
+          </div>
+        </motion.nav>
       )}
     </div>
   );

@@ -13,7 +13,7 @@ export default function NewChatbotForm({ onSubmit, onCancel }) {
   };
 
   return (
-    <div className="fixed left-0 top-0 w-full h-screen bg-black/50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
       <div className="bg-radial from-blue-300 to-white p-6 rounded-xl shadow-lg lg:w-5/12">
         <h2 className="font-bold text-4xl text-center mb-4">Create New Chatbot</h2>
         <p className="text-sm text-center text-gray-500 font-semibold mb-4">
