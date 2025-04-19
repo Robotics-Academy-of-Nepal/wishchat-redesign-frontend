@@ -35,11 +35,14 @@ const UploadFile = ({
     if (!token) throw new Error("No token found");
     console.log(fileId);
     axios
-      .delete(`${import.meta.env.VITE_API_URL}api/delete/${chatbot_id}/${fileId}/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .delete(
+        `${import.meta.env.VITE_API_URL}api/delete/${chatbot_id}/${fileId}/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log("deleteFile response:", response);
         setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
@@ -121,7 +124,7 @@ const UploadFile = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-full px-8 flex flex-col items-center gap-10 mt-2"
+      className="w-full md:px-8 flex flex-col items-center gap-10 mt-2"
     >
       {/* <div className="w-full px-8 flex flex-col items-center gap-10 mt-2"> */}
       <input
@@ -157,7 +160,7 @@ const UploadFile = ({
                   className="flex justify-between gap-2 border border-stone-400 bg-white w-full p-4 rounded-lg"
                 >
                   <div className="w-full flex  gap-2">
-                    <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text- text-lg font-light text-black rounded-md">
+                    <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text-wrap text-md md:text-lg font-light text-black rounded-md">
                       {file.name.split(".").pop().toLowerCase()}
                     </div>
                     <span className="flex items-center">{file.name}</span>
@@ -168,7 +171,7 @@ const UploadFile = ({
                     onClick={() => handleDeselectFile(index)}
                   >
                     <IoTrashOutline className="h-5 w-5" />
-                    Remove{" "}
+                    <span className="hidden sm:inline">Remove</span>
                   </button>
                 </li>
               ))}
@@ -187,10 +190,12 @@ const UploadFile = ({
                   className="flex justify-between gap-2 border border-stone-400 bg-white w-full p-4 rounded-lg"
                 >
                   <div className="w-full flex  gap-2">
-                    <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text- text-lg font-light text-black rounded-md">
+                    <div className="flex items-center justify-center h-10 w-10 bg-stone-400 text-center text-wrap text-md md:text-lg font-light text-black rounded-md">
                       {file.name.split(".").pop().toLowerCase()}
                     </div>
-                    <span className="flex items-center">{file.name}</span>
+                    <span className="flex items-center text-wrap">
+                      {file.name}
+                    </span>
                   </div>
 
                   <button
@@ -198,7 +203,7 @@ const UploadFile = ({
                     onClick={() => handleDeleteFile(file.id)}
                   >
                     <IoTrashOutline className="h-5 w-5" />
-                    Remove{" "}
+                    <span className="hidden sm:inline">Remove</span>
                   </button>
                 </li>
               ))}

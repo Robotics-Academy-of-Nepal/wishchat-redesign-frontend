@@ -204,28 +204,28 @@ const Build = () => {
     //     messages_used={messages_used}
     //   />
     <div className="w-full flex flex-col items-center pb-14">
-      <div className="flex flex-col items-start gap-8">
+      <div className="flex flex-col items-start gap-8 md:w-4/6 lg:w-auto">
         <div className="mt-[50px] flex flex-col gap-3">
-          <h1 className="font-medium text-6xl">
+          <h1 className="font-medium text-4xl md:text-6xl text-wrap">
             Build Your AI
             <br />
             Chatbot
           </h1>
 
-          <p className="text-2xl">
+          <p className="text-xl text-wrap">
             Train your chatbot using files, manual Q&A, or
             <br />
             direct text input—all in one place
           </p>
         </div>
 
-        <div className="relative w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
+        <div className="relative w-full lg:w-[780px] h-16 rounded-full bg-white border border-gray-300 flex">
           <div className="grid grid-cols-3 justify-evenly w-full h-full z-10 relative">
             {buttons.map((button, index) => (
               <button
                 key={index}
                 onClick={() => handleClick(index)}
-                className={`text-lg z-20 relative transition-colors duration-700 
+                className={`sm:text-lg z-20 relative transition-colors duration-700
                   ${selectedIndex === index ? "text-white" : "text-black"}`}
               >
                 {button}
