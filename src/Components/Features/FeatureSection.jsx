@@ -35,10 +35,10 @@ const features = [
 
 const FeatureSection = () => {
   return (
-    <div className="bg-none md:bg-slate-50 shadow-inner min-h-screen pt-12 px-4 md:px-5 rounded-t-2xl">
+    <div className="bg-none  min-h-screen pt-12 px-4 md:px-5 rounded-t-2xl">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
         <div className="lg:w-[20%] w-full flex flex-col items-center lg:items-start">
-          <h2 className="text-3xl md:text-4xl font-bold text-indigo-400 mt-6 text-center lg:text-left">
+          <h2 className="text-3xl md:text-4xl font-bold text- mt-6 text-center lg:text-left">
             Features
           </h2>
         </div>
@@ -49,7 +49,7 @@ const FeatureSection = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-slate-50 p-5 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition"
+                className="bg-slate-50 w-[90%] p-5 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition"
               >
                 <h3 className="text-lg font-semibold text-indigo-600 mb-1">
                   {feature.title}
