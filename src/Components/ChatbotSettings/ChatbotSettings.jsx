@@ -7,7 +7,7 @@ import { useChatbot } from "../../context/ChatbotContext";
 const ChatbotSettings = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname.includes(path);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navbarHeight = 144;
   const sidebarItems = [
     { name: "Chatbot Details", url: "/chatbotSettings/chatbot-details" },
@@ -26,6 +26,9 @@ const ChatbotSettings = () => {
       document.body.style.overflow = "auto";
     };
   }, [sidebarOpen]);
+  useEffect(() => {
+    if (window.innerWidth > 770) setSidebarOpen(true);
+  }, []);
   return (
     <div
       className={`w-full flex relative`}
@@ -35,7 +38,7 @@ const ChatbotSettings = () => {
       <aside
         className={`flex flex-col md:flex-shrink-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
           sidebarOpen
-            ? "absolute inset-0 w-full md:w-64 md:relative translate-x-0 "
+            ? "absolute inset-0 w-full md:w-64 md:relative z-40 translate-x-0 "
             : "w-0 overflow-hidden -translate-x-full"
         }`}
       >

@@ -103,45 +103,7 @@ const PopUp = ({
     </div>
   );
 };
-// const PopUp = ({ setPopUp, selectedPlan, pricing, setCoupon, coupon }) => {
-//   console.log("popUp opened");
-//   const requiredPlan = pricing.find((plan) => plan.title == selectedPlan);
-//   console.log("required plan:", requiredPlan);
-//   return (
-//     <div className="fixed z-10 inset-0 bg-black/50 flex justify-center items-center">
-//       <div className="bg-white relative p-6 rounded-xl text-xl">
-//         <h2 className="text-2xl font-semibold">
-//           Are you sure you want to go through this transaction?
-//         </h2>
-//         <h4 className="text-lg text-gray-600 mb-1 mt-4">Payable Amount</h4>
 
-//         <div className="p-2 border border-gray-400 rounded-lg text-2xl font-semibold">
-//           {requiredPlan.price}
-//         </div>
-//         <div className="flex gap-2 mt-4">
-//           <button
-//             className="hover:bg-stone-500 text-stone-500 border-stone-500 border hover:text-white p-2 py-1 rounded-xl"
-//             onClick={() => {
-//               setPopUp(false);
-//             }}
-//           >
-//             Cancel
-//           </button>
-//           <button className="bg-blue-500 text-white hover:bg-white hover:text-blue-500 p-2 rounded-xl border border-blue-500 flex">
-//             <div>Next</div>
-//             <LuArrowRight className="h-5 w-5 " />
-//           </button>
-//         </div>
-//         <div
-//           className="absolute flex gap-2 items-center p-2 right-2 bg-blue-500 text-white rounded-full"
-//           onClick={coupon}
-//         >
-//           Use <RiCoupon2Fill />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 const Payment = () => {
   const scrollContainerRef = useRef(null);
   const [popUpOpen, setPopUp] = useState(false);
@@ -266,23 +228,23 @@ const Payment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="relative w-full"
+        className="relative"
       >
         <button
           onClick={scrollLeft}
-          className="absolute xl:hidden left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
+          className="absolute lg:hidden left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
         >
           &lt;
         </button>
 
         <div
           ref={scrollContainerRef}
-          className="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory flex gap-4 p-2 lg:grid overflow-hidden lg:grid-cols-3"
+          className="w-full no-scrollbar snap-x snap-mandatory flex gap-4 p-2 lg:grid overflow-hidden lg:grid-cols-3"
         >
           {pricing.map((plan, index) => {
             return (
               <div
-                className="relative flex-shrink-0 flex snap-start justify-center w-full md:w-1/2 lg:w-full"
+                className="flex-shrink-0 flex snap-start justify-center w-full md:w-1/2 lg:w-full"
                 key={index}
               >
                 <div className=" h-[450px] w-full sm:w-4/5 md:w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between">
@@ -330,7 +292,7 @@ const Payment = () => {
 
         <button
           onClick={scrollRight}
-          className="absolute xl:hidden right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
+          className="absolute lg:hidden right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
         >
           &gt;
         </button>

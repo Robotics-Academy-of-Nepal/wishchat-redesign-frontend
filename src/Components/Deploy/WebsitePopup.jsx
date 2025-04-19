@@ -58,7 +58,7 @@ const WebsitePopup = ({ chatbot_id, token, api_key, setShowPopUp }) => {
   }, [token, chatbot_id, api_key]);
 
   return (
-    <div className="fixed inset-0 left-0 top-0 h-screen w-full z-30 flex justify-center items-center bg-black/50">
+    <div className="fixed inset-0 left-0 top-0 h-screen w-full z-50 flex justify-center items-center bg-black/50">
       <div className="p-6 bg-white flex flex-col items-center justify-center space-y-4 rounded-xl shadow-xl m-2 w-full md:w-2/3">
         <h3 className="text-2xl font-semibold">Script</h3>
         <div className="w-full flex justify-start flex-col">

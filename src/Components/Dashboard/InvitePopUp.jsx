@@ -53,7 +53,7 @@ const InvitePopUp = ({ setInvitePopUp }) => {
     remove();
   };
   return (
-    <div className="fixed top-0 left-0 h-screen w-full flex items-center justify-center bg-black/50">
+    <div className="fixed top-0 left-0 h-screen z-50 w-full flex items-center justify-center bg-black/50">
       <div className="w-[600px] p-6 rounded-xl bg-radial to-white from-blue-300 text-black shadow-lg">
         <h2 className="text-3xl text-center font-bold mb-4 text-black">
           Invite Members

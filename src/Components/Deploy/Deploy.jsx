@@ -21,16 +21,16 @@ const Deploy = () => {
       {isActive("/deploy/") ? (
         <Outlet />
       ) : (
-        <div className="w-full flex flex-col items-center justify-center gap-12 -ml-15">
-          <div className="flex flex-col items-start gap-8">
+        <div className="w-full flex flex-col items-center justify-center gap-12 md:-ml-15">
+          <div className="flex flex-col items-start gap-8 ">
             <div className="mt-[80px] flex flex-col gap-3">
-              <h1 className="font-medium text-6xl">
+              <h1 className="font-medium text-4xl md:text-6xl">
                 Deploy Your AI
                 <br />
                 Chatbot in Minutes
               </h1>
 
-              <p className="text-2xl">
+              <p className="md:text-2xl">
                 Seemlessly integrate Wishchat into your website
                 <br />
                 app, of favorite platform with just a few clicks
