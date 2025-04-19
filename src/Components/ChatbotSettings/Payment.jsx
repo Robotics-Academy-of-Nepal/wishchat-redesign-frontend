@@ -43,7 +43,7 @@ const PopUp = ({
       });
   };
   return (
-    <div className="fixed z-20 inset-0 bg-black/50 flex justify-center items-center text-lg">
+    <div className="fixed z-50 inset-0 bg-black/50 flex justify-center items-center text-lg">
       <div className="bg-white p-4 rounded-xl">
         <h4 className=" mb-2">Redeem Coupon</h4>
         <input
@@ -105,7 +105,6 @@ const PopUp = ({
 };
 
 const Payment = () => {
-  const scrollContainerRef = useRef(null);
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
@@ -199,21 +198,9 @@ const Payment = () => {
     form.submit();
   };
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="w-full p-4 ">
-      <h3 className="text-2xl font-semibold text-center">Payment</h3>
+      <h3 className="text-2xl font-semibold text-center mb-4">Payment</h3>
       {popUpOpen && (
         <PopUp
           setPopUp={setPopUp}
@@ -228,74 +215,56 @@ const Payment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="relative"
+        className="relative grid lg:grid-cols-2 xl:grid-cols-3 gap-4"
       >
-        <button
-          onClick={scrollLeft}
-          className="absolute lg:hidden left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
-        >
-          &lt;
-        </button>
+        {pricing.map((plan, index) => {
+          return (
+            <div
+              key={index}
+              className="relative h-[450px] w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between"
+            >
+              <p className="font-semibold text-2xl">{plan.title}</p>
+              <p className="text-xl mt-2">{plan.messages}</p>
 
-        <div
-          ref={scrollContainerRef}
-          className="w-full no-scrollbar snap-x snap-mandatory flex gap-4 p-2 lg:grid overflow-hidden lg:grid-cols-3"
-        >
-          {pricing.map((plan, index) => {
-            return (
-              <div
-                className="flex-shrink-0 flex snap-start justify-center w-full md:w-1/2 lg:w-full"
-                key={index}
-              >
-                <div className=" h-[450px] w-full sm:w-4/5 md:w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between">
-                  <p className="font-semibold text-2xl">{plan.title}</p>
-                  <p className="text-xl mt-2">{plan.messages}</p>
-
-                  <div className="text-md flex flex-col justify-center h-full p-4">
-                    {plan.features.map((feature, index) => {
-                      return <p key={index}>{feature}</p>;
-                    })}
-                  </div>
-
-                  <p className="text-3xl font-semibold mb-6">
-                    NRP {plan.price}
-                    <sub className="top-2 text-sm font-light">/{plan.time}</sub>
-                  </p>
-
-                  <button
-                    className="flex items-center justify-center p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-md  hover:bg-white hover:text-blue-500 group border border-blue-500"
-                    onClick={() => {
-                      handlePayment(plan.price);
-                    }}
-                  >
-                    Get Started Now
-                    <div
-                      className={`h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white`}
-                    >
-                      <LuArrowRight className="h-5 w-5 " />
-                    </div>
-                  </button>
-                  <button
-                    className="absolute flex gap-2 -bottom-2 right-0 p-2 rounded-xl bg-gray-500 border border-gray-500 text-white ml-2 text-xs hover:text-black hover:bg-white items-center"
-                    onClick={() => {
-                      setSelectedPlan(plan.title);
-                      setPopUp(true);
-                    }}
-                  >
-                    Use <RiCoupon2Fill />
-                  </button>
-                </div>
+              <div className="text-md flex flex-col justify-center h-full p-4">
+                {plan.features.map((feature, index) => {
+                  return <p key={index}>{feature}</p>;
+                })}
               </div>
-            );
-          })}
-        </div>
 
-        <button
-          onClick={scrollRight}
-          className="absolute lg:hidden right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 bg-blue-500/50 text-white rounded-full"
-        >
-          &gt;
-        </button>
+              <p className="text-3xl font-semibold mb-6">
+                NRP {plan.price}
+                <sub className="top-2 text-sm font-light">/{plan.time}</sub>
+              </p>
+
+              <button
+                className="flex items-center justify-center p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-md  hover:bg-white hover:text-blue-500 group border border-blue-500"
+                onClick={() => {
+                  handlePayment(plan.price);
+                }}
+              >
+                Get Started Now
+                <div
+                  className={`h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white`}
+                >
+                  <LuArrowRight className="h-5 w-5 " />
+                </div>
+              </button>
+              <button
+                className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-full shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
+                onClick={() => {
+                  setSelectedPlan(plan.title);
+                  setPopUp(true);
+                }}
+              >
+                <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
+                  <RiCoupon2Fill className="text-xs" />
+                </div>
+                Use Coupon
+              </button>
+            </div>
+          );
+        })}
       </motion.div>
     </div>
   );
