@@ -100,13 +100,13 @@ const InvitePopUp = ({ setInvitePopUp }) => {
 
         <div className="flex gap-2 mt-6">
           <button
-            className="px-4 py-1.5 bg-blue-500 text-white hover:bg-white hover:text-blue-500 border border-blue-500 rounded-lg transition-colors duration-700"
+            className="bg-blue-500 border-blue-500 border transition-colors duration-500 hover:text-blue-500 hover:bg-white text-white font-bold py-1.5 px-4 rounded-lg"
             onClick={() => sendInvitation()}
           >
             Invite
           </button>
           <button
-            className="px-4 py-1.5 bg-white hover:bg-gray-400 border border-gray-400 text-gray-500 hover:text-white  transition-colors duration-500 rounded-lg"
+            className="border duration-500 transition-colors bg-white border-gray-400  text-gray-500 hover:text-white hover:bg-gray-400 font-bold py-1.5 px-4 rounded-lg"
             onClick={() => setInvitePopUp(false)}
           >
             Cancel

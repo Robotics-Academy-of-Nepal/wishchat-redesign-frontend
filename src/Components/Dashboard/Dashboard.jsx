@@ -208,10 +208,16 @@ export default function Dashboard() {
           )}
 
           {showForm && (
-            <NewChatbotForm
-              onSubmit={handleCreateChatbot}
-              onCancel={() => setShowForm(false)}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <NewChatbotForm
+                onSubmit={handleCreateChatbot}
+                onCancel={() => setShowForm(false)}
+              />
+            </motion.div>
           )}
         </div>
       )}

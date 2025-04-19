@@ -57,7 +57,7 @@ const PopUp = ({
 
         <div className="flex gap-2">
           <button
-            className="hover:bg-gray-600 text-gray-600 border-gray-500 border hover:text-white p-2 py-1 rounded-xl"
+            className="border duration-500 transition-colors bg-white border-gray-400  text-gray-500 hover:text-white hover:bg-gray-400 font-bold py-1.5 px-4 rounded-lg"
             onClick={() => {
               setCoupon("");
               setPopUp(false);
@@ -68,8 +68,8 @@ const PopUp = ({
 
           <button
             className={` ${
-              coupon ? "bg-blue-500" : "bg-blue-400 cursor-not-allowed"
-            }  text-white hover:bg-white hover:text-blue-500 px-2 py-1 rounded-xl border border-blue-500 flex items-center gap-2`}
+              coupon ? "bg-blue-500 hover:text-blue-500 hover:bg-white" : "bg-blue-400 cursor-not-allowed"
+            } border transition-colors duration-500   text-white font-bold py-1.5 px-4 rounded-lg flex items-center gap-2`}
             title=""
             onClick={handleCoupon}
             disabled={!coupon}

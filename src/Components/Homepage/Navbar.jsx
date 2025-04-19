@@ -24,7 +24,7 @@ const Navbar = () => {
     <nav
       className={`
     ${showNavbar && "bg-black/50"}
-    flex items-center justify-between px-6 duration-300 transition-colors`}
+    flex items-center justify-between sm:px-6 duration-300 transition-colors`}
     >
       <div className="flex items-start justify-start h-full">
         <img src={logo} className="h-28 w-28" />

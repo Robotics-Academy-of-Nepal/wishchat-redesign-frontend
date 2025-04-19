@@ -204,7 +204,7 @@ const Build = () => {
     //     messages_used={messages_used}
     //   />
     <div className="w-full flex flex-col items-center pb-14">
-      <div className="flex flex-col items-start gap-8 md:w-4/6 lg:w-auto">
+      <div className="flex flex-col items-start gap-8 md:w-4/6 lg:w-auto px-1">
         <div className="mt-[50px] flex flex-col gap-3">
           <h1 className="font-medium text-4xl md:text-6xl text-wrap">
             Build Your AI

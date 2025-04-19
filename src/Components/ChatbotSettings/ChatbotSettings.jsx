@@ -15,17 +15,17 @@ const ChatbotSettings = () => {
     { name: "Payment", url: "payment" },
   ];
   const { chatbotData } = useChatbot();
-  useEffect(() => {
-    if (sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+  // useEffect(() => {
+  //   if (sidebarOpen) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //   }
 
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [sidebarOpen]);
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [sidebarOpen]);
   useEffect(() => {
     if (window.innerWidth > 770) setSidebarOpen(true);
   }, []);

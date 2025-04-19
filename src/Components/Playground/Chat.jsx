@@ -128,7 +128,7 @@ const Chat = () => {
   };
   return (
     <div
-      className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl m-6 p-2`}
+      className={` h-[650px] flex flex-row items-center justify-center lg:justify-evenly rounded-xl sm:m-6 p-2`}
     >
       <ChatSidebar
         showSidebar={showSidebar}

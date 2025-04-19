@@ -27,7 +27,7 @@ const Navbar = () => {
     <div
       className={`${
         showNavbar && "bg-black/50"
-      } flex items-center justify-between px-6 duration-300 transition-colors`}
+      } flex items-center justify-between sm:px-6 duration-300 transition-colors`}
     >
       {/* logo */}
       <div
