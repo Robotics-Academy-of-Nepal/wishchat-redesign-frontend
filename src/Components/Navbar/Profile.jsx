@@ -20,7 +20,7 @@ const Profile = () => {
     <>
       <button
         type="button"
-        className="w-12 h-12 rounded-full overflow-hidden cursor-pointer border-2 border-blue-500 flex items-center justify-center "
+        className="relative w-10 h-10 rounded-full overflow-hidden cursor-pointer border-2 border-blue-500 flex items-center justify-center "
         onClick={toggleDropdown}
       >
         {picture ? (
@@ -36,16 +36,16 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="z-10 absolute mt-40 right-4 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600"
+            className="z-10 absolute mt-12 right-4 w-52 bg-gray-100 divide-y divide-blue-600 rounded-lg shadow-lg"
           >
-            <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+            <div className="px-4 py-3 text-sm text-gray-900">
               <div>{username}</div>
               <div className="font-medium truncate">{email}</div>
             </div>
             <div className="py-1">
               <a
                 href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                className="block px-4 py-2 text-sm text-gray-950 hover:bg-gray-100"
                 onClick={logOut}
               >
                 Sign out
