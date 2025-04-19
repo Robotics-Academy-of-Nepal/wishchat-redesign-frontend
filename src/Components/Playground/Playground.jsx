@@ -38,20 +38,20 @@ export default function Playground() {
         <Outlet />
       ) : (
         <div className="h-full mx-[20px] rounded-3xl flex flex-col gap-[120px]">
-          <div className="ml-[150px] mt-[120px] flex flex-col gap-8">
-            <h1 className="font-medium text-5xl">
+          <div className="md:ml-[100px] lg:ml-[150px] mt-28 md:mt-[120px] flex flex-col gap-8">
+            <h1 className="font-medium text-4xl sm:text-5xl">
               Hi there,
               <br />
               {"Let's explore the playground"}
             </h1>
 
-            <p className="text-xl">
+            <p className="text-lg sm:text-xl">
               You built it, now see it in action! Test
               <br /> your chatbot here.
             </p>
           </div>
 
-          <div className="px-[150px]">
+          <div className="md:pl-[100px] lg:px-[150px]">
             <div className="bg-white w-full mb-36 gap-2 rounded-4xl flex px-2 items-center justify-center">
               <textarea
                 type="text"
