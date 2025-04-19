@@ -61,7 +61,7 @@ const ChatbotSettings = () => {
         </nav>
       </aside>
 
-      <main className="transition-all duration-300 ease-in-out flex-grow flex">
+      <main className="transition-all duration-300 ease-in-out flex-grow flex flex-col md:flex-row">
         {!sidebarOpen && (
           <div className="pl-4 pt-4">
             <button onClick={() => setSidebarOpen(true)}>
