@@ -21,22 +21,22 @@ const Deploy = () => {
       {isActive("/deploy/") ? (
         <Outlet />
       ) : (
-        <div className="w-full flex flex-col items-center justify-center gap-12 md:-ml-15">
+        <div className="w-full flex flex-col items-center justify-center gap-12 md:-ml-15 px-4">
           <div className="flex flex-col items-start gap-8 ">
             <div className="mt-[80px] flex flex-col gap-3">
-              <h1 className="font-medium text-4xl md:text-6xl">
+              <h1 className="font-medium text-4xl md:text-6xl text-wrap">
                 Deploy Your AI
                 <br />
                 Chatbot in Minutes
               </h1>
 
-              <p className="md:text-2xl">
+              <p className="md:text-2xl text-wrap">
                 Seemlessly integrate Wishchat into your website
                 <br />
                 app, of favorite platform with just a few clicks
               </p>
             </div>
-            <ol className="flex flex-col gap-3">
+            <ol className="flex flex-col gap-3 text-wrap">
               <li className="flex items-center gap-2">
                 <FaRegCheckCircle />
                 Customize Your Chatbot
@@ -51,7 +51,7 @@ const Deploy = () => {
               </li>
             </ol>
 
-            <div className="mt-8 flex gap-6">
+            <div className="mt-8 flex gap-6 flex-wrap">
               <Link to={"/deploy/whatsappForm"}>
                 <button className="flex gap-4 items-center hover:bg-white transition-colors duration-500 py-2 px-4 text-green-700 rounded-full border-2 border-green-700">
                   Whatsapp{" "}
