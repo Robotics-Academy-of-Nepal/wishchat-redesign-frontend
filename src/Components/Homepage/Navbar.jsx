@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/wishchat-logo.png";
 import { LuArrowRight } from "react-icons/lu";
 import Profile from "../Navbar/Profile";
@@ -22,19 +22,29 @@ const Navbar = () => {
   }, [showNavbar]);
   return (
     <nav
-      className={`
-    ${showNavbar && "bg-black/50"}
-    flex items-center justify-between px-3 sm:px-6 duration-300 transition-colors`}
+      className={`${
+        showNavbar && "bg-black/50"
+      } flex items-center justify-between px-3 sm:px-6 duration-300 transition-colors`}
     >
-      <div className="flex items-start justify-start h-full">
+      <div
+        className="flex items-start justify-start h-full"
+        onClick={() => navigate("/")}
+      >
         <img src={logo} className="h-28 w-28" />
       </div>
 
       <div className="hidden lg:flex items-center justify-center gap-12 text-lg">
-        <button className="hover:text-blue-400">Home</button>
+        <button onClick={() => navigate("/")} className="hover:text-blue-400">
+          Home
+        </button>
         {/* <button className="hover:text-blue-400">Features</button>
         <button className="hover:text-blue-400">Tutorials</button> */}
-        <button className="text-gray-400">Features</button>
+        <button
+          onClick={() => navigate("/features")}
+          className="hover:text-blue-400"
+        >
+          Features
+        </button>
         <button className="text-gray-400">Tutorials</button>
         <button
           className="hover:text-blue-400"
@@ -87,23 +97,30 @@ const Navbar = () => {
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <div className="flex flex-col items-center pl-10 pt-6 gap-6 text-xl ">
-            <button className="hover:text-blue-400 ">
+            <Link
+              className="hover:text-blue-400"
+              to={"/"}
+              onClick={() => setShowNavbar(!showNavbar)}
+            >
               Home
-            </button>
-            {/* <button  className="hover:text-blue-400">Features</button>
-            <button  className="hover:text-blue-400">Tutorials</button> */}
-            <button className="text-gray-400 ">
+            </Link>
+            {/* <button className="hover:text-blue-400">Features</button>
+            <button className="hover:text-blue-400">Tutorials</button> */}
+            <Link
+              className="hover:text-blue-400"
+              onClick={() => setShowNavbar(!showNavbar)}
+              to={"/features"}
+            >
               Features
-            </button>
-            <button className="text-gray-400 ">
-              Tutorials
-            </button>
-            <button
-              className="hover:text-blue-400 "
-              onClick={() => navigate("/dashboard/pricing")}
+            </Link>
+            <Link className="text-gray-400">Tutorials</Link>
+            <Link
+              className="hover:text-blue-400"
+              to={"/dashboard/pricing"}
+              onClick={() => setShowNavbar(!showNavbar)}
             >
               Pricing
-            </button>
+            </Link>
           </div>
         </motion.nav>
       )}
