@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import ChatbotDetail from "./ChatbotDetail";
 import { useChatbot } from "../../context/ChatbotContext";
@@ -15,16 +15,27 @@ const ChatbotSettings = () => {
     { name: "Payment", url: "payment" },
   ];
   const { chatbotData } = useChatbot();
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [sidebarOpen]);
   return (
     <div
-      className={`w-full flex`}
+      className={`w-full flex relative`}
       style={{ minHeight: `calc(100vh - ${navbarHeight}px)` }}
     >
       {/* Sidebar */}
       <aside
-        className={`flex flex-col flex-shrink-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
+        className={`flex flex-col md:flex-shrink-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
           sidebarOpen
-            ? "w-64 translate-x-0"
+            ? "absolute inset-0 w-full md:w-64 md:relative translate-x-0 "
             : "w-0 overflow-hidden -translate-x-full"
         }`}
       >
@@ -40,7 +51,7 @@ const ChatbotSettings = () => {
               <li key={index}>
                 <Link
                   to={item.url}
-                  className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="flex items-center rounded-md px-3 py-2 md:text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-center justify-center md:justify-start text-2xl"
                 >
                   {item.name}
                 </Link>

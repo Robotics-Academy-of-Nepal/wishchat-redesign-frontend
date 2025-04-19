@@ -36,7 +36,7 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="z-10 absolute mt-12 right-4 w-52 bg-gray-100 divide-y divide-blue-600 rounded-lg shadow-lg"
+            className="z-10 absolute mt-40 right-4 w-52 bg-gray-100 divide-y divide-blue-600 rounded-lg shadow-lg"
           >
             <div className="px-4 py-3 text-sm text-gray-900">
               <div>{username}</div>
