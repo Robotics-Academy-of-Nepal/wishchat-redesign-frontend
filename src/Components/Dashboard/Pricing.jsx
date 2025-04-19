@@ -132,14 +132,14 @@ export default function Pricing() {
 
       <div className="shadow-lg rounded-3xl items-center mt-12 p-6 bg-gray-100 text-gray-800">
         <p className="text-xl font-semibold">Enterprise Plan</p>
-        <div className="w-full flex justify-between my-2">
+        <div className="w-full flex flex-col sm:flex-row gap-2 justify-between my-2">
           <p className="text-3xl font-semibold">
             RS Contact for Pricing
             <sub className="font-normal text-xs">/monthly</sub>
           </p>
           <button
             // onClick={handleUpload}
-            className="flex items-center justify-evenly p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-lg font-extralight"
+            className="flex items-center justify-evenly p-4 gap-2 bg-blue-500 h-14 rounded-full text-white text-lg font-extralight"
           >
             Get Started Now
             <div

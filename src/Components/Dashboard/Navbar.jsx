@@ -22,7 +22,7 @@ const Navbar = () => {
     <nav
       className={`
       ${showNavbar && "bg-black/50"}
-    flex w-full items-center justify-between sm:px-4 duration-300 transition-colors`}
+    flex w-full items-center justify-between px-3 sm:px-4 duration-300 transition-colors`}
     >
       <div
         className="flex items-start justify-start"

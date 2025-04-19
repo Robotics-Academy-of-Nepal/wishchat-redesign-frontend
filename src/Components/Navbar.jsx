@@ -27,7 +27,7 @@ const Navbar = () => {
     <div
       className={`${
         showNavbar && "bg-black/50"
-      } flex items-center justify-between sm:px-6 duration-300 transition-colors`}
+      } flex items-center justify-between px-3 sm:px-6 duration-300 transition-colors`}
     >
       {/* logo */}
       <div
@@ -97,57 +97,57 @@ const Navbar = () => {
         </button>
       </div>
       {/* <AnimatePresence> */}
-        {showNavbar && (
-          <motion.nav
-            className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
-            initial={{ opacity: 0, y: -60 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -60 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <div className="flex flex-col items-center pt-6 gap-6 text-xl">
-              <Link to="/" onClick={() => setShowNavbar(!showNavbar)}>
-                <button className="hover:text-blue-400">Home</button>
-              </Link>
-              <Link to="/dashboard" onClick={() => setShowNavbar(!showNavbar)}>
-                <button className="hover:text-blue-400">Dashboard</button>
-              </Link>
-              {azure_index ? (
-                <Link
-                  to={`${
-                    location.pathname.includes("playground/chat") ||
-                    messages_used > 0
-                      ? "/playground/chat"
-                      : "/playground"
-                  }`}
-                  onClick={() => setShowNavbar(!showNavbar)}
-                >
-                  <button className="hover:text-blue-400">Playground</button>
-                </Link>
-              ) : (
-                <span className="cursor-not-allowed text-gray-500">
-                  Playground
-                </span>
-              )}
-              {azure_index ? (
-                <Link to="/deploy" onClick={() => setShowNavbar(!showNavbar)}>
-                  <button className="hover:text-blue-400">Deploy</button>
-                </Link>
-              ) : (
-                <span className="cursor-not-allowed text-gray-500">Deploy</span>
-              )}
-              <Link to="/build" onClick={() => setShowNavbar(!showNavbar)}>
-                <button className="hover:text-blue-400">Build</button>
-              </Link>
+      {showNavbar && (
+        <motion.nav
+          className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
+          initial={{ opacity: 0, y: -60 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -60 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <div className="flex flex-col items-center pt-6 gap-6 text-xl">
+            <Link to="/" onClick={() => setShowNavbar(!showNavbar)}>
+              <button className="hover:text-blue-400">Home</button>
+            </Link>
+            <Link to="/dashboard" onClick={() => setShowNavbar(!showNavbar)}>
+              <button className="hover:text-blue-400">Dashboard</button>
+            </Link>
+            {azure_index ? (
               <Link
-                to="/chatbotSettings/chatbot-details"
+                to={`${
+                  location.pathname.includes("playground/chat") ||
+                  messages_used > 0
+                    ? "/playground/chat"
+                    : "/playground"
+                }`}
                 onClick={() => setShowNavbar(!showNavbar)}
               >
-                <button className="hover:text-blue-400">Settings</button>
+                <button className="hover:text-blue-400">Playground</button>
               </Link>
-            </div>
-          </motion.nav>
-        )}
+            ) : (
+              <span className="cursor-not-allowed text-gray-500">
+                Playground
+              </span>
+            )}
+            {azure_index ? (
+              <Link to="/deploy" onClick={() => setShowNavbar(!showNavbar)}>
+                <button className="hover:text-blue-400">Deploy</button>
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed text-gray-500">Deploy</span>
+            )}
+            <Link to="/build" onClick={() => setShowNavbar(!showNavbar)}>
+              <button className="hover:text-blue-400">Build</button>
+            </Link>
+            <Link
+              to="/chatbotSettings/chatbot-details"
+              onClick={() => setShowNavbar(!showNavbar)}
+            >
+              <button className="hover:text-blue-400">Settings</button>
+            </Link>
+          </div>
+        </motion.nav>
+      )}
       {/* </AnimatePresence> */}
     </div>
   );

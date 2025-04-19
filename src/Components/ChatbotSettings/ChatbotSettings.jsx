@@ -51,10 +51,11 @@ const ChatbotSettings = () => {
               <FaBars />
             </li>
             {sidebarItems.map((item, index) => (
-              <li key={index}>
+              <li key={index} className="hover:bg-slate-200">
                 <Link
                   to={item.url}
-                  className="flex items-center rounded-md px-3 py-2 md:text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-center justify-center md:justify-start text-2xl"
+                  className="flex items-center rounded-md px-3 py-2 md:text-sm font-medium text-gray-700 hover:text-gray-900 text-center justify-center md:justify-start text-2xl hover:font-semibold "
+                  onClick={() => setSidebarOpen(false)}
                 >
                   {item.name}
                 </Link>

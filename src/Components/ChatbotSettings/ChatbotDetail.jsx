@@ -88,7 +88,7 @@ const ChatbotDetail = ({ chatbotData }) => {
         <h2 className="text-blue-800 text-lg font-semibold mb-4 border-b border-blue-100 pb-2">
           Basic Information
         </h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-3">
             <FaRegCalendar className="text-blue-500" size={20} />
             <div>

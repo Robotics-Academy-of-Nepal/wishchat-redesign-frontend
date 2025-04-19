@@ -24,7 +24,7 @@ const Navbar = () => {
     <nav
       className={`
     ${showNavbar && "bg-black/50"}
-    flex items-center justify-between sm:px-6 duration-300 transition-colors`}
+    flex items-center justify-between px-3 sm:px-6 duration-300 transition-colors`}
     >
       <div className="flex items-start justify-start h-full">
         <img src={logo} className="h-28 w-28" />
@@ -78,29 +78,35 @@ const Navbar = () => {
         </button>
       )}
       {/* <AnimatePresence> */}
-        {showNavbar && (
-          <motion.nav
-            className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
-            initial={{ opacity: 0, y: -60 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -60 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <div className="flex flex-col items-center pl-10 pt-6 gap-6 text-xl ">
-              <button className="hover:text-blue-400">Home</button>
-              {/* <button className="hover:text-blue-400">Features</button>
-            <button className="hover:text-blue-400">Tutorials</button> */}
-              <button className="text-gray-400">Features</button>
-              <button className="text-gray-400">Tutorials</button>
-              <button
-                className="hover:text-blue-400"
-                onClick={() => navigate("/dashboard/pricing")}
-              >
-                Pricing
-              </button>
-            </div>
-          </motion.nav>
-        )}
+      {showNavbar && (
+        <motion.nav
+          className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
+          initial={{ opacity: 0, y: -60 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -60 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <div className="flex flex-col items-center pl-10 pt-6 gap-6 text-xl ">
+            <button className="hover:text-blue-400 ">
+              Home
+            </button>
+            {/* <button  className="hover:text-blue-400">Features</button>
+            <button  className="hover:text-blue-400">Tutorials</button> */}
+            <button className="text-gray-400 ">
+              Features
+            </button>
+            <button className="text-gray-400 ">
+              Tutorials
+            </button>
+            <button
+              className="hover:text-blue-400 "
+              onClick={() => navigate("/dashboard/pricing")}
+            >
+              Pricing
+            </button>
+          </div>
+        </motion.nav>
+      )}
       {/* </AnimatePresence> */}
     </nav>
   );
