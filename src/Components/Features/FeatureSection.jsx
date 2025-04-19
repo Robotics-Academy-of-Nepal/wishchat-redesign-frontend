@@ -49,34 +49,42 @@ const features = [
 
 const FeatureSection = () => {
   return (
-    <div className="pt-12 px-4 md:px-5 rounded-t-2xl">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
-
-        <div className="lg:w-[20%] w-full flex flex-col items-center lg:items-start">
-          <h2 className="text-4xl font-bold text-indigo-700 mt-6 text-center lg:text-left">
+    <div className="pt-16 px-4 md:px-8 rounded-t-3xl mb-8">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
+        {/* Section Header */}
+        <div className="lg:w-1/4 w-full flex flex-col items-center lg:items-start">
+          <span className="text-blue-600 font-medium text-sm uppercase tracking-wider mb-2">
+            What We Offer
+          </span>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-700 to-blue-700 bg-clip-text text-transparent mt-2 text-center lg:text-left">
             Features
           </h2>
-          <p className="text-gray-600 mt-2 text-sm text-center lg:text-left">
-            All the powerful tools you need to automate your business communication.
+          <div className="h-1 w-20 bg-blue-500 rounded-full mt-4 mb-6"></div>
+          <p className="text-gray-600 text-base leading-relaxed text-center lg:text-left">
+            All the powerful tools you need to automate your business
+            communication.
           </p>
         </div>
 
-        <div className="lg:w-[80%] w-full p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {/* Features Grid */}
+        <div className="lg:w-3/4 w-full pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-slate-50 w-full p-6 rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition duration-300"
+                className="bg-white w-full p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-indigo-100 group"
               >
-                <div className="flex items-start gap-4">
-                  <div className="text-white bg-indigo-500 p-3 rounded-full text-xl shadow-md">
+                <div className="flex items-start gap-5">
+                  <div className="text-white bg-gradient-to-br from-blue-500 to-blue-700 p-3 rounded-lg text-xl shadow-md group-hover:scale-110 transition-transform duration-300">
                     {feature.icon}
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 text-sm">{feature.description}</p>
+                    <p className="text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </p>
                   </div>
                 </div>
               </div>
