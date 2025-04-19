@@ -29,6 +29,11 @@ const ChatbotSettings = () => {
   useEffect(() => {
     if (window.innerWidth > 770) setSidebarOpen(true);
   }, []);
+  const closeAside = () => {
+    if (window.innerWidth < 770) {
+      setSidebarOpen(false);
+    }
+  };
   return (
     <div
       className={`w-full flex relative`}
@@ -55,7 +60,7 @@ const ChatbotSettings = () => {
                 <Link
                   to={item.url}
                   className="flex items-center rounded-md px-3 py-2 md:text-sm font-medium text-gray-700 hover:text-gray-900 text-center justify-center md:justify-start text-2xl hover:font-semibold "
-                  onClick={() => setSidebarOpen(false)}
+                  onClick={closeAside}
                 >
                   {item.name}
                 </Link>
