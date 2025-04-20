@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Profile from "../Navbar/Profile";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Hamburger from "../Navbar/Hamburger";
 const Navbar = () => {
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(false);
@@ -48,25 +49,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-2">
         <Profile />
-        <button
-          className="relative lg:hidden w-8 h-6 flex flex-col justify-center items-center"
-          onClick={() => setShowNavbar(!showNavbar)}
-        >
-          <span
-            className={`block absolute h-0.5 w-4 ${
-              showNavbar ? "bg-white" : "bg-black"
-            } transition-all duration-300 ease-in-out ${
-              showNavbar ? "rotate-45 top-3" : "top-2"
-            }`}
-          ></span>
-          <span
-            className={`block absolute h-0.5 w-4  ${
-              showNavbar ? "bg-white" : "bg-black"
-            } transition-all duration-300 ease-in-out ${
-              showNavbar ? "-rotate-45 top-3" : "top-4"
-            }`}
-          ></span>
-        </button>
+        <Hamburger showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
       </div>
       {/* <AnimatePresence> */}
       {showNavbar && (
