@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import ResponsePopup from "./ResponsePopup";
 import { useChatbot } from "../../context/ChatbotContext";
+import { useNavigate } from "react-router-dom"
 const MessengerDeployForm = () => {
 
   const { chatbotData } = useChatbot();
@@ -12,6 +13,7 @@ const MessengerDeployForm = () => {
   const [messenger_page_id, setMessengerId] = useState("");
   const [messenger_url, setMessengerUrl] = useState("");
   const [fetchedResponse, setFetchedResponse] = useState({});
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
@@ -71,6 +73,10 @@ const MessengerDeployForm = () => {
         console.error("form error:", error);
       });
   };
+
+  const handleExit = ()=>{
+    navigate('/deploy');
+  }
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
@@ -135,7 +141,8 @@ const MessengerDeployForm = () => {
             </button>
             <button
               type="button"
-              className="rounded-full py-2 px-4 border border-stone-400"
+              onClick={handleExit}
+              className="rounded-full py-2 px-4 border hover:text-white hover:bg-blue-500 border-stone-400"
             >
               Cancel
             </button>

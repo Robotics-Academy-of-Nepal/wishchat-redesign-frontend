@@ -2,9 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import ResponsePopup from "./ResponsePopup";
 import { useChatbot } from "../../context/ChatbotContext";
+import { useNavigate } from "react-router-dom";
 const WhatsappDeployForm = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [fetchedResponse, setFetchedResponse] = useState({});
+  const navigate = useNavigate();
 
   const { chatbotData } = useChatbot();
   const { chatbot_id } = chatbotData;
@@ -71,6 +73,10 @@ const WhatsappDeployForm = () => {
       });
   };
 
+  const handleExit = ()=>{
+    navigate('/deploy');
+  }
+
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
       <div className="w-full md:w-2/3">
@@ -133,8 +139,9 @@ const WhatsappDeployForm = () => {
               Submit
             </button>
             <button
+              onClick={handleExit}
               type="button"
-              className="rounded-full py-2 px-4 border border-stone-400"
+              className="rounded-full py-2 px-4 border border-stone-400 hover:text-white hover:bg-blue-500"
             >
               Cancel
             </button>
