@@ -83,7 +83,7 @@ export default function Pricing() {
 
         <div
           ref={scrollContainerRef}
-          className="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory flex gap-2 p-1 lg:grid overflow-hidden   lg:grid-cols-3"
+          className="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory flex gap-2 p-1 lg:grid overflow-hidden lg:grid-cols-3"
         >
           {pricing.map((detail, index) => {
             return (
