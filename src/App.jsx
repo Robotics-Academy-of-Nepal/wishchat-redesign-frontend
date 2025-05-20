@@ -25,15 +25,15 @@ import ChatbotAnalytics from "./Components/ChatbotSettings/ChatbotAnalytics.jsx"
 import PaymentSuccess from "./Components/ChatbotSettings/Payment_Success.jsx";
 import Features from "./Components/Features/Features.jsx"
 function App() {
-  useEffect(() => {
-    import("./chatWidget.js")
-      .then((module) => {
-        console.log("chatWidget loaded successfully");
-      })
-      .catch((error) => {
-        console.error("Error loading chatWidget.js", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   import("./chatWidget.js")
+  //     .then((module) => {
+  //       console.log("chatWidget loaded successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error loading chatWidget.js", error);
+  //     });
+  // }, []);
   return (
     <Router>
       <Routes>

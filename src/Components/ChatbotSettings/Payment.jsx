@@ -111,7 +111,42 @@ const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [pricing, setPricing] = useState;
+  const [pricing, setPricingDetail] = useState([
+    {
+      title: "Basic Plan",
+      messages: "5000 Monthly messages",
+      price: "5000",
+      time: "monthly",
+      features: [
+        "Core AI chatbot functionalities.",
+        "Suitable for small-scale or personal use.",
+      ],
+      // btnclick: () => handlePayment("5000"),
+    },
+    {
+      title: "Standard Plan",
+      messages: "7000 Monthly messages",
+      price: "7000",
+      time: "monthly",
+      features: [
+        "Everyting in the Basic Plan.",
+        "Enhanced AI capabilities.",
+        "Priority Support.",
+      ],
+      // btnclick: () => handlePayment("7000"),
+    },
+    {
+      title: "Pro Plan",
+      messages: "10000 Monthly messages",
+      price: "10000",
+      time: "monthly",
+      features: [
+        "Everything in the Standard Plan.",
+        "Ideal for medium-scale business.",
+      ],
+      // btnclick: () => handlePayment("10000"),
+    },
+  ]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -121,12 +156,27 @@ const Payment = () => {
           `${import.meta.env.VITE_API_URL}auth/subscription-plans/`,
           {
             headers: {
-              Authorization: `Token 2387704f918b3de9f27e85a8d8094ac59baa1872`,
+              Authorization: `Token ${token}`,
             },
           }
         );
         console.log("response payment", res);
-        setPricing(res.data);
+
+        let updatedPricing = [];
+
+        res.data.plans.forEach((fetchedPlan) => {
+          const localPlan = pricing.find(
+            (plan) => plan.title === fetchedPlan.name
+          );
+          if (localPlan) {
+            console.log(localPlan);
+            localPlan.price = fetchedPlan.price;
+            localPlan.messages = `${fetchedPlan.message_limit} Monthly messages`;
+          }
+          updatedPricing.push(localPlan);
+        });
+
+        setPricingDetail(updatedPricing);
       } catch (error) {
         console.log("error:", error);
       }
@@ -134,42 +184,7 @@ const Payment = () => {
 
     fetchData();
   }, []);
-  // const pricing = [
-  //   {
-  //     title: "Basic Plan",
-  //     messages: "5000 Monthly messages",
-  //     price: "5000",
-  //     time: "monthly",
-  //     features: [
-  //       "Core AI chatbot functionalities.",
-  //       "Suitable for small-scale or personal use.",
-  //     ],
-  //     // btnclick: () => handlePayment("5000"),
-  //   },
-  //   {
-  //     title: "Standard Plan",
-  //     messages: "7000 Monthly messages",
-  //     price: "7000",
-  //     time: "monthly",
-  //     features: [
-  //       "Everyting in the Basic Plan.",
-  //       "Enhanced AI capabilities.",
-  //       "Priority Support.",
-  //     ],
-  //     // btnclick: () => handlePayment("7000"),
-  //   },
-  //   {
-  //     title: "Premium Plan",
-  //     messages: "10000 Monthly messages",
-  //     price: "10000",
-  //     time: "monthly",
-  //     features: [
-  //       "Everything in the Standard Plan.",
-  //       "Ideal for medium-scale business.",
-  //     ],
-  //     // btnclick: () => handlePayment("10000"),
-  //   },
-  // ];
+
   const handlePayment = (totalAmount) => {
     console.log("button clicked");
     // Generate a UUID
@@ -249,7 +264,7 @@ const Payment = () => {
               key={index}
               className="relative h-[450px] w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between"
             >
-              <p className="font-semibold text-2xl">{plan.name}</p>
+              <p className="font-semibold text-2xl">{plan.title}</p>
               <p className="text-xl mt-2">{plan.messages}</p>
 
               <div className="text-md flex flex-col justify-center h-full p-4">

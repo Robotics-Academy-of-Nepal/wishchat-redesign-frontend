@@ -53,7 +53,7 @@ export default function Pricing() {
   return (
     <div className="container mx-auto py-16 px-6">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 items-center mb-[70px]">
+      {/* <div className="flex flex-col sm:flex-row justify-between gap-4 items-center mb-[70px]">
         <p className="text-6xl">Plans</p>
         <div className="flex justify-center items-center gap-2 bg-gray-100 p-2 rounded-3xl">
           <button className="bg-blue-500 text-white rounded-3xl px-4 py-2">
@@ -66,7 +66,7 @@ export default function Pricing() {
             Save 20%
           </button>
         </div>
-      </div>
+      </div> */}
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
