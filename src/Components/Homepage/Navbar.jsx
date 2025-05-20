@@ -31,7 +31,7 @@ const Navbar = () => {
         className="flex items-start justify-start h-full"
         onClick={() => navigate("/")}
       >
-        <img src={logo} className="h-28 w-28" />
+        <img src={logo} className="h-24 w-24" />
       </div>
 
       <div className="hidden lg:flex items-center justify-center gap-12 text-lg">

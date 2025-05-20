@@ -51,7 +51,7 @@ export default function Homepage() {
         
         <div className="flex flex-col md:flex-row items-center px-4 md:px-12 lg:px-20">
           {/* Left side - Welcome and Text */}
-          <div className="flex flex-col gap-8 z-10 md:w-1/2">
+          <div className="flex flex-col gap-8 z-10 lg:w-1/2">
             {/* <div className="flex justify-center md:justify-start items-center mt-16">
               <button className="transform hover:scale-105 transition-transform duration-300">
                 <div className="flex items-center justify-center gap-4 border-2 border-indigo-500 rounded-full w-[280px] font-semibold text-md text-indigo-800 py-3 bg-white/80 backdrop-blur-sm shadow-md">
@@ -60,14 +60,14 @@ export default function Homepage() {
               </button>
             </div> */}
             
-            <div className="flex justify-center md:justify-start items-center text-center md:text-left text-5xl sm:text-7xl font-bold bg-gradient-to-r from-indigo-800 to-blue-600 bg-clip-text text-transparent">
-              Elevate Conversations with
-              <br /> smart AI
+            <div className="flex justify-center md:justify-start items-center text-center md:text-left text-5xl sm:text-7xl font-bold bg-gradient-to-r from-indigo-800 to-blue-600 bg-clip-text text-transparent mt-16">
+              Elevate Conversations with smart AI
+              {/* <br /> smart AI */}
             </div>
             
             <div className="flex justify-center md:justify-start items-center font-normal text-center md:text-left text-xl sm:text-2xl text-gray-700">
-              The power of AI-powered Chatbot at the click of your <br className="hidden md:block" />
-              mouse.
+              The power of AI-powered Chatbot at the click of your mouse
+              {/* <br className="hidden md:block" />mouse. */}
             </div>
             
             {/* Features bullets */}
@@ -102,7 +102,7 @@ export default function Homepage() {
           </div>
           
           {/* Right side - Chatbot conversation visualization */}
-          <div className="hidden md:flex flex-col items-center justify-center z-10 md:w-1/2 mt-8 md:mt-0">
+          <div className="hidden lg:flex flex-col items-center justify-center z-10 md:w-1/2 mt-8 md:mt-0">
             <div className="relative w-full max-w-md h-[450px] bg-white/80 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-indigo-100">
               {/* Bot avatar */}
               <div className="absolute -left-4 -top-4 bg-indigo-600 rounded-full w-12 h-12 flex items-center justify-center">
@@ -167,35 +167,7 @@ export default function Homepage() {
           <div className="text-lg text-gray-600 text-center max-w-2xl mb-12">
             Our AI-powered chatbot revolutionizes how you engage with your audience, providing intelligent responses in seconds.
           </div>
-          
-          {/* Conversation flow visualization */}
-          <div className="w-full max-w-3xl flex justify-between items-center mb-16">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
-                <FiMessageCircle className="text-2xl text-indigo-600" />
-              </div>
-              <p className="text-gray-700 font-medium">User Query</p>
-            </div>
-            
-            <div className="flex-grow mx-4 h-1 bg-gradient-to-r from-indigo-300 to-blue-300 relative">
-              <div className="absolute -top-2 left-0 right-0 flex justify-center">
-                <div className="w-4 h-4 bg-white border-2 border-indigo-300 rounded-full animate-pulse"></div>
-              </div>
-              <div className="absolute -top-2 left-1/3 right-0 flex justify-center">
-                <div className="w-4 h-4 bg-white border-2 border-indigo-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-              </div>
-              <div className="absolute -top-2 left-2/3 right-0 flex justify-center">
-                <div className="w-4 h-4 bg-white border-2 border-indigo-500 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-                <RiRobot3Line className="text-2xl text-blue-600" />
-              </div>
-              <p className="text-gray-700 font-medium">Smart Response</p>
-            </div>
-          </div>
+         
           
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 mt-4">

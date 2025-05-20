@@ -1,6 +1,6 @@
 import { LuArrowRight } from "react-icons/lu";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiCoupon2Fill } from "react-icons/ri";
 import { v4 as uuidv4 } from "uuid";
 import CryptoJS from "crypto-js";
@@ -42,6 +42,7 @@ const PopUp = ({
         setCouponData(response.data);
       });
   };
+
   return (
     <div className="fixed z-50 inset-0 bg-black/50 flex justify-center items-center text-lg">
       <div className="bg-white p-4 rounded-xl">
@@ -68,7 +69,9 @@ const PopUp = ({
 
           <button
             className={` ${
-              coupon ? "bg-blue-500 hover:text-blue-500 hover:bg-white" : "bg-blue-400 cursor-not-allowed"
+              coupon
+                ? "bg-blue-500 hover:text-blue-500 hover:bg-white"
+                : "bg-blue-400 cursor-not-allowed"
             } border transition-colors duration-500   text-white font-bold py-1.5 px-4 rounded-lg flex items-center gap-2`}
             title=""
             onClick={handleCoupon}
@@ -108,42 +111,65 @@ const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
-  const pricing = [
-    {
-      title: "Basic Plan",
-      messages: "5000 Monthly messages",
-      price: "5000",
-      time: "monthly",
-      features: [
-        "Core AI chatbot functionalities.",
-        "Suitable for small-scale or personal use.",
-      ],
-      // btnclick: () => handlePayment("5000"),
-    },
-    {
-      title: "Standard Plan",
-      messages: "7000 Monthly messages",
-      price: "7000",
-      time: "monthly",
-      features: [
-        "Everyting in the Basic Plan.",
-        "Enhanced AI capabilities.",
-        "Priority Support.",
-      ],
-      // btnclick: () => handlePayment("7000"),
-    },
-    {
-      title: "Premium Plan",
-      messages: "10000 Monthly messages",
-      price: "10000",
-      time: "monthly",
-      features: [
-        "Everything in the Standard Plan.",
-        "Ideal for medium-scale business.",
-      ],
-      // btnclick: () => handlePayment("10000"),
-    },
-  ];
+  const [pricing, setPricing] = useState;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("Token", token);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}auth/subscription-plans/`,
+          {
+            headers: {
+              Authorization: `Token 2387704f918b3de9f27e85a8d8094ac59baa1872`,
+            },
+          }
+        );
+        console.log("response payment", res);
+        setPricing(res.data);
+      } catch (error) {
+        console.log("error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // const pricing = [
+  //   {
+  //     title: "Basic Plan",
+  //     messages: "5000 Monthly messages",
+  //     price: "5000",
+  //     time: "monthly",
+  //     features: [
+  //       "Core AI chatbot functionalities.",
+  //       "Suitable for small-scale or personal use.",
+  //     ],
+  //     // btnclick: () => handlePayment("5000"),
+  //   },
+  //   {
+  //     title: "Standard Plan",
+  //     messages: "7000 Monthly messages",
+  //     price: "7000",
+  //     time: "monthly",
+  //     features: [
+  //       "Everyting in the Basic Plan.",
+  //       "Enhanced AI capabilities.",
+  //       "Priority Support.",
+  //     ],
+  //     // btnclick: () => handlePayment("7000"),
+  //   },
+  //   {
+  //     title: "Premium Plan",
+  //     messages: "10000 Monthly messages",
+  //     price: "10000",
+  //     time: "monthly",
+  //     features: [
+  //       "Everything in the Standard Plan.",
+  //       "Ideal for medium-scale business.",
+  //     ],
+  //     // btnclick: () => handlePayment("10000"),
+  //   },
+  // ];
   const handlePayment = (totalAmount) => {
     console.log("button clicked");
     // Generate a UUID
@@ -223,7 +249,7 @@ const Payment = () => {
               key={index}
               className="relative h-[450px] w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between"
             >
-              <p className="font-semibold text-2xl">{plan.title}</p>
+              <p className="font-semibold text-2xl">{plan.name}</p>
               <p className="text-xl mt-2">{plan.messages}</p>
 
               <div className="text-md flex flex-col justify-center h-full p-4">
@@ -234,7 +260,7 @@ const Payment = () => {
 
               <p className="text-3xl font-semibold mb-6">
                 NRP {plan.price}
-                <sub className="top-2 text-sm font-light">/{plan.time}</sub>
+                <sub className="top-2 text-sm font-light">/monthly</sub>
               </p>
 
               <button
