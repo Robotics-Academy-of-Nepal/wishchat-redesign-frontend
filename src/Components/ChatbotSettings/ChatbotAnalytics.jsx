@@ -24,7 +24,7 @@ ChartJS.register(
 
 const ChatbotAnalytics = () => {
   const { chatbotData } = useOutletContext();
-  console.log("chatbot data in analytics", chatbotData);
+  // console.log("chatbot data in analytics", chatbotData);
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const ChatbotAnalytics = () => {
           { headers: { Authorization: `Token ${token}` } }
         )
         .then((response) => {
-          console.log(response.data);
+          console.log("analytics fetch:",response.data);
           setData(response.data);
         });
     }

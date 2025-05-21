@@ -1,7 +1,7 @@
 import { useChatbot } from "../context/ChatbotContext";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 
 const ChatbotSpecificFeatures = () => {
   const { chatbotData, setChatbotData } = useChatbot();
@@ -18,7 +18,7 @@ const ChatbotSpecificFeatures = () => {
     // );
   }, []);
   return (
-    <div className="fixed inset-4 rounded-4xl overflow-auto bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
+    <div className="relative min-h-screen m-4 rounded-4xl bg-radial-[at_0%_0%] from-white from-20% to-indigo-300">
       <Navbar />
       <Outlet />
     </div>

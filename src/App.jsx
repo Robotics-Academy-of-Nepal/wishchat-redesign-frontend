@@ -52,7 +52,6 @@ function App() {
 
         {/* Wrap the entire ChatbotSpecificFeatures and its child routes with ChatbotProvider */}
         <Route
-          // path="/chatbot"
           element={
             <ChatbotProvider>
               <ChatbotSpecificFeatures />

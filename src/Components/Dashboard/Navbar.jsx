@@ -23,7 +23,7 @@ const Navbar = () => {
     <nav
       className={`
       ${showNavbar && "bg-black/50"}
-    flex w-full items-center justify-between px-3 sm:px-4 duration-300 transition-colors`}
+    flex w-full rounded-t-4xl items-center justify-between px-3 sm:px-4 duration-300 transition-colors`}
     >
       <div
         className="flex items-start justify-start"
@@ -54,7 +54,7 @@ const Navbar = () => {
       {/* <AnimatePresence> */}
       {showNavbar && (
         <motion.nav
-          className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
+          className="absolute z-50 top-24 left-0 w-full h-screen bg-white"
           initial={{ opacity: 0, y: -60 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -60 }}

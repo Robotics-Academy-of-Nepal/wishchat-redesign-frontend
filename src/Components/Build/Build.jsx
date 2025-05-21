@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import UploadFile from "./UploadFile";
 import QandA from "./QandA";
 import Text from "./Text";
-import Navbar from "../Navbar";
 // import Uploaded from "./Uploaded";
 // import MainQuestion from "./MainQuestion";
 import axios from "axios";

@@ -1,4 +1,4 @@
-import Navbar from "../Navbar";
+import Navbar from "../Navbar/Navbar";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { LuArrowRight } from "react-icons/lu";
 import { Link, Outlet, useLocation } from "react-router-dom";

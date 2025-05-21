@@ -1,11 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "../assets/wishchat-logo.png";
+import logo from "../../assets/wishchat-logo.png";
 import { Link } from "react-router-dom";
-import { useChatbot } from "../context/ChatbotContext";
-import Profile from "./Navbar/Profile";
+import { useChatbot } from "../../context/ChatbotContext";
+import Profile from "./Profile";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Hamburger from "./Navbar/Hamburger";
+import Hamburger from "./Hamburger";
 const Navbar = () => {
   // console.log("navbar props:", id, name, api_key, azure_index, messages_used);
   const { chatbotData } = useChatbot();
@@ -28,7 +28,7 @@ const Navbar = () => {
     <div
       className={`${
         showNavbar && "bg-black/50"
-      } flex items-center justify-between px-3 sm:px-6 duration-300 transition-colors`}
+      } flex items-center rounded-t-4xl justify-between px-3 sm:px-6 duration-300 transition-colors`}
     >
       {/* logo */}
       <div
@@ -82,7 +82,7 @@ const Navbar = () => {
       {/* <AnimatePresence> */}
       {showNavbar && (
         <motion.nav
-          className="fixed z-50 top-28 left-0 w-full h-screen bg-white"
+          className="absolute z-50 top-24 left-0 w-full h-screen bg-white"
           initial={{ opacity: 0, y: -60 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -60 }}

@@ -76,7 +76,7 @@ const Navbar = () => {
       {/* <AnimatePresence> */}
       {showNavbar && (
         <motion.nav
-          className="fixed z-50 top-32 left-0 w-full h-screen bg-white"
+          className="absolute z-50 top-24 left-0 w-full h-screen bg-white"
           initial={{ opacity: 0, y: -60 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -60 }}

@@ -19,7 +19,7 @@ export default function Homepage() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-gradient-to-b from-indigo-50 to-white min-h-screen overflow-hidden">
+    <div className="relative flex flex-col bg-gradient-to-b from-indigo-50 to-white min-h-screen overflow-hidden">
       {/* Floating animated bubbles */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {[...Array(10)].map((_, i) => (
