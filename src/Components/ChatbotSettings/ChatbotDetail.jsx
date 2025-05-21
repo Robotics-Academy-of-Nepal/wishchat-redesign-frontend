@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { FaRegCalendar } from "react-icons/fa6";
 import DeletePopup from "./DeletePopup";
+import axiosInstance from "../../api/axiosInstance";
 
 const ChatbotDetail = ({ chatbotData }) => {
   const [popUpOpen, setPopUpOpen] = useState(false);
+  const [fetchedDetails, setFetchedDetails] = useState({});
   console.log("chatbotdata in chatbot details:", chatbotData);
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -15,14 +17,21 @@ const ChatbotDetail = ({ chatbotData }) => {
       day: "numeric",
     });
   };
+  useEffect(() => {
+    axiosInstance
+      .get(`api/${chatbotData.chatbot_id}/chatbot-quota/`)
+      .then((response) => {
+        console.log("fetch details:", response.data);
+        setFetchedDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("fetch detail error:", error);
+      });
+  }, [chatbotData.chatbot_id]);
 
   return (
     <div className="w-full flex flex-col p-6 px-8 mx-4 bg-white rounded-xl ">
       {popUpOpen && (
-        // <PopUp
-        //   setPopUpOpen={setPopUpOpen}
-        //   chatbot_id={chatbotData.chatbot_id}
-        // />
         <DeletePopup
           setPopUpOpen={setPopUpOpen}
           chatbot_id={chatbotData.chatbot_id}
@@ -66,7 +75,7 @@ const ChatbotDetail = ({ chatbotData }) => {
             <div>
               <p className="text-sm text-gray-500">Last Reset</p>
               <p className="font-medium">
-                {formatDate(chatbotData.last_reset)}
+                {formatDate(fetchedDetails.last_reset)}
               </p>
             </div>
           </div>
@@ -95,7 +104,7 @@ const ChatbotDetail = ({ chatbotData }) => {
           <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-medium text-blue-800">Trial Status</h3>
-              {chatbotData.is_trial_valid ? (
+              {fetchedDetails.is_trial_valid ? (
                 <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
                   <FaRegCheckCircle /> Active
                 </span>
@@ -108,11 +117,11 @@ const ChatbotDetail = ({ chatbotData }) => {
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p className="text-gray-500">Start Date</p>
-                <p>{formatDate(chatbotData.trial_start_date)}</p>
+                <p>{formatDate(fetchedDetails.trial_start_date)}</p>
               </div>
               <div>
                 <p className="text-gray-500">End Date</p>
-                <p>{formatDate(chatbotData.trial_end_date)}</p>
+                <p>{formatDate(fetchedDetails.trial_end_date)}</p>
               </div>
             </div>
           </div>
@@ -121,7 +130,7 @@ const ChatbotDetail = ({ chatbotData }) => {
           <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-medium text-blue-800">Subscription Status</h3>
-              {chatbotData.is_subscription_valid ? (
+              {fetchedDetails.is_subscription_valid ? (
                 <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
                   <FaRegCheckCircle /> Active
                 </span>
@@ -134,15 +143,15 @@ const ChatbotDetail = ({ chatbotData }) => {
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p className="text-gray-500">Start Date</p>
-                {chatbotData.last_payment_date ? (
-                  <p>{formatDate(chatbotData.last_payment_date)}</p>
+                {fetchedDetails.last_payment_date ? (
+                  <p>{formatDate(fetchedDetails.last_payment_date)}</p>
                 ) : (
-                  <p>{formatDate(chatbotData.subscription_start_date_at)}</p>
+                  <p>{formatDate(fetchedDetails.subscription_start_date_at)}</p>
                 )}
               </div>
               <div>
                 <p className="text-gray-500">End Date</p>
-                <p>{formatDate(chatbotData.subscription_end_date)}</p>
+                <p>{formatDate(fetchedDetails.subscription_end_date)}</p>
               </div>
             </div>
           </div>
