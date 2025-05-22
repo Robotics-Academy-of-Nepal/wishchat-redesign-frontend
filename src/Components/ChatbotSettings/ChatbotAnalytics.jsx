@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import axiosInstance from "../../api/axiosInstance";
 
 // Register Chart.js components
 ChartJS.register(
@@ -28,30 +28,46 @@ const ChatbotAnalytics = () => {
   const [data, setData] = useState();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (chatbotData.chatbot_id) {
-      axios
-        .get(
-          `${import.meta.env.VITE_API_URL}api/chatbot/${
-            chatbotData.chatbot_id
-          }/traffic-stats/`,
-          { headers: { Authorization: `Token ${token}` } }
-        )
-        .then((response) => {
-          console.log("analytics fetch:",response.data);
-          setData(response.data);
+      Promise.all([
+        axiosInstance.get(
+          `api/chatbot/${chatbotData.chatbot_id}/traffic-stats/`
+        ),
+        axiosInstance.get(`api/${chatbotData.chatbot_id}/message-quota/`),
+      ])
+        .then(([trafficStatsRes, messageQuotaRes]) => {
+          console.log("traffic stats fetch:", trafficStatsRes.data);
+          console.log("message quota:", messageQuotaRes.data);
+
+          // Combine or handle the responses as needed
+          setData({
+            trafficStats: trafficStatsRes.data,
+            messageQuota: messageQuotaRes.data,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching analytics or message quota:", error);
         });
     }
   }, [chatbotData]);
+
+  const used = Number(data?.messageQuota?.messages_used);
+  const limit = Number(data?.messageQuota?.message_limit);
   const usagePercentage =
-    (chatbotData.messages_used / chatbotData.message_limit) * 100;
+    !isNaN(used) && !isNaN(limit) ? (used / limit) * 100 : null;
+
   // Prepare data for the bar chart
   const barChartData = {
-    labels: data?.top_peak_traffic_hours.map((entry) => entry.time) || [],
+    labels:
+      data?.trafficStats.top_peak_traffic_hours.map((entry) => entry.time) ||
+      [],
     datasets: [
       {
         label: "Traffic Hits",
-        data: data?.top_peak_traffic_hours.map((entry) => entry.hits) || [],
+        data:
+          data?.trafficStats.top_peak_traffic_hours.map(
+            (entry) => entry.hits
+          ) || [],
         backgroundColor: "#a5b4fc",
         borderColor: "#a5b4fc",
         borderWidth: 1,
@@ -91,7 +107,6 @@ const ChatbotAnalytics = () => {
   return (
     // <div className="w-full p-4 m-4">
     <div className="w-full p-2 md:p-4 gap-4 grid grid-cols-1 lg:grid-cols-5">
-
       <div className="grid order-2 lg:order-1 grid-cols-1 gap-4 lg:col-span-2">
         {/* Message usage card */}
         <div className="bg-white rounded-lg p-3 md:p-4 shadow-sm">
@@ -116,7 +131,9 @@ const ChatbotAnalytics = () => {
               ></div>
             </div>
             <p className="text-xs text-right text-gray-500">
-              {usagePercentage.toFixed(2)}% used
+              {usagePercentage !== null
+                ? `${usagePercentage.toFixed(2)}% used`
+                : "N/A"}
             </p>
           </div>
         </div>
@@ -126,7 +143,7 @@ const ChatbotAnalytics = () => {
           <h2 className="text-blue-700 text-base md:text-lg font-semibold mb-2 md:mb-4 border-b border-blue-100 pb-2">
             Most Searched Queries
           </h2>
-          {data?.top_searched_queries?.map((query, index) => (
+          {data?.trafficStats.top_searched_queries?.map((query, index) => (
             <div
               key={index}
               className="flex justify-between border-b border-gray-200 py-1 text-sm md:text-base"
@@ -142,7 +159,7 @@ const ChatbotAnalytics = () => {
         <h2 className="text-base md:text-lg font-semibold mb-2 md:mb-3 text-blue-700 border-b pb-2">
           Peak Traffic Hours
         </h2>
-        {data?.top_peak_traffic_hours?.length > 0 ? (
+        {data?.trafficStats?.top_peak_traffic_hours?.length > 0 ? (
           <div className="w-full h-64 md:h-80 lg:h-96">
             <Bar data={barChartData} options={barChartOptions} />
           </div>

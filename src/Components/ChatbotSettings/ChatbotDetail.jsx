@@ -66,7 +66,7 @@ const ChatbotDetail = ({ chatbotData }) => {
             <div>
               <p className="text-sm text-gray-500">Created On</p>
               <p className="font-medium">
-                {formatDate(chatbotData.created_at)}
+                {formatDate(fetchedDetails.created_at)}
               </p>
             </div>
           </div>
