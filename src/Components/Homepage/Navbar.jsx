@@ -63,7 +63,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigate("/login")}
-            className="flex items-center justify-center bg-white text-black hover:bg-blue-500 hover:text-white rounded-full shadow-md transition-colors duration-700 px-4 py-1.5 font-light text-sm group"
+            className="flex items-center justify-center bg-white text-black hover:bg-blue-500 hover:text-white rounded-full shadow-md transition-colors duration-700 px-4 py-1.5 font-light text-sm group z-20"
           >
             <span>Sign Up</span>
             <div className="ml-2 bg-blue-500 text-white group-hover:bg-white group-hover:text-blue-500 duration-700 transition-colors rounded-full w-6 h-6 flex items-center justify-center">
