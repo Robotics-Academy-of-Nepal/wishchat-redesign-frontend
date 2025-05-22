@@ -76,7 +76,7 @@ const Login = () => {
 
   // Simple toast function - replace with your toast implementation
   const toast = (message) => {
-    console.log(message);
+    // console.log(message);
     setMessage(message.title + ": " + message.description);
   };
 

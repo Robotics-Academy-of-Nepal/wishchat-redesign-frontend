@@ -1,7 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useChatbot } from "../../context/ChatbotContext";
 const CreateOrganization = () => {
+  const { chatbotData, setChatbotData } = useChatbot();
   const [name, setName] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -22,14 +24,24 @@ const CreateOrganization = () => {
         navigate("/dashboard");
       });
   };
+  useLayoutEffect(() => {
+    if (JSON.parse(localStorage.getItem("chatbotData")) == null) {
+      navigate("/dashboard");
+    } else if (chatbotData.chatbot_id == null)
+      setChatbotData(JSON.parse(localStorage.getItem("chatbotData")));
+    console.log(
+      "parsedlocalstorage:",
+      JSON.parse(localStorage.getItem("chatbotData"))
+    );
+  }, []);
   return (
     // <div className="fixed inset-4 rounded-[50px] bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center">
     <div className="fixed inset-0 rounded-[50px] gradient- flex justify-center items-center">
       <div className="bg-radial from-blue-300 to-white py-10 flex flex-col space-y-4 items-center rounded-xl lg:w-5/12">
-          <h2 className="font-bold text-5xl">Create Organization</h2>
-          <p className="text-sm text-center text-gray-500 font-semibold">
-            Create an orgainzation to collaborate with your teammates now.
-          </p>
+        <h2 className="font-bold text-5xl">Create Organization</h2>
+        <p className="text-sm text-center text-gray-500 font-semibold">
+          Create an orgainzation to collaborate with your teammates now.
+        </p>
         <form onSubmit={handleSubmit} className="w-full px-2">
           <div className="mb-4 bg-white shadow-xl p-4 rounded-lg flex flex-col space-y-2">
             <label className="block text-gray-700 font-bold">

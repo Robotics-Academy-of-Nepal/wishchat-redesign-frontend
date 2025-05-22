@@ -1,13 +1,13 @@
 import { useChatbot } from "../context/ChatbotContext";
 import { useNavigate, Outlet } from "react-router-dom";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 
 const ChatbotSpecificFeatures = () => {
   const { chatbotData, setChatbotData } = useChatbot();
   const navigate = useNavigate();
   // console.log("chatbotspecific trigerred");
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (JSON.parse(localStorage.getItem("chatbotData")) == null) {
       navigate("/dashboard");
     } else if (chatbotData.chatbot_id == null)

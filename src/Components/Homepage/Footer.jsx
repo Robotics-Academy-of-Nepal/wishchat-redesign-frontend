@@ -4,39 +4,42 @@ import { CiLinkedin } from "react-icons/ci";
 import { RiRobot3Line } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 import { FiMapPin, FiPhone } from "react-icons/fi";
-import logo from "../../assets/wishchat-logo.png";
+import logo from "../../assets/footer-logo.png";
 
 const Footer = () => {
   const handleSubmit = (e) => {
     console.log("submit clicked");
     e.preventDefault();
     const email = e.target.email.value;
-    const name = e.target.name.value; // Now this will work since we added a name field
+    const message = e.target.message.value;
+    const subject = e.target.subject.value;
 
     // Basic validation
-    if (!email || !name) {
+    if (!email) {
       alert("Please fill in all fields");
       return;
     }
 
     // Create mailto link with both name and email
-    window.location.href = `mailto:bksmhrfacade@gmail.com?subject=Message from ${encodeURIComponent(
-      name
-    )}&body=From: ${encodeURIComponent(email)}`;
+    window.location.href = `mailto:info@goodwish.com?subject=${subject}&body=${encodeURIComponent(
+      message
+    )}`;
 
-    alert("Thank you for your message! We will get back to you soon.");
+    // alert("Thank you for your message! We will get back to you soon.");
     e.target.reset();
   };
 
   return (
     <>
-      <div className="px-4 md:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-b from-white to-indigo-50">
+      <div className="relative overflow-hidden bg-gradient-to-b from-white to-indigo-50">
         {/* Decorative elements */}
         <div className="absolute -bottom-16 -right-16 w-40 h-40 bg-indigo-200 rounded-full opacity-10"></div>
         <div className="absolute top-1/2 -left-10 w-24 h-24 bg-blue-200 rounded-full opacity-10"></div>
 
         {/* Main footer content */}
-        <div className="relative z-10 container mx-auto px-6">
+        <div 
+        // className="bg-blue-200"
+        >
           {/* Top wave divider */}
           <div className="w-full h-12 overflow-hidden relative -mb-1">
             <svg
@@ -51,14 +54,14 @@ const Footer = () => {
             </svg>
           </div>
 
-          <div className="md:flex md:flex-row sm:flex-col justify-between py-12">
+          <div className="px-4 md:px-6 lg:px-10 md:flex md:flex-row sm:flex-col justify-between py-12">
             {/* Company Info */}
             <div className="flex flex-col gap-4 items-center md:items-start mb-12 md:mb-0 md:w-1/3">
               <div className="flex flex-col gap-4">
-                <div className="p-3 flex items-center justify-center">
+                <div className="flex items-center justify-start">
                   <img
                     src={logo}
-                    className="h-[100px] w-[100px]"
+                    className="h-[80px] w-[80px]"
                     alt="Wishchat Logo"
                   />
                 </div>
@@ -117,7 +120,9 @@ const Footer = () => {
                   Contact Us
                   <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-indigo-500 rounded-full"></span>
                 </h1>
-                <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-2 gap-2">
+
                   <input
                     type="text"
                     name="name"
@@ -126,13 +131,20 @@ const Footer = () => {
                     required
                   />
                   <input
-                    type="email"
-                    name="email"
-                    placeholder="Your email"
+                    type="text"
+                    name="subject"
+                    placeholder="Subject"
                     className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     required
                   />
-
+                  </div>
+                  <input
+                    type="text"
+                    name="message"
+                    placeholder="Your Message here"
+                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    required
+                  />
                   <button
                     type="submit"
                     className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors w-fit"

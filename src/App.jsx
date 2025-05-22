@@ -23,7 +23,7 @@ import ChatbotDetail from "./Components/ChatbotSettings/ChatbotDetail.jsx";
 import Payment from "./Components/ChatbotSettings/Payment.jsx";
 import ChatbotAnalytics from "./Components/ChatbotSettings/ChatbotAnalytics.jsx";
 import PaymentSuccess from "./Components/ChatbotSettings/Payment_Success.jsx";
-import Features from "./Components/Features/Features.jsx"
+import Features from "./Components/Features/Features.jsx";
 function App() {
   // useEffect(() => {
   //   import("./chatWidget.js")
@@ -36,57 +36,46 @@ function App() {
   // }, []);
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ChatbotProvider>
-              <Dashboard />
-            </ChatbotProvider>
-          }
-        >
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="teammates" element={<Teammates />} />
-        </Route>
-
-        {/* Wrap the entire ChatbotSpecificFeatures and its child routes with ChatbotProvider */}
-        <Route
-          element={
-            <ChatbotProvider>
-              <ChatbotSpecificFeatures />
-            </ChatbotProvider>
-          }
-        >
-          {/* These routes will now have access to the ChatbotContext */}
-          <Route path="/playground" element={<Playground />}>
-            <Route path="chat" element={<Chat />} />
+      <ChatbotProvider>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="teammates" element={<Teammates />} />
           </Route>
 
-          <Route path="/deploy" element={<Deploy />}>
-            <Route path="whatsappForm" element={<WhatsappDeployForm />} />
-            <Route path="messengerForm" element={<MessengerDeployForm />} />
-            <Route path="widgetColorForm" element={<WidgetColorForm />} />
-            <Route path="websiteDomainForm" element={<WebsiteDomainForm />} />
-            <Route path="websiteForm" element={<WebsiteForm />} />
+          {/* Wrap the entire ChatbotSpecificFeatures and its child routes with ChatbotProvider */}
+          <Route element={<ChatbotSpecificFeatures />}>
+            {/* These routes will now have access to the ChatbotContext */}
+            <Route path="/playground" element={<Playground />}>
+              <Route path="chat" element={<Chat />} />
+            </Route>
+
+            <Route path="/deploy" element={<Deploy />}>
+              <Route path="whatsappForm" element={<WhatsappDeployForm />} />
+              <Route path="messengerForm" element={<MessengerDeployForm />} />
+              <Route path="widgetColorForm" element={<WidgetColorForm />} />
+              <Route path="websiteDomainForm" element={<WebsiteDomainForm />} />
+              <Route path="websiteForm" element={<WebsiteForm />} />
+            </Route>
+
+            <Route path="/chatbotSettings" element={<ChatbotSettings />}>
+              <Route path="chatbot-details" element={<ChatbotDetail />}></Route>
+              <Route path="analytics" element={<ChatbotAnalytics />}></Route>
+              <Route path="payment" element={<Payment />}></Route>
+            </Route>
+            <Route path="/build" element={<Build />} />
           </Route>
 
-          <Route path="/chatbotSettings" element={<ChatbotSettings />}>
-            <Route path="chatbot-details" element={<ChatbotDetail />}></Route>
-            <Route path="analytics" element={<ChatbotAnalytics />}></Route>
-            <Route path="payment" element={<Payment />}></Route>
-          </Route>
-          <Route path="/build" element={<Build />} />
-        </Route>
+          <Route path="/payment-success/:code" element={<PaymentSuccess />} />
+          <Route path="/payment-failure" element={<PaymentSuccess />} />
+          <Route path="/features" element={<Features />} />
 
-        <Route path="/payment-success/:code" element={<PaymentSuccess/>}/>
-        <Route path="/payment-failure" element={<PaymentSuccess/>}/>
-        <Route path ="/features" element={<Features/>}/>
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/createOrganization" element={<CreateOrganization />} />
-        <Route path="/login/:invitation_code" element={<Login />} />
-      </Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/createOrganization" element={<CreateOrganization />} />
+          <Route path="/login/:invitation_code" element={<Login />} />
+        </Routes>
+      </ChatbotProvider>
     </Router>
   );
 }
