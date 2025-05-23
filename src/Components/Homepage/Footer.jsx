@@ -10,12 +10,12 @@ const Footer = () => {
   const handleSubmit = (e) => {
     console.log("submit clicked");
     e.preventDefault();
-    const email = e.target.email.value;
+    const name = e.target.name.value;
     const message = e.target.message.value;
     const subject = e.target.subject.value;
 
     // Basic validation
-    if (!email) {
+    if (!name) {
       alert("Please fill in all fields");
       return;
     }
@@ -37,7 +37,7 @@ const Footer = () => {
         <div className="absolute top-1/2 -left-10 w-24 h-24 bg-blue-200 rounded-full opacity-10"></div>
 
         {/* Main footer content */}
-        <div 
+        <div
         // className="bg-blue-200"
         >
           {/* Top wave divider */}
@@ -122,21 +122,20 @@ const Footer = () => {
                 </h1>
                 <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-2">
-
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                    required
-                  />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Your name"
+                      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                      required
+                    />
                   </div>
                   <input
                     type="text"

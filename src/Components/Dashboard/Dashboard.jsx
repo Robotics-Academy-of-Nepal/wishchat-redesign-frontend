@@ -78,12 +78,6 @@ export default function Dashboard() {
     const fetchChatbots = async () => {
       const token = getToken();
 
-      // Redirect to login if token is missing
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
       try {
         const response = await fetch(API_URL, {
           method: "GET",
