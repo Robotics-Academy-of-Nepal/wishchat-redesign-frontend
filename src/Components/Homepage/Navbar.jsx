@@ -46,7 +46,12 @@ const Navbar = () => {
         >
           Features
         </button>
-        <button className="text-gray-400">Tutorials</button>
+        <button
+          onClick={() => navigate("/tutorials")}
+          className="hover:text-blue-400"
+        >
+          Tutorials
+        </button>
         <button
           className="hover:text-blue-400"
           onClick={() => navigate("/dashboard/pricing")}
@@ -99,7 +104,9 @@ const Navbar = () => {
             >
               Features
             </Link>
-            <Link className="text-gray-400">Tutorials</Link>
+            <Link className="hover:text-blue-400" to={"/tutorials"}>
+              Tutorials
+            </Link>
             <Link
               className="hover:text-blue-400"
               to={"/dashboard/pricing"}

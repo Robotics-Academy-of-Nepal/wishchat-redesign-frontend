@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./Components/Homepage/Homepage";
 import Pricing from "./Components/Dashboard/Pricing";
@@ -23,8 +22,10 @@ import ChatbotDetail from "./Components/ChatbotSettings/ChatbotDetail.jsx";
 import Payment from "./Components/ChatbotSettings/Payment.jsx";
 import ChatbotAnalytics from "./Components/ChatbotSettings/ChatbotAnalytics.jsx";
 import PaymentSuccess from "./Components/ChatbotSettings/Payment_Success.jsx";
-import Features from "./Components/Features/Features.jsx";
+import Features from "./Components/Homepage/Features/Features.jsx";
+import Tutorials from "./Components/Homepage/Tutorials.jsx";
 import PrivateRouter from "./auth/PrivateRouter.jsx";
+
 function App() {
   // useEffect(() => {
   //   import("./chatWidget.js")
@@ -78,13 +79,14 @@ function App() {
 
             <Route path="/payment-success/:code" element={<PaymentSuccess />} />
             <Route path="/payment-failure" element={<PaymentSuccess />} />
-            <Route path="/features" element={<Features />} />
             <Route
               path="/createOrganization"
               element={<CreateOrganization />}
             />
           </Route>
 
+          <Route path="/features" element={<Features />} />
+          <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/:invitation_code" element={<Login />} />
         </Routes>
