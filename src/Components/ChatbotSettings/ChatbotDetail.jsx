@@ -30,7 +30,7 @@ const ChatbotDetail = ({ chatbotData }) => {
   }, [chatbotData.chatbot_id]);
 
   return (
-    <div className="w-full flex flex-col p-6 px-8 mx-4 bg-white rounded-xl ">
+    <div className="w-full flex flex-col p-6 px-8 mx-4 bg-white rounded-xl h-fit">
       {popUpOpen && (
         <DeletePopup
           setPopUpOpen={setPopUpOpen}

@@ -13,6 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(false);
+  
   useEffect(() => {
     if (showNavbar) {
       document.body.style.overflow = "hidden";
@@ -24,6 +25,8 @@ const Navbar = () => {
       document.body.style.overflow = "auto";
     };
   }, [showNavbar]);
+
+
   return (
     <div
       className={`${

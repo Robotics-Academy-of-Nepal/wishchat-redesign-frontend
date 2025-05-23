@@ -5,6 +5,8 @@ import { IoTrashOutline } from "react-icons/io5";
 import { LuArrowRight } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useChatbot } from "../../context/ChatbotContext";
+import { RxCross2 } from "react-icons/rx";
+
 const WebsiteForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +15,8 @@ const WebsiteForm = () => {
   const { chatbot_id } = chatbotData;
   const token = localStorage.getItem("token");
 
-  const [FetchedQA, setFetchedQA] = useState([{ question: "", answer: "" }]);
+  const [error, setError] = useState();
+  const [FetchedQA, setFetchedQA] = useState([]);
   const checkQAFetch = useRef([]);
   const [QA, setQA] = useState([]);
   const handleSubmit = (e) => {
@@ -37,6 +40,7 @@ const WebsiteForm = () => {
       })
       .catch((error) => {
         console.error("form error:", error);
+        setError("Failed to post the QA: ", error.response?.data?.message);
       });
   };
   const addQA = () => {
@@ -64,6 +68,7 @@ const WebsiteForm = () => {
         })
         .catch((error) => {
           console.error("form error:", error);
+          setError("Failed to delete the QA: ", error.response?.data?.message);
         });
     } else {
       console.log("noID");
@@ -116,11 +121,16 @@ const WebsiteForm = () => {
 
         checkQAFetch.current = JSON.parse(JSON.stringify(formattedData));
         setFetchedQA(formattedData);
+        console.log("the length of the fetched data is:", FetchedQA.length);
       })
       .catch((error) => {
         console.error("form error:", error);
       });
   }, [chatbot_id, setFetchedQA, token]);
+
+  const handleExit = () => {
+    navigate("/deploy");
+  };
 
   return (
     <div className="rounded-2xl flex items-center justify-center p-6">
@@ -130,61 +140,73 @@ const WebsiteForm = () => {
       >
         <h3 className="text-3xl font-medium text-center">Enter FAQs</h3>
         <div className="bg-white rounded-xl p-6 flex flex-col gap-6 shadow-lg">
-          {FetchedQA.map((obj, index) => {
-            const hasChanged =
-              JSON.stringify(obj) !==
-              JSON.stringify(checkQAFetch.current[index]);
-            return (
-              <div className="w-full" key={index}>
-                <div className="flex items-center w-full gap-2 my-2">
-                  <p className="text-start text-xl h-full">Q:</p>
-                  <textarea
-                    className="w-full border-2 border-stone-300 rounded-2xl placeholder:text-xl placeholder:text-stone-400 placeholder:font-light px-6 py-2 flex justify-center items-center"
-                    placeholder="Enter text to train your chatbot... "
-                    value={obj.question}
-                    onChange={(e) => {
-                      const newQA = [...FetchedQA];
-                      newQA[index].question = e.target.value;
-                      setFetchedQA(newQA);
-                    }}
-                  />
-                </div>
-                <div className="flex items-center w-full gap-2">
-                  <p className="text-start text-xl h-full">A:</p>
-                  <textarea
-                    className="h-40 w-full border-2 border-stone-300 rounded-2xl placeholder:text-xl placeholder:text-stone-400 placeholder:font-light px-6 py-2"
-                    placeholder="Enter text to train your chatbot... "
-                    value={obj.answer}
-                    onChange={(e) => {
-                      const newQA = [...FetchedQA];
-                      newQA[index].answer = e.target.value;
-                      setFetchedQA(newQA);
-                    }}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    className="text-red-600 hover:text-red-800 flex items-center gap-1 "
-                    onClick={() => removeQA(obj, index)}
-                    type="button"
-                  >
-                    <IoTrashOutline className="h-5 w-5" />
-                    Remove
-                  </button>
-                  {hasChanged && (
-                    <button
-                      className="text-red-600 hover:text-red-800 flex items-center gap-1 "
-                      onClick={() => updateQA(obj, index)}
-                      type="button"
-                    >
-                      <IoTrashOutline className="h-5 w-5" />
-                      Apply Change
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          <div className="flex items-end justify-end">
+            <button
+              onClick={handleExit}
+              className="px-2 py-2 rounded-lg text-gray-900 border-gray-200 bg-slate-50 hover:text-white hover:bg-blue-500"
+            >
+              <RxCross2 />
+            </button>
+          </div>
+          {FetchedQA.length > 0 && (
+            <>
+              {FetchedQA.map((obj, index) => {
+                const hasChanged =
+                  JSON.stringify(obj) !==
+                  JSON.stringify(checkQAFetch.current[index]);
+                return (
+                  <div className="w-full" key={index}>
+                    <div className="flex items-center w-full gap-2 my-2">
+                      <p className="text-start text-xl h-full">Q:</p>
+                      <textarea
+                        className="w-full border-2 border-stone-300 rounded-2xl placeholder:text-xl placeholder:text-stone-400 placeholder:font-light px-6 py-2 flex justify-center items-center"
+                        placeholder="Enter text to train your chatbot... "
+                        value={obj.question}
+                        onChange={(e) => {
+                          const newQA = [...FetchedQA];
+                          newQA[index].question = e.target.value;
+                          setFetchedQA(newQA);
+                        }}
+                      />
+                    </div>
+                    <div className="flex items-center w-full gap-2">
+                      <p className="text-start text-xl h-full">A:</p>
+                      <textarea
+                        className="h-40 w-full border-2 border-stone-300 rounded-2xl placeholder:text-xl placeholder:text-stone-400 placeholder:font-light px-6 py-2"
+                        placeholder="Enter text to train your chatbot... "
+                        value={obj.answer}
+                        onChange={(e) => {
+                          const newQA = [...FetchedQA];
+                          newQA[index].answer = e.target.value;
+                          setFetchedQA(newQA);
+                        }}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        className="text-red-600 hover:text-red-800 flex items-center gap-1 "
+                        onClick={() => removeQA(obj, index)}
+                        type="button"
+                      >
+                        <IoTrashOutline className="h-5 w-5" />
+                        Remove
+                      </button>
+                      {hasChanged && (
+                        <button
+                          className="text-red-600 hover:text-red-800 flex items-center gap-1 "
+                          onClick={() => updateQA(obj, index)}
+                          type="button"
+                        >
+                          <IoTrashOutline className="h-5 w-5" />
+                          Apply Change
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
           {QA.map((obj, index) => {
             return (
               <div className="w-full" key={index}>

@@ -5,7 +5,7 @@ import Navbar from "./Navbar/Navbar";
 
 const ChatbotSpecificFeatures = () => {
   const { chatbotData, setChatbotData } = useChatbot();
-  // console.log("chatbotspecific trigerred");
+
   useEffect(() => {
     // if the user already navigated to the ChatbotSpecificFeatures then it'll not parse the localstorage and show previous detail
     if (chatbotData.chatbot_id == null)
@@ -15,6 +15,8 @@ const ChatbotSpecificFeatures = () => {
       JSON.parse(localStorage.getItem("chatbotData"))
     );
   }, []);
+
+
   return JSON.parse(localStorage.getItem("chatbotData")) == null ? (
     <Navigate to="/dashboard" />
   ) : (

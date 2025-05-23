@@ -8,27 +8,18 @@ const ChatbotSettings = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname.includes(path);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navbarHeight = 144;
+  const navbarHeight = 96;
   const sidebarItems = [
     { name: "Chatbot Details", url: "/chatbotSettings/chatbot-details" },
     { name: "Analytics", url: "analytics" },
     { name: "Payment", url: "payment" },
   ];
   const { chatbotData } = useChatbot();
-  // useEffect(() => {
-  //   if (sidebarOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
 
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [sidebarOpen]);
   useEffect(() => {
     if (window.innerWidth > 770) setSidebarOpen(true);
   }, []);
+
   const closeAside = () => {
     if (window.innerWidth < 770) {
       setSidebarOpen(false);
@@ -37,7 +28,7 @@ const ChatbotSettings = () => {
   return (
     <div
       className={`w-full flex relative`}
-      style={{ minHeight: `calc(100vh - ${navbarHeight}px)` }}
+      // style={{ minHeight: `calc(100vh - ${navbarHeight}px)` }}
     >
       {/* Sidebar */}
       <aside
@@ -46,6 +37,7 @@ const ChatbotSettings = () => {
             ? "absolute inset-0 w-full md:w-64 md:relative z-10 translate-x-0 "
             : "w-0 overflow-hidden -translate-x-full"
         }`}
+        style={{ minHeight: `calc(100vh - ${navbarHeight}px)` }}
       >
         <nav className=" p-4">
           <ul className="space-y-2">

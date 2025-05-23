@@ -1,9 +1,7 @@
 import axios from "axios";
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useChatbot } from "../../context/ChatbotContext";
 const CreateOrganization = () => {
-  const { chatbotData, setChatbotData } = useChatbot();
   const [name, setName] = useState("");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -24,16 +22,7 @@ const CreateOrganization = () => {
         navigate("/dashboard");
       });
   };
-  useLayoutEffect(() => {
-    if (JSON.parse(localStorage.getItem("chatbotData")) == null) {
-      navigate("/dashboard");
-    } else if (chatbotData.chatbot_id == null)
-      setChatbotData(JSON.parse(localStorage.getItem("chatbotData")));
-    console.log(
-      "parsedlocalstorage:",
-      JSON.parse(localStorage.getItem("chatbotData"))
-    );
-  }, []);
+
   return (
     // <div className="fixed inset-4 rounded-[50px] bg-gradient-to-br from-white to-indigo-300 flex justify-center items-center">
     <div className="fixed inset-0 rounded-[50px] gradient- flex justify-center items-center">

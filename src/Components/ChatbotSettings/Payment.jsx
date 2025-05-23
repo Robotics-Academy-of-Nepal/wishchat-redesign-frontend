@@ -1,12 +1,9 @@
 import { LuArrowRight } from "react-icons/lu";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { RiCoupon2Fill } from "react-icons/ri";
-import { v4 as uuidv4 } from "uuid";
-import CryptoJS from "crypto-js";
-import axios from "axios";
 import { useChatbot } from "../../context/ChatbotContext";
-
+import axiosInstance from "../../api/axiosInstance";
 const PopUp = ({
   setPopUp,
   selectedPlan,
@@ -27,16 +24,12 @@ const PopUp = ({
       requiredPlan.price,
       coupon
     );
-    axios
-      .post(
-        `${import.meta.env.VITE_API_URL}auth/coupon/redeem/`,
-        {
-          code: coupon,
-          chatbot_id: chatbotData.chatbot_id,
-          amount: requiredPlan.price,
-        },
-        { headers: { Authorization: `Token ${localStorage.getItem("token")}` } }
-      )
+    axiosInstance
+      .post(`${import.meta.env.VITE_API_URL}auth/coupon/redeem/`, {
+        code: coupon,
+        chatbot_id: chatbotData.chatbot_id,
+        amount: requiredPlan.price,
+      })
       .then((response) => {
         console.log(response);
         setCouponData(response.data);
@@ -111,6 +104,7 @@ const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
+
   const [pricing, setPricingDetail] = useState([
     {
       title: "Basic Plan",
@@ -150,15 +144,8 @@ const Payment = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        console.log("Token", token);
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}auth/subscription-plans/`,
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
+        const res = await axiosInstance.get(
+          `${import.meta.env.VITE_API_URL}auth/subscription-plans/`
         );
         console.log("response payment", res);
 
@@ -186,59 +173,19 @@ const Payment = () => {
   }, []);
 
   const handlePayment = (totalAmount) => {
-    console.log("button clicked");
-    // Generate a UUID
-    const transaction_uuid = uuidv4();
-
-    // Define the payload
-    const payload = {
-      amount: totalAmount,
-      tax_amount: "0",
-      total_amount: totalAmount,
-      transaction_uuid: transaction_uuid,
-      product_code: "EPAYTEST",
-      product_service_charge: "0",
-      product_delivery_charge: "0",
-      success_url: `https://pr9rwc8x-5173.inc1.devtunnels.ms/payment-success/x${coupon}/`,
-      failure_url: "https://pr9rwc8x-5173.inc1.devtunnels.ms/payment-failure/",
-      signed_field_names: "total_amount,transaction_uuid,product_code",
-    };
-
-    // Prepare the message for signature
-    const message = `total_amount=${payload.total_amount},transaction_uuid=${payload.transaction_uuid},product_code=${payload.product_code}`;
-
-    // Generate the signature using HMAC-SHA256
-    const secret = "8gBm/:&EnhH.1/q";
-    const signature = CryptoJS.HmacSHA256(message, secret).toString(
-      CryptoJS.enc.Base64
-    );
-
-    // Add the signature to the payload
-    payload.signature = signature;
-
-    console.log("Payload:", payload); // Log the payload
-
-    // Create a hidden form and submit it
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
-
-    // Add payload fields as hidden inputs
-    for (const key in payload) {
-      if (payload.hasOwnProperty(key)) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = payload[key];
-        form.appendChild(input);
-      }
-    }
-
-    // Append the form to the body and submit it
-    document.body.appendChild(form);
-    form.submit();
+    axiosInstance
+      .post("api/initiate-esewa-payment/", {
+        total_amount: totalAmount,
+        coupon: coupon,
+      })
+      .then((response) => {
+        console.log(response);
+        window.location.href = response.data.redirect_url;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
   return (
     <div className="w-full p-4 ">
       <h3 className="text-2xl font-semibold text-center mb-4">Payment</h3>

@@ -50,7 +50,6 @@ function App() {
 
             {/* Wrap the entire ChatbotSpecificFeatures and its child routes with ChatbotProvider */}
             <Route element={<ChatbotSpecificFeatures />}>
-              {/* These routes will now have access to the ChatbotContext */}
               <Route path="/playground" element={<Playground />}>
                 <Route path="chat" element={<Chat />} />
               </Route>

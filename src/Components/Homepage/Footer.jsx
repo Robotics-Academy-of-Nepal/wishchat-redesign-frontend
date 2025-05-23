@@ -41,7 +41,7 @@ const Footer = () => {
         // className="bg-blue-200"
         >
           {/* Top wave divider */}
-          <div className="w-full h-12 overflow-hidden relative -mb-1">
+          {/* <div className="w-full h-12 overflow-hidden relative -mb-1">
             <svg
               className="absolute bottom-0 w-full h-20 text-indigo-50"
               viewBox="0 0 1200 120"
@@ -52,7 +52,7 @@ const Footer = () => {
                 fill="currentColor"
               ></path>
             </svg>
-          </div>
+          </div> */}
 
           <div className="px-4 md:px-6 lg:px-10 md:flex md:flex-row sm:flex-col justify-between py-12">
             {/* Company Info */}
