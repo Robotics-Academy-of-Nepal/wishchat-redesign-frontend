@@ -4,7 +4,7 @@ import axios from "axios";
 function PaymentSuccess() {
   const navigate = useNavigate();
   const [isPaymentProcessed, setIsPaymentProcessed] = useState(false); // State to track if payment has been processed
-  const { code } = useParams();
+  const { code, plan_id } = useParams();
 
   useEffect(() => {
     // Prevent the effect from running if the payment has already been processed
@@ -23,7 +23,12 @@ function PaymentSuccess() {
       axios
         .post(
           `${import.meta.env.VITE_API_URL}api/payment-success/`,
-          { data: encodedData, chatbot_id: chatbot_id, coupon_code: coupon },
+          {
+            data: encodedData,
+            chatbot_id: chatbot_id,
+            coupon_code: coupon,
+            plan_id: plan_id,
+          },
           {
             headers: {
               "Content-Type": "application/json",

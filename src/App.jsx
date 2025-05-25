@@ -76,7 +76,10 @@ function App() {
               <Route path="/build" element={<Build />} />
             </Route>
 
-            <Route path="/payment-success/:code" element={<PaymentSuccess />} />
+            <Route
+              path="/payment-success/:code/:plan_id"
+              element={<PaymentSuccess />}
+            />
             <Route path="/payment-failure" element={<PaymentSuccess />} />
             <Route
               path="/createOrganization"

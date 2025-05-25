@@ -105,42 +105,7 @@ const Payment = () => {
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
 
-  const [pricing, setPricingDetail] = useState([
-    {
-      title: "Basic Plan",
-      messages: "5000 Monthly messages",
-      price: "5000",
-      time: "monthly",
-      features: [
-        "Core AI chatbot functionalities.",
-        "Suitable for small-scale or personal use.",
-      ],
-      // btnclick: () => handlePayment("5000"),
-    },
-    {
-      title: "Standard Plan",
-      messages: "7000 Monthly messages",
-      price: "7000",
-      time: "monthly",
-      features: [
-        "Everyting in the Basic Plan.",
-        "Enhanced AI capabilities.",
-        "Priority Support.",
-      ],
-      // btnclick: () => handlePayment("7000"),
-    },
-    {
-      title: "Pro Plan",
-      messages: "10000 Monthly messages",
-      price: "10000",
-      time: "monthly",
-      features: [
-        "Everything in the Standard Plan.",
-        "Ideal for medium-scale business.",
-      ],
-      // btnclick: () => handlePayment("10000"),
-    },
-  ]);
+  const [pricing, setPricingDetail] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -149,21 +114,7 @@ const Payment = () => {
         );
         console.log("response payment", res);
 
-        let updatedPricing = [];
-
-        res.data.plans.forEach((fetchedPlan) => {
-          const localPlan = pricing.find(
-            (plan) => plan.title === fetchedPlan.name
-          );
-          if (localPlan) {
-            console.log(localPlan);
-            localPlan.price = fetchedPlan.price;
-            localPlan.messages = `${fetchedPlan.message_limit} Monthly messages`;
-          }
-          updatedPricing.push(localPlan);
-        });
-
-        setPricingDetail(updatedPricing);
+        setPricingDetail(res.data.plans);
       } catch (error) {
         console.log("error:", error);
       }
@@ -172,11 +123,12 @@ const Payment = () => {
     fetchData();
   }, []);
 
-  const handlePayment = (totalAmount) => {
+  const handlePayment = (totalAmount, plan_id) => {
     axiosInstance
       .post("api/initiate-esewa-payment/", {
         total_amount: totalAmount,
         coupon: coupon,
+        plan_id: plan_id,
       })
       .then((response) => {
         console.log(response);
@@ -205,54 +157,73 @@ const Payment = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="relative grid lg:grid-cols-2 xl:grid-cols-3 gap-4"
       >
-        {pricing.map((plan, index) => {
-          return (
-            <div
-              key={index}
-              className="relative h-[450px] w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between"
-            >
-              <p className="font-semibold text-2xl">{plan.title}</p>
-              <p className="text-xl mt-2">{plan.messages}</p>
-
-              <div className="text-md flex flex-col justify-center h-full p-4">
-                {plan.features.map((feature, index) => {
-                  return <p key={index}>{feature}</p>;
-                })}
-              </div>
-
-              <p className="text-3xl font-semibold mb-6">
-                NRP {plan.price}
-                <sub className="top-2 text-sm font-light">/monthly</sub>
-              </p>
-
-              <button
-                className="flex items-center justify-center p-4 gap-2  bg-blue-500 h-14 rounded-full text-white text-md  hover:bg-white hover:text-blue-500 group border border-blue-500"
-                onClick={() => {
-                  handlePayment(plan.price);
-                }}
-              >
-                Get Started Now
+        {pricing.length > 0
+          ? pricing.map((plan, index) => {
+              return (
                 <div
-                  className={`h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white`}
+                  key={index}
+                  className="relative h-[450px] w-full px-6 py-8 bg-white text-gray-800 rounded-3xl shadow-md flex flex-col justify-between"
                 >
-                  <LuArrowRight className="h-5 w-5 " />
+                  <p className="font-semibold text-2xl">{plan.name}</p>
+                  <p className="text-xl mt-2">
+                    {plan.message_limit} Monthly Messages
+                  </p>
+
+                  <div className="text-md flex flex-col justify-center h-full p-4">
+                    {plan.features.map((feature, index) => {
+                      return <p key={index}>{feature}</p>;
+                    })}
+                  </div>
+
+                  <p className="text-3xl font-semibold mb-6">
+                    NRP {plan.price}
+                    <sub className="top-2 text-sm font-light">/monthly</sub>
+                  </p>
+
+                  <button
+                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-full text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500"
+                    onClick={() => {
+                      handlePayment(plan.price, plan.id);
+                    }}
+                  >
+                    Get Started Now
+                    <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white">
+                      <LuArrowRight className="h-5 w-5" />
+                    </div>
+                  </button>
+
+                  <button
+                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-full shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
+                    onClick={() => {
+                      setSelectedPlan(plan.title);
+                      setPopUp(true);
+                    }}
+                  >
+                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
+                      <RiCoupon2Fill className="text-xs" />
+                    </div>
+                    Use Coupon
+                  </button>
                 </div>
-              </button>
-              <button
-                className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-full shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
-                onClick={() => {
-                  setSelectedPlan(plan.title);
-                  setPopUp(true);
-                }}
+              );
+            })
+          : // Skeleton loader shown while pricing data is loading
+            [...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="animate-pulse relative h-[450px] w-full px-6 py-8 bg-gray-100 rounded-3xl shadow-md flex flex-col justify-between"
               >
-                <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
-                  <RiCoupon2Fill className="text-xs" />
+                <div className="h-6 bg-gray-300 rounded w-1/3 mb-4"></div>
+                <div className="h-4 bg-gray-300 rounded w-1/2 mb-6"></div>
+                <div className="flex flex-col gap-2">
+                  <div className="h-3 bg-gray-300 rounded w-full"></div>
+                  <div className="h-3 bg-gray-300 rounded w-4/5"></div>
+                  <div className="h-3 bg-gray-300 rounded w-3/4"></div>
                 </div>
-                Use Coupon
-              </button>
-            </div>
-          );
-        })}
+                <div className="h-8 bg-gray-300 rounded w-2/5 mt-6 mb-6"></div>
+                <div className="h-14 bg-gray-300 rounded-full w-full"></div>
+              </div>
+            ))}
       </motion.div>
     </div>
   );
