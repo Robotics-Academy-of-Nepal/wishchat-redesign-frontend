@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { RiCoupon2Fill } from "react-icons/ri";
 import axiosInstance from "../../api/axiosInstance";
 import CouponPopup from "./CouponPopup";
-// import PaymentOptionPopup from "./PaymentOptionPopup";
+import { toast } from "react-toastify";
 const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
@@ -101,7 +101,7 @@ const Payment = () => {
                   </p>
 
                   <button
-                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-lg text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500"
+                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-lg text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500 transition-colors duration-300"
                     onClick={() => {
                       setShowPaymentOptions((prev) => {
                         const updated = [...prev];
@@ -111,14 +111,14 @@ const Payment = () => {
                     }}
                   >
                     Get Started Now
-                    <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white">
+                    <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors duration-500">
                       <LuArrowRight className="h-5 w-5" />
                     </div>
                   </button>
                   {showPaymentOptions[index] && (
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       <button
-                        className="p-2 bg-green-600 text-white rounded-md"
+                        className="p-2 bg-green-500 text-white hover:bg-green-400 rounded-md transition-colors duration-300"
                         onClick={() => {
                           console.log("esewa trigerred");
                           handlePayment(plan.price, plan.id, "esewa");
@@ -127,7 +127,7 @@ const Payment = () => {
                         eSewa
                       </button>
                       <button
-                        className="p-2 bg-indigo-800 text-white rounded-md"
+                        className="p-2 bg-purple-800 text-white hover:bg-purple-600 rounded-md transition-colors duration-300"
                         onClick={() => {
                           console.log("khalti trigerred");
                           handlePayment(plan.price, plan.id, "khalti");
@@ -138,15 +138,15 @@ const Payment = () => {
                     </div>
                   )}
                   <button
-                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-xl shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
+                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-xl shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all duration-300"
                     onClick={() => {
                       setSelectedPlan(plan);
                       setPopUp(true);
                     }}
                   >
                     Use
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
-                      <RiCoupon2Fill className="text-xs" />
+                    <div className="w-8 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
+                      <RiCoupon2Fill className="" />
                     </div>
                   </button>
                 </div>

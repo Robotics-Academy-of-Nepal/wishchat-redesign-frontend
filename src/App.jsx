@@ -25,7 +25,7 @@ import PaymentSuccess from "./Components/ChatbotSettings/Payment_Success.jsx";
 import Features from "./Components/Homepage/Features/Features.jsx";
 import Tutorials from "./Components/Homepage/Tutorials.jsx";
 import PrivateRouter from "./auth/PrivateRouter.jsx";
-
+import { ToastContainer } from "react-toastify";
 function App() {
   // useEffect(() => {
   //   import("./chatWidget.js")
@@ -38,6 +38,7 @@ function App() {
   // }, []);
   return (
     <Router>
+      <ToastContainer/>
       <ChatbotProvider>
         <Routes>
           <Route path="/" element={<Homepage />} />

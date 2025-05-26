@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
+import { motion } from "framer-motion";
+
 function PaymentSuccess() {
   const navigate = useNavigate();
   const [isPaymentProcessed, setIsPaymentProcessed] = useState(false); // State to track if payment has been processed
@@ -10,17 +12,15 @@ function PaymentSuccess() {
     // Prevent the effect from running if the payment has already been processed
     if (isPaymentProcessed) return;
 
-    // Extract the `data` parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const encodedData = urlParams.get("data");
     const pidx = urlParams.get("pidx");
-    console.log("code:", code.slice(1));
     const apiKey = localStorage.getItem("api_key");
-    const token = localStorage.getItem("token");
     const chatbotData = JSON.parse(localStorage.getItem("chatbotData"));
     const chatbot_id = chatbotData.chatbot_id;
     const coupon = code.slice(1);
 
+    console.log("code:", code.slice(1));
     let requestBody = {
       chatbot_id: chatbot_id,
       coupon_code: coupon,
@@ -33,7 +33,7 @@ function PaymentSuccess() {
       requestBody.pidx = pidx;
     }
     if (encodedData || pidx) {
-      axios
+      axiosInstance
         .post(
           `${import.meta.env.VITE_API_URL}api/payment-success/`,
           requestBody,
@@ -41,24 +41,16 @@ function PaymentSuccess() {
             headers: {
               "Content-Type": "application/json",
               "X-API-KEY": apiKey,
-              Authorization: `Token ${token}`,
             },
           }
         )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
         .then((data) => {
           console.log("Backend response:", data);
-          setIsPaymentProcessed(true); // Mark payment as processed
-          // Wait for 2 seconds before navigating to '/'
-          localStorage.removeItem("chatbotData");
+          setIsPaymentProcessed(true);
+          // localStorage.removeItem("chatbotData");
           setTimeout(() => {
             navigate("/dashboard"); // Navigate to the homepage
-          }, 2000);
+          }, 10000);
         })
         .catch((error) => {
           console.error("Error sending data to backend:", error);
@@ -69,15 +61,46 @@ function PaymentSuccess() {
   }, []);
 
   return (
-    
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-white rounded-lg shadow-lg">
-      <h1 className="mb-4 text-4xl font-semibold text-green-600">
-        Payment Successful!
-      </h1>
-      <p className="mb-6 text-lg text-gray-600">
-        Thank you for your payment. We are processing your transaction.
-      </p>
-    </div>
+    <>
+      {!isPaymentProcessed ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-white via-indigo-100 to-indigo-300"
+        >
+          {/* Spinner */}
+          <div className="relative w-20 h-20 mb-6">
+            <div className="absolute inset-0 rounded-full border-t-4 border-indigo-500 animate-spin"></div>
+            <div className="absolute inset-0 rounded-full border-b-4 border-indigo-500 animate-spin-slower"></div>
+          </div>
+
+          {/* Animated Heading */}
+          <h2 className="text-3xl md:text-4xl font-bold text-indigo-800">
+            Processing Your Payment...
+          </h2>
+
+          {/* Pulsing Subtext */}
+          <p className="mt-4 text-md md:text-lg text-gray-600">
+            Please don’t refresh or close this page.
+          </p>
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-br from-white via-indigo-100 to-indigo-300 rounded-lg shadow-xl"
+        >
+          <h1 className="mb-4 text-4xl font-semibold text-green-600">
+            🎉 Payment Successful!
+          </h1>
+          <p className="text-lg text-gray-700">
+            Thank you for your payment. You're being redirected...
+          </p>
+        </motion.div>
+      )}
+    </>
   );
 }
 
