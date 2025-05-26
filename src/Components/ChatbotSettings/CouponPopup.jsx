@@ -16,13 +16,6 @@ const CouponPopup = ({
 
   const [couponData, setCouponData] = useState();
   const handleCoupon = () => {
-    // console.log(
-    //   "coupon trigerred:",
-    //   chatbotData.chatbot_id,
-    //   selectedPlan.price,
-    //   coupon,
-    //   subscription_plan_id
-    // );
     axiosInstance
       .post(`${import.meta.env.VITE_API_URL}auth/coupon/redeem/`, {
         code: coupon,
@@ -90,7 +83,7 @@ const CouponPopup = ({
             </div>
             <button
               title="Pay the subscription"
-              className="w-full flex gap-2 items-center justify-center py-1 px-2 bg-blue-500 text-white rounded-xl"
+              className="w-full flex gap-2 items-center justify-center py-1 px-2 bg-blue-500 text-white rounded-lg"
               onClick={() =>
                 handlePayment(couponData.discounted_amount, selectedPlan.id)
               }

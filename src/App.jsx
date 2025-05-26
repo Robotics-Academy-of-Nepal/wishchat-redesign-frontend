@@ -77,7 +77,7 @@ function App() {
             </Route>
 
             <Route
-              path="/payment-success/:code/:plan_id"
+              path="/payment-success/:code/:subscription_plan_id"
               element={<PaymentSuccess />}
             />
             <Route path="/payment-failure" element={<PaymentSuccess />} />

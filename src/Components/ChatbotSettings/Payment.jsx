@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import { RiCoupon2Fill } from "react-icons/ri";
 import axiosInstance from "../../api/axiosInstance";
 import CouponPopup from "./CouponPopup";
-
+// import PaymentOptionPopup from "./PaymentOptionPopup";
 const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState({});
-
   const [pricing, setPricingDetail] = useState([]);
+  const [showPaymentOptions, setShowPaymentOptions] = useState([
+    false,
+    false,
+    false,
+  ]);
+  // const noOfSkeleton = () => {
+  //   const widthOfViewPort = window.innerWidth;
+  //   if(widthOfViewPort>)
+  //   return number;
+  // };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,10 +37,15 @@ const Payment = () => {
     fetchData();
   }, []);
 
-  const handlePayment = (totalAmount, subscription_plan_id) => {
-    console.log("handlePayment", totalAmount, subscription_plan_id);
+  const handlePayment = (totalAmount, subscription_plan_id, payment_option) => {
+    console.log(
+      "handlePayment",
+      totalAmount,
+      subscription_plan_id,
+      payment_option
+    );
     axiosInstance
-      .post("api/initiate-esewa-payment/", {
+      .post(`api/initiate-${payment_option}-payment/`, {
         total_amount: totalAmount,
         coupon: coupon,
         subscription_plan_id: subscription_plan_id,
@@ -56,6 +70,7 @@ const Payment = () => {
           handlePayment={handlePayment}
         />
       )}
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -86,9 +101,13 @@ const Payment = () => {
                   </p>
 
                   <button
-                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-full text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500"
+                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-lg text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500"
                     onClick={() => {
-                      handlePayment(plan.price, plan.id);
+                      setShowPaymentOptions((prev) => {
+                        const updated = [...prev];
+                        updated[index] = !updated[index];
+                        return updated;
+                      });
                     }}
                   >
                     Get Started Now
@@ -96,18 +115,39 @@ const Payment = () => {
                       <LuArrowRight className="h-5 w-5" />
                     </div>
                   </button>
-
+                  {showPaymentOptions[index] && (
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <button
+                        className="p-2 bg-green-600 text-white rounded-md"
+                        onClick={() => {
+                          console.log("esewa trigerred");
+                          handlePayment(plan.price, plan.id, "esewa");
+                        }}
+                      >
+                        eSewa
+                      </button>
+                      <button
+                        className="p-2 bg-indigo-800 text-white rounded-md"
+                        onClick={() => {
+                          console.log("khalti trigerred");
+                          handlePayment(plan.price, plan.id, "khalti");
+                        }}
+                      >
+                        Khalti
+                      </button>
+                    </div>
+                  )}
                   <button
-                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-full shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
+                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-xl shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all"
                     onClick={() => {
                       setSelectedPlan(plan);
                       setPopUp(true);
                     }}
                   >
+                    Use
                     <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
                       <RiCoupon2Fill className="text-xs" />
                     </div>
-                    Use Coupon
                   </button>
                 </div>
               );
@@ -126,7 +166,7 @@ const Payment = () => {
                   <div className="h-3 bg-gray-300 rounded w-3/4"></div>
                 </div>
                 <div className="h-8 bg-gray-300 rounded w-2/5 mt-6 mb-6"></div>
-                <div className="h-14 bg-gray-300 rounded-full w-full"></div>
+                <div className="h-14 bg-gray-300 rounded w-full"></div>
               </div>
             ))}
       </motion.div>

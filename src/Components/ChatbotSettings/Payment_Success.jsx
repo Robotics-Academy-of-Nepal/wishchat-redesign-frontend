@@ -4,7 +4,7 @@ import axios from "axios";
 function PaymentSuccess() {
   const navigate = useNavigate();
   const [isPaymentProcessed, setIsPaymentProcessed] = useState(false); // State to track if payment has been processed
-  const { code, plan_id } = useParams();
+  const { code, subscription_plan_id } = useParams();
 
   useEffect(() => {
     // Prevent the effect from running if the payment has already been processed
@@ -13,22 +13,30 @@ function PaymentSuccess() {
     // Extract the `data` parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const encodedData = urlParams.get("data");
+    const pidx = urlParams.get("pidx");
     console.log("code:", code.slice(1));
+    const apiKey = localStorage.getItem("api_key");
+    const token = localStorage.getItem("token");
+    const chatbotData = JSON.parse(localStorage.getItem("chatbotData"));
+    const chatbot_id = chatbotData.chatbot_id;
+    const coupon = code.slice(1);
+
+    let requestBody = {
+      chatbot_id: chatbot_id,
+      coupon_code: coupon,
+      subscription_plan_id: subscription_plan_id,
+    };
+
     if (encodedData) {
-      const apiKey = localStorage.getItem("api_key");
-      const token = localStorage.getItem("token");
-      const chatbotData = JSON.parse(localStorage.getItem("chatbotData"));
-      const chatbot_id = chatbotData.chatbot_id;
-      const coupon = code.slice(1);
+      requestBody.data = encodedData;
+    } else {
+      requestBody.pidx = pidx;
+    }
+    if (encodedData || pidx) {
       axios
         .post(
           `${import.meta.env.VITE_API_URL}api/payment-success/`,
-          {
-            data: encodedData,
-            chatbot_id: chatbot_id,
-            coupon_code: coupon,
-            plan_id: plan_id,
-          },
+          requestBody,
           {
             headers: {
               "Content-Type": "application/json",
@@ -61,6 +69,7 @@ function PaymentSuccess() {
   }, []);
 
   return (
+    
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-white rounded-lg shadow-lg">
       <h1 className="mb-4 text-4xl font-semibold text-green-600">
         Payment Successful!
