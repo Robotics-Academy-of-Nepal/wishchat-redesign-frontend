@@ -71,8 +71,8 @@ function PaymentSuccess() {
         >
           {/* Spinner */}
           <div className="relative w-20 h-20 mb-6">
-            <div className="absolute inset-0 rounded-full border-t-4 border-indigo-500 animate-spin"></div>
-            <div className="absolute inset-0 rounded-full border-b-4 border-indigo-500 animate-spin-slower"></div>
+            <div className="absolute inset-0 rounded-full border-t-4 border-indigo-600 animate-spin"></div>
+            <div className="absolute inset-0 rounded-full border-b-4 border-indigo-600 animate-spin"></div>
           </div>
 
           {/* Animated Heading */}

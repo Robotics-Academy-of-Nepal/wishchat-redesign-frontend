@@ -100,7 +100,7 @@ const Payment = () => {
                     <sub className="top-2 text-sm font-light">/monthly</sub>
                   </p>
 
-                  <button
+                  {/* <button
                     className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-lg text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500 transition-colors duration-300"
                     onClick={() => {
                       setShowPaymentOptions((prev) => {
@@ -114,8 +114,9 @@ const Payment = () => {
                     <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors duration-500">
                       <LuArrowRight className="h-5 w-5" />
                     </div>
-                  </button>
-                  {showPaymentOptions[index] && (
+                  </button> */}
+                  {/* {showPaymentOptions[index] && (
+                  )} */}
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       <button
                         className="p-2 bg-green-500 text-white hover:bg-green-400 rounded-md transition-colors duration-300"
@@ -136,9 +137,8 @@ const Payment = () => {
                         Khalti
                       </button>
                     </div>
-                  )}
                   <button
-                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-xl shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all duration-300"
+                    className="absolute top-0 right-0 bg-indigo-100 text-blue-700 font-semibold px-4 py-2 text-sm rounded-lg shadow-sm border border-indigo-300 flex items-center gap-2 hover:bg-indigo-200 transition-all duration-300"
                     onClick={() => {
                       setSelectedPlan(plan);
                       setPopUp(true);

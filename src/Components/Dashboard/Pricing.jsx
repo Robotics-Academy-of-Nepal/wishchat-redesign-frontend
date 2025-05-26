@@ -7,6 +7,7 @@ export default function Pricing() {
   const scrollContainerRef = useRef(null);
 
   const [pricing, setPricingDetail] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -19,6 +20,22 @@ export default function Pricing() {
       scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
+  const noOfSkeleton = () => {
+    if (screenWidth > 1240) {
+      return 3;
+    } else if (screenWidth > 768) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,8 +132,8 @@ export default function Pricing() {
           </button>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-3 gap-4">
-          {[...Array(3)].map((_, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(noOfSkeleton())].map((_, index) => (
             <div
               key={index}
               className="animate-pulse relative h-[450px] w-full px-6 py-8 bg-gray-100 rounded-3xl shadow-md flex flex-col justify-between"
