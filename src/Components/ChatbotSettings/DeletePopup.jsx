@@ -1,6 +1,7 @@
 import { IoTrashOutline } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const DeletePopup = ({ setPopUpOpen, chatbot_id }) => {
   const navigate = useNavigate();
@@ -14,7 +15,12 @@ const DeletePopup = ({ setPopUpOpen, chatbot_id }) => {
         console.log(response);
         setPopUpOpen(false);
         localStorage.removeItem("chatbotData");
+        toast.success("Deleted the chatbot!!");
         navigate("/dashboard");
+      })
+      .catch((error) => {
+        toast.error("Error deleting the chatbot!!");
+        console.log(error);
       });
   };
   return (

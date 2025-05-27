@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useChatbot } from "../../context/ChatbotContext";
 import { RiCoupon2Fill } from "react-icons/ri";
-import { LuArrowRight } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
-
 import axiosInstance from "../../api/axiosInstance";
 import { toast } from "react-toastify";
+
 const CouponPopup = ({
   setPopUp,
   selectedPlan,

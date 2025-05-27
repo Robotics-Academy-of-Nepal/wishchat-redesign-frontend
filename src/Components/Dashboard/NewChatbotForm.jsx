@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 export default function NewChatbotForm({ onSubmit, onCancel }) {
   const [formData, setFormData] = useState({ name: "" });
 

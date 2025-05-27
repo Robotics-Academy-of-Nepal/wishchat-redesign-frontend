@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import axiosInstance from "../../api/axiosInstance";
+import { toast } from "react-toastify";
 const InvitePopUp = ({ setInvitePopUp }) => {
   const [emails, setEmails] = useState([""]); // Start with one email field
-  const getToken = () => localStorage.getItem("token");
 
-  const navigate = useNavigate();
   const addField = () => {
     setEmails([...emails, ""]); // Add an empty email field
   };
@@ -17,41 +15,24 @@ const InvitePopUp = ({ setInvitePopUp }) => {
   };
   const sendInvitation = () => {
     const remove = async () => {
-      const token = getToken();
-
-      // Redirect to login if token is missing
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}auth/invitations/bulk_invite/`,
-          {
-            method: "POST",
-
-            headers: {
-              Authorization: `Token ${token}`, // Token added here
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ emails: emails }),
-          }
+        const response = await axiosInstance.post(
+          `auth/invitations/bulk_invite/`,
+          emails
         );
 
-        let data = await response.json();
-        if (response.ok) {
-          console.log(data);
-        } else {
-          console.error("Error remove user:", data);
-        }
+        console.log("Invitations sent:", response.data);
+        toast.success("Invitation sent!!");
+        setInvitePopUp(false);
       } catch (error) {
-        console.error("Failed remove user:", error);
+        console.error("Failed to send invitations:", error);
+        toast.error("Error sending invitation!!");
       }
     };
 
     remove();
   };
+
   return (
     <div className="fixed top-0 left-0 h-screen z-50 w-full flex items-center justify-center bg-black/50">
       <div className="w-[600px] p-6 rounded-xl bg-radial to-white from-blue-300 text-black shadow-lg">

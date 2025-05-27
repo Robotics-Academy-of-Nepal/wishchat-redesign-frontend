@@ -91,8 +91,7 @@ const Login = () => {
       localStorage.setItem("Picture", response.data.google_data.picture);
       localStorage.setItem("ID", response.data.user.id);
       localStorage.setItem("username", response.data.user.username);
-      console.log("has organization:", response.data.has_organization);
-      console.log("organization details:", response.data.organization);
+      
       // Check for organization instead of company_name
       if (response.data.has_organization && response.data.organization) {
         console.log("entered dashboardddddd shouldnot maybe");

@@ -1,90 +1,49 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoTrashOutline } from "react-icons/io5";
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import InvitePopUp from "./InvitePopUp";
 import GridLoading from "./GridLoading";
+import axiosInstance from "../../api/axiosInstance";
+import { toast } from "react-toastify";
+
 const Teammates = () => {
   const [loading, setLoading] = useState(true);
   const [invitePopUp, setInvitePopUp] = useState(false);
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
-  const getToken = () => localStorage.getItem("token");
   const is_owner = JSON.parse(localStorage.getItem("is_owner"));
-  const removeUser = (id) => {
+
+  const removeUser = async (id) => {
     console.log("deletedID:", id);
-    const remove = async () => {
-      const token = getToken();
+    try {
+      const response = await axiosInstance.delete(
+        `auth/organization-members/${id}/`
+      );
 
-      // Redirect to login if token is missing
-      if (!token) {
-        navigate("/login");
-        return;
-      }
+      console.log(response.data);
 
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}auth/organization-members/${id}/`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Token ${token}`, // Token added here
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      setMembers((prevMembers) => {
+        const updatedMembers = prevMembers.filter((member) => member.id !== id);
+        return updatedMembers;
+      });
 
-        let data = await response.json();
-        if (response.ok) {
-          console.log(data);
-          setMembers((prevMembers) => {
-            const updatedMembers = prevMembers.filter(
-              (member) => member.id !== id
-            );
-            return updatedMembers;
-          });
-        } else {
-          console.error("Error remove user:", data);
-        }
-      } catch (error) {
-        console.error("Failed remove user:", error);
-      }
-    };
-
-    remove();
+      toast.success("Removed user!!");
+    } catch (error) {
+      console.error("Failed to remove user:", error);
+    }
   };
 
   useEffect(() => {
     const fetchMembers = async () => {
-      const token = getToken();
-
-      // Redirect to login if token is missing
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}auth/organization-members/`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Token ${token}`, // Token added here
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axiosInstance.get(`auth/organization-members/`);
 
-        const data = await response.json();
-        if (response.ok) {
-          console.log("response data:", data);
-          const sortedTeammates = data.sort((a, b) => b.is_owner - a.is_owner);
-          console.log("sorted:", sortedTeammates);
-          setMembers(sortedTeammates);
-        } else {
-          console.error("Error fetching chatbots:", data);
-        }
+        const data = await response.data;
+        console.log("response data:", data);
+        const sortedTeammates = data.sort((a, b) => b.is_owner - a.is_owner);
+        console.log("sorted:", sortedTeammates);
+        setMembers(sortedTeammates);
       } catch (error) {
         console.error("Failed to fetch chatbots:", error);
       } finally {

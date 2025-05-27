@@ -1,25 +1,16 @@
-import { LuArrowRight } from "react-icons/lu";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { RiCoupon2Fill } from "react-icons/ri";
 import axiosInstance from "../../api/axiosInstance";
 import CouponPopup from "./CouponPopup";
 import { toast } from "react-toastify";
+
 const Payment = () => {
   const [popUpOpen, setPopUp] = useState(false);
   const [coupon, setCoupon] = useState("");
   const [selectedPlan, setSelectedPlan] = useState({});
   const [pricing, setPricingDetail] = useState([]);
-  const [showPaymentOptions, setShowPaymentOptions] = useState([
-    false,
-    false,
-    false,
-  ]);
-  // const noOfSkeleton = () => {
-  //   const widthOfViewPort = window.innerWidth;
-  //   if(widthOfViewPort>)
-  //   return number;
-  // };
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +47,7 @@ const Payment = () => {
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Something went wrong!!")
       });
   };
   return (
@@ -100,23 +92,6 @@ const Payment = () => {
                     <sub className="top-2 text-sm font-light">/monthly</sub>
                   </p>
 
-                  {/* <button
-                    className="flex items-center justify-center p-4 gap-2 bg-blue-500 h-14 rounded-lg text-white text-md hover:bg-white hover:text-blue-500 group border border-blue-500 transition-colors duration-300"
-                    onClick={() => {
-                      setShowPaymentOptions((prev) => {
-                        const updated = [...prev];
-                        updated[index] = !updated[index];
-                        return updated;
-                      });
-                    }}
-                  >
-                    Get Started Now
-                    <div className="h-[30px] w-[30px] text-blue-500 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors duration-500">
-                      <LuArrowRight className="h-5 w-5" />
-                    </div>
-                  </button> */}
-                  {/* {showPaymentOptions[index] && (
-                  )} */}
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       <button
                         className="p-2 bg-green-500 text-white hover:bg-green-400 rounded-md transition-colors duration-300"

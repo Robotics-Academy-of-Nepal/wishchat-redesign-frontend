@@ -6,7 +6,8 @@ import NewChatbotForm from "./NewChatbotForm";
 import { motion } from "framer-motion";
 import GridLoading from "../Dashboard/GridLoading";
 import { useChatbot } from "../../context/ChatbotContext";
-const API_URL = `${import.meta.env.VITE_API_URL}auth/chatbots/`;
+import axiosInstance from "../../api/axiosInstance";
+import { toast } from "react-toastify";
 
 // ChatbotCard component
 const ChatbotCard = ({
@@ -69,33 +70,21 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const isActive = (path) => location.pathname.includes(path);
-  const getToken = () => localStorage.getItem("token");
 
   // Fetch chatbots from API on page load
   useEffect(() => {
     if (isActive("/teammates")) return;
 
     const fetchChatbots = async () => {
-      const token = getToken();
-
       try {
-        const response = await fetch(API_URL, {
-          method: "GET",
-          headers: {
-            Authorization: `Token ${token}`, // Token added here
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axiosInstance.get("auth/chatbots/");
 
-        const data = await response.json();
-        if (response.ok) {
-          console.log(data);
-          setChatbots(data.chatbots);
-        } else {
-          console.error("Error fetching chatbots:", data);
-        }
+        const data = response.data.chatbots;
+        console.log(data);
+        setChatbots(data);
       } catch (error) {
         console.error("Failed to fetch chatbots:", error);
+        toast.error("Error creating chatbot!!");
       } finally {
         setLoading(false);
       }
@@ -106,27 +95,19 @@ export default function Dashboard() {
 
   // Handle chatbot creation
   const handleCreateChatbot = async (newChatbot) => {
-    const token = getToken();
-
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          Authorization: `Token ${token}`, // Token added here
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newChatbot),
-      });
+      const response = await axiosInstance.post("auth/chatbots/", newChatbot);
 
-      if (!response.ok) {
-        throw new Error("Failed to create chatbot");
-      }
-
-      const createdChatbot = await response.json();
+      console.log(response);
+      const createdChatbot = await response.data;
       setChatbots([...chatbots, createdChatbot]);
       setShowForm(false);
+      toast.success("Created chatbot!!");
     } catch (error) {
       console.error("Error creating chatbot:", error);
+      console.log("error data", error.response.data);
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
